@@ -1,10 +1,18 @@
 ﻿using System;
 namespace FavroPlasticExtension.Favro.API
 {
-    public class Response
+    /// <summary>
+    /// Stores the information of an API response
+    /// </summary>
+    internal class Response
     {
-        public Response()
-        {
-        }
+        /// <summary>
+        /// Content of the response
+        /// </summary>
+        public string Content { get; set; }
+        /// <summary>
+        /// If some error happened, stores the response exception.
+        /// </summary>
+        public Exception Error { get; set; }
     }
 }

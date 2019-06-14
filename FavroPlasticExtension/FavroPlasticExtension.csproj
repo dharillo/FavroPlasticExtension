@@ -40,6 +40,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FavroExtension.cs" />
@@ -49,12 +50,19 @@
     <Compile Include="Favro\OrganizationMember.cs" />
     <Compile Include="Favro\Collection.cs" />
     <Compile Include="Favro\CollectionMember.cs" />
+    <Compile Include="Favro\Widget.cs" />
+    <Compile Include="Favro\User.cs" />
+    <Compile Include="Favro\API\Connection.cs" />
+    <Compile Include="Favro\API\IConnection.cs" />
+    <Compile Include="Favro\API\Response.cs" />
+    <Compile Include="Favro\API\IFavroConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Favro\" />
+    <Folder Include="Favro\API\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
