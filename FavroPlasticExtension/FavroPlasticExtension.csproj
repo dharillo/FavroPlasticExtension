@@ -45,6 +45,10 @@
     <Compile Include="FavroExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FavroExtensionFactory.cs" />
+    <Compile Include="Favro\Organization.cs" />
+    <Compile Include="Favro\OrganizationMember.cs" />
+    <Compile Include="Favro\Collection.cs" />
+    <Compile Include="Favro\CollectionMember.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
