@@ -56,6 +56,18 @@
     <Compile Include="Favro\API\IConnection.cs" />
     <Compile Include="Favro\API\Response.cs" />
     <Compile Include="Favro\API\IFavroConnection.cs" />
+    <Compile Include="Favro\API\FavroApiMethods.cs" />
+    <Compile Include="Favro\API\PagedResponse.cs" />
+    <Compile Include="Favro\Column.cs" />
+    <Compile Include="Favro\Card.cs" />
+    <Compile Include="Favro\CardAssignment.cs" />
+    <Compile Include="Favro\CardTask.cs" />
+    <Compile Include="Favro\CardTasklist.cs" />
+    <Compile Include="Favro\CardTag.cs" />
+    <Compile Include="Favro\CardAttachment.cs" />
+    <Compile Include="Favro\CardCustomField.cs" />
+    <Compile Include="Favro\CardBoardTime.cs" />
+    <Compile Include="Favro\FavroAttachment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

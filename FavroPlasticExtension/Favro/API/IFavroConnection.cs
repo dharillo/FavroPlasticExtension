@@ -1,5 +1,4 @@
-﻿using System;
-namespace FavroPlasticExtension.Favro.API
+﻿namespace FavroPlasticExtension.Favro.API
 {
     internal interface IFavroConnection : IConnection
     {
