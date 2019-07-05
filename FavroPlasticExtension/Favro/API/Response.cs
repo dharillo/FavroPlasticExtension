@@ -55,8 +55,18 @@ namespace FavroPlasticExtension.Favro.API
         /// <exception cref="InvalidOperationException">If this response has no pages</exception>
         public int GetPageNumber()
         {
-            throw new NotImplementedException("Method not implemented");
+            if (Error != null || string.IsNullOrWhiteSpace(Content))
+            {
+                throw new InvalidOperationException("No page number available");
+            }
+            return ExtractPageNumberFromContent();
         }
+
+        private int ExtractPageNumberFromContent()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Indicates if there are more pages of information about the resources retrieved and
         /// stored in this response object.

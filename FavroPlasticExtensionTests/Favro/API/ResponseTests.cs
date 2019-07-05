@@ -8,29 +8,36 @@ using NUnit.Framework;
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace FavroPlasticExtensionTests.Favro.API
 {
-    [TestFixture()]
+    [TestFixture]
     public class ResponseTests
     {
         private const string REQUEST_ID = "8cc57b1d8a218fa639c8a0fa";
-
-        [SetUp]
-        public void Initialize()
-        {
-
-        }
         #region GetPageNumber
         [TestCase]
-        public void GetPageNumber_NoPageHeader_ShouldThrow()
+        public void GetPageNumber_HasError_ShouldThrow()
         {
             // Arrange:
             var sut = new Response();
+            sut.Content = SerializedResponseContent(REQUEST_ID, 1, 100, 100, new List<object>());
+            sut.Error = new WebException();
             // Assert:
             Assert.Throws<InvalidOperationException>(() => sut.GetPageNumber());
         }
-
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void GetPageNumber_NoContent_ShouldThrow(string content)
+        {
+            // Arrange:
+            var sut = new Response();
+            sut.Content = content;
+            // Assert:
+            Assert.Throws<InvalidOperationException>(() => sut.GetPageNumber());
+        }
         [TestCase(int.MinValue)]
         [TestCase(0)]
         public void GetPageNumber_NoValidPageNumber_ShouldThrow(int invalidValue)
@@ -41,7 +48,6 @@ namespace FavroPlasticExtensionTests.Favro.API
             // Assert:
             Assert.Throws<ArgumentException>(() => sut.GetPageNumber());
         }
-
         [TestCase(int.MaxValue)]
         [TestCase(1)]
         public void GetPageNumber_ValidValue_ReturnsValue(int validValue)
@@ -56,6 +62,18 @@ namespace FavroPlasticExtensionTests.Favro.API
         }
         #endregion
         #region HasMorePages
+        [TestCase]
+        public void HasMorePages_HasError_ReturnsFalse()
+        {
+            // Arrange:
+            var sut = new Response();
+            sut.Content = SerializedResponseContent(REQUEST_ID, 1, 100, 100, new List<object>());
+            sut.Error = new WebException();
+            // Act:
+            var hasMorePages = sut.HasMorePages();
+            // Assert:
+            Assert.IsFalse(hasMorePages);
+        }
         [TestCase]
         public void HasMorePages_NoPagedResponse_ReturnsFalse()
         {
@@ -111,6 +129,33 @@ namespace FavroPlasticExtensionTests.Favro.API
             var hasMorePages = sut.HasMorePages();
             // Assert:
             Assert.IsFalse(hasMorePages);
+        }
+        #endregion
+        #region Constructor
+        [TestCase]
+        public void Constructor_CreatesEmptyHeaders()
+        {
+            // Arrange:
+            var sut = new Response();
+            // Assert:
+            Assert.IsNotNull(sut.Headers);
+            Assert.That(sut.Headers, Is.Empty);
+        }
+        [TestCase]
+        public void Constructor_CreatesNullError()
+        {
+            // Arrange:
+            var sut = new Response();
+            // Assert:
+            Assert.IsNull(sut.Error);
+        }
+        [TestCase]
+        public void Constructor_CreatesEmptyContent()
+        {
+            // Arrange:
+            var sut = new Response();
+            // Assert:
+            Assert.IsNull(sut.Content);
         }
         #endregion
         public string SerializedResponseContent<TEntry>(string requestId, int page, int numPages, int limit, List<TEntry> entries)
