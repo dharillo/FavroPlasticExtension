@@ -108,6 +108,18 @@ namespace FavroPlasticExtension.Favro.API
         {
             return SendRequest(HttpMethod.Delete, url, data);
         }
+
+        /// <summary>
+        /// Gets the next page of a paginated response.
+        /// </summary>
+        /// <param name="url">API endpoint to query</param>
+        /// <param name="previousPageResponse">The previous page response from where the next page should continue.</param>
+        /// <returns>Next page of the pagination</returns>
+        /// <exception cref="InvalidOperationException">The response given is not a pagination response</exception>
+        public Response GetNextPage(string url, Response previousPageResponse)
+        {
+            throw new NotImplementedException("Method not implemented");
+        }
         #endregion
 
         private Response SendRequest<TData>(HttpMethod verb, string endpoint, TData data = null) where TData: class
