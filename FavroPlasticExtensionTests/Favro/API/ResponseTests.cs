@@ -54,7 +54,7 @@ namespace FavroPlasticExtensionTests.Favro.API
         {
             // Arrange:
             var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, int.MinValue, 10, 100, new List<object>());
+            sut.Content = SerializedResponseContent(REQUEST_ID, validValue, 10, 100, new List<object>());
             // Act:
             var pageNumber = sut.GetPageNumber();
             // Assert:
@@ -128,7 +128,7 @@ namespace FavroPlasticExtensionTests.Favro.API
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:
-            Assert.IsFalse(hasMorePages);
+            Assert.IsTrue(hasMorePages);
         }
         #endregion
         #region Constructor
@@ -186,7 +186,5 @@ namespace FavroPlasticExtensionTests.Favro.API
                 OrganizationRole = OrganizationMember.ROLE_ADMINISTRATOR
             };
         }
-
-
     }
 }

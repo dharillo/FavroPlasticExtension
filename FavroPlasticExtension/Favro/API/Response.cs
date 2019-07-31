@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FavroPlasticExtension.Favro.API
 {
@@ -42,6 +44,8 @@ namespace FavroPlasticExtension.Favro.API
         /// </summary>
         public Exception Error { get; set; }
 
+        private JObject deserializedContent;
+
         public Response()
         {
             Headers = new Dictionary<string, string>();
@@ -64,7 +68,35 @@ namespace FavroPlasticExtension.Favro.API
 
         private int ExtractPageNumberFromContent()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var page = GetCurrentPage();
+                if (page <= 0)
+                {
+                    throw new ArgumentException("Expected value over 0");
+                }
+                return page;
+            }
+            catch (Exception e) when (!(e is ArgumentException))
+            {
+                throw new InvalidOperationException("Unable to extract page from response content", e);
+            }
+        }
+
+        private int GetCurrentPage()
+        {
+            var data = GetDeserializedData();
+            return data.GetValue(PATH_PAGE).Value<int>();
+        }
+
+
+        private JObject GetDeserializedData()
+        {
+            if (deserializedContent == null)
+            {
+                deserializedContent = JsonConvert.DeserializeObject<JObject>(Content);
+            }
+            return deserializedContent;
         }
 
         /// <summary>
@@ -75,7 +107,27 @@ namespace FavroPlasticExtension.Favro.API
         /// otherwise <c>false</c></returns>
         public bool HasMorePages()
         {
-            throw new NotImplementedException("Method not implemented");
+            var result = false;
+            if (Error == null)
+            {
+                try
+                {
+                    var currentPage = GetCurrentPage();
+                    var numPages = GetNumPages();
+                    result = currentPage < numPages;
+                }
+                catch (Exception)
+                {
+                    // Ignore the error
+                }
+            }
+            return result;
+        }
+
+        private int GetNumPages()
+        {
+            var data = GetDeserializedData();
+            return data.GetValue(PATH_PAGES).Value<int>();
         }
     }
 }
