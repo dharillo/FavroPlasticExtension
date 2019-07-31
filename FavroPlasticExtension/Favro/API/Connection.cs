@@ -130,11 +130,24 @@ namespace FavroPlasticExtension.Favro.API
         /// </summary>
         /// <param name="url">API endpoint to query</param>
         /// <param name="previousPageResponse">The previous page response from where the next page should continue.</param>
-        /// <returns>Next page of the pagination</returns>
+        /// <returns>Next page of the pagination or <c>null</c> if there are no more pages available</returns>
         /// <exception cref="InvalidOperationException">The response given is not a pagination response</exception>
         public Response GetNextPage(string url, Response previousPageResponse)
         {
-            throw new NotImplementedException("Method not implemented");
+            if (previousPageResponse == null)
+            {
+                throw new ArgumentNullException(nameof(previousPageResponse), "The previous response object cannot be null");
+            }
+            CheckEndpoint(url);
+            if (!previousPageResponse.HasMorePages())
+            {
+                return null;
+            }
+            var previousPage = previousPageResponse.GetPageNumber();
+            var requestId = previousPageResponse.GetRequestId();
+            var request = CreateRequest<object>(HttpMethod.Get, $"{API_URL}{url}?page={previousPage + 1}&requestId={requestId}", null);
+            request.Headers.Add(Response.HEADER_BACKEND_ID, previousPageResponse.Headers[Response.HEADER_BACKEND_ID]);
+
         }
         #endregion
 
@@ -219,7 +232,11 @@ namespace FavroPlasticExtension.Favro.API
             {
                 using (var webResponse = request.GetResponse())
                 {
-                    // TODO: Store pagination headers and update limits
+                    response.Headers.Add(Response.HEADER_BACKEND_ID, webResponse.Headers[Response.HEADER_BACKEND_ID]);
+                    response.Headers.Add(Response.HEADER_LIMIT_MAX, webResponse.Headers[Response.HEADER_LIMIT_MAX]);
+                    response.Headers.Add(Response.HEADER_LIMIT_REMAINING, webResponse.Headers[Response.HEADER_LIMIT_REMAINING]);
+                    response.Headers.Add(Response.HEADER_LIMIT_RESET, webResponse.Headers[Response.HEADER_LIMIT_RESET]);
+
                     using (var responseStream = webResponse.GetResponseStream())
                     using (var reader = new StreamReader(responseStream))
                     {

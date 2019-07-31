@@ -145,5 +145,15 @@ namespace FavroPlasticExtension.Favro.API
             var data = GetDeserializedData();
             return data.GetValue(PATH_PAGES).Value<int>();
         }
+
+        /// <summary>
+        /// Returns the request ID returned from the server for paginated responses
+        /// </summary>
+        /// <returns>Request ID extracted from the content data</returns>
+        public string GetRequestId()
+        {
+            var data = GetDeserializedData();
+            return data.GetValue(PATH_REQUEST_ID).Value<string>();
+        }
     }
 }
