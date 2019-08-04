@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using log4net;
 
 namespace Codice.Client.IssueTracker.FavroExtension
 {
@@ -36,7 +37,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public IPlasticIssueTrackerExtension GetIssueTrackerExtension(IssueTrackerConfiguration configuration)
         {
-            return new FavroExtension(configuration);
+            return new FavroExtension(configuration, LogManager.GetLogger("favroextension"));
         }
 
         public string GetIssueTrackerName()
