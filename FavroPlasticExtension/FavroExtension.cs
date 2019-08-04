@@ -37,7 +37,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         private readonly IssueTrackerConfiguration configuration;
         private readonly ILog logger;
         private IFavroConnection connection;
-        private ApiFacade apiMethods;
+        private FavroApiFacade apiMethods;
         private Organization organizationInfo;
         private string organizationShortName;
 
@@ -59,7 +59,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             connection = CreateConnection(configuration);
             var organization = configuration.GetValue(KEY_ORGANIZATION);
             connection.OrganizationId = organization;
-            apiMethods = new ApiFacade(connection, logger);
+            apiMethods = new FavroApiFacade(connection, logger);
             organizationInfo = apiMethods.GetOrganization(organization);
             organizationShortName = GetOrganizationShortName();
         }
@@ -73,7 +73,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public bool TestConnection(IssueTrackerConfiguration configuration)
         {
             var testConnection = CreateConnection(configuration);
-            var testMethods = new ApiFacade(testConnection, logger);
+            var testMethods = new FavroApiFacade(testConnection, logger);
             var userOrganizations = testMethods.GetAllOrganizations();
             return userOrganizations != null && userOrganizations.Count != 0;
         }

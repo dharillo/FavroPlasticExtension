@@ -22,14 +22,14 @@ using log4net;
 
 namespace FavroPlasticExtension.Favro.API
 {
-    internal class ApiFacade
+    internal class FavroApiFacade
     {
         private const string ENDPOINT_USERS = "/users";
         private readonly IFavroConnection connection;
         private readonly ILog logger;
         private const NameValueCollection NO_PARAMS = null;
 
-        public ApiFacade(IFavroConnection connection, ILog logger)
+        public FavroApiFacade(IFavroConnection connection, ILog logger)
         {
             this.connection = connection;
             this.logger = logger;
