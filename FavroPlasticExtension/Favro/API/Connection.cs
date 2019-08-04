@@ -15,11 +15,14 @@
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Linq;
 using Newtonsoft.Json;
+using Codice.Utils;
 
 namespace FavroPlasticExtension.Favro.API
 {
@@ -80,9 +83,9 @@ namespace FavroPlasticExtension.Favro.API
         /// <param name="url">Endpoint where the request will be send to. Ommit the
         /// prefix with the hostname and API version</param>
         /// <returns>Response received from the server</returns>
-        public Response Get(string url)
+        public Response Get(string url, NameValueCollection parameters = null)
         {
-            return SendRequest<object>(HttpMethod.Get, url);
+            return SendRequest<object>(HttpMethod.Get, BuildRequestUrl(url, parameters));
         }
 
         /// <summary>
@@ -132,21 +135,27 @@ namespace FavroPlasticExtension.Favro.API
         /// <param name="previousPageResponse">The previous page response from where the next page should continue.</param>
         /// <returns>Next page of the pagination or <c>null</c> if there are no more pages available</returns>
         /// <exception cref="InvalidOperationException">The response given is not a pagination response</exception>
-        public Response GetNextPage(string url, Response previousPageResponse)
+        public Response GetNextPage(string url, Response previousPageResponse, NameValueCollection parameters = null)
         {
             if (previousPageResponse == null)
             {
                 throw new ArgumentNullException(nameof(previousPageResponse), "The previous response object cannot be null");
             }
-            CheckEndpoint(url);
             if (!previousPageResponse.HasMorePages())
             {
                 return null;
             }
-            var previousPage = previousPageResponse.GetPageNumber();
-            var requestId = previousPageResponse.GetRequestId();
-            var request = CreateRequest<object>(HttpMethod.Get, $"{API_URL}{url}?page={previousPage + 1}&requestId={requestId}", null);
-            request.Headers.Add(Response.HEADER_BACKEND_ID, previousPageResponse.Headers[Response.HEADER_BACKEND_ID]);
+            var endPointError = CheckEndpoint(url);
+            Response response;
+            if (endPointError == null)
+            {
+                response = CreateErrorResponse(endPointError);
+            }
+            else
+            {
+                response = SendNextPageQuery(url, previousPageResponse, parameters);
+            }
+            return response;
 
         }
         #endregion
@@ -163,11 +172,7 @@ namespace FavroPlasticExtension.Favro.API
             }
             else
             {
-                response = new Response
-                {
-                    Content = string.Empty,
-                    Error = endpointError
-                };
+                response = CreateErrorResponse(endpointError);
             }
             return response;
         }
@@ -250,6 +255,42 @@ namespace FavroPlasticExtension.Favro.API
                 response.Error = e;
             }
             return response;
+        }
+
+        private string BuildRequestUrl(string url, NameValueCollection parameters)
+        {
+            var calculatedUrl = url;
+            if (parameters != null)
+            {
+                var serializedParameters = (from key in parameters.AllKeys
+                                            from value in parameters.GetValues(key)
+                                            select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)));
+                calculatedUrl = $"{url}?{string.Join("&", serializedParameters)}";
+            }
+            return calculatedUrl;
+        }
+
+        private Response SendNextPageQuery(string url, Response previousPageResponse, NameValueCollection parameters)
+        {
+            Response response;
+            var previousPage = previousPageResponse.GetPageNumber();
+            var requestId = previousPageResponse.GetRequestId();
+            parameters.Add("name", (previousPage + 1).ToString());
+            parameters.Add("requestId", requestId);
+            var query = BuildRequestUrl(url, parameters);
+            var request = CreateRequest<object>(HttpMethod.Get, $"{API_URL}{query}", null);
+            request.Headers.Add(Response.HEADER_BACKEND_ID, previousPageResponse.Headers[Response.HEADER_BACKEND_ID]);
+            response = ParseWebResponse(request);
+            return response;
+        }
+
+        private static Response CreateErrorResponse(Exception error)
+        {
+            return new Response
+            {
+                Content = string.Empty,
+                Error = error
+            };
         }
     }
 }

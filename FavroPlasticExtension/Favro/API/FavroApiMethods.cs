@@ -16,38 +16,60 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using log4net;
 
 namespace FavroPlasticExtension.Favro.API
 {
     internal class ApiFacade
     {
+        private const string ENDPOINT_USERS = "/users";
         private readonly IFavroConnection connection;
+        private readonly ILog logger;
+        private const NameValueCollection NO_PARAMS = null;
 
-        public ApiFacade(IFavroConnection connection)
+        public ApiFacade(IFavroConnection connection, ILog logger)
         {
             this.connection = connection;
+            this.logger = logger;
         }
 
         public List<User> GetAllUsers()
         {
-            if (string.IsNullOrEmpty(connection.OrganizationId))
-            {
-                throw new InvalidOperationException("An organization ID must be selected before retrieving the list of users");
-            }
-            var response = connection.Get("/users");
+            CheckOrganizationSelected();
+            var response = connection.Get(ENDPOINT_USERS, NO_PARAMS);
             var users = GetEntries<User>(response);
             while (response.HasMorePages())
             {
-                response = connection.GetNextPage("/users", response);
+                response = connection.GetNextPage(ENDPOINT_USERS, response, NO_PARAMS);
                 users.AddRange(GetEntries<User>(response));
             }
             return users;
         }
 
+        private void CheckOrganizationSelected()
+        {
+            if (string.IsNullOrEmpty(connection.OrganizationId))
+            {
+                throw new InvalidOperationException("An organization ID must be selected before retrieving the list of users");
+            }
+        }
 
         public User GetUser(string userId)
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            var response = connection.Get($"{ENDPOINT_USERS}/{userId}", NO_PARAMS);
+            User user = null;
+            if (response.Error != null)
+            {
+                logger.Fatal($"Unable to retrieve user with ID={userId}", response.Error);
+            }
+            else
+            {
+                user = GetEntries<User>(response).FirstOrDefault();
+            }
+            return user;
         }
 
         public List<Organization> GetAllOrganizations()
@@ -78,6 +100,11 @@ namespace FavroPlasticExtension.Favro.API
         public List<Card> GetAssignedCards(bool onlyOpen = true)
         {
             throw new NotImplementedException("Method not implemented");
+        }
+
+        internal void CreateComment(string comment, string cardCommonId)
+        {
+            throw new NotImplementedException();
         }
 
         public Card GetCard(string commonId)

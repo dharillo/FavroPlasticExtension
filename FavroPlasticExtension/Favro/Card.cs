@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FavroPlasticExtension.Favro
+namespace FavroPlasticExtension.Favro.API
 {
     public class Card
     {

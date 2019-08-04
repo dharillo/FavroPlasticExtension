@@ -15,6 +15,7 @@
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
 using System;
+using System.Collections.Generic;
 
 namespace Codice.Client.IssueTracker.FavroExtension
 {
@@ -24,7 +25,13 @@ namespace Codice.Client.IssueTracker.FavroExtension
         #region IPlasticIssueTrackerExtensionFactory implementation
         public IssueTrackerConfiguration GetConfiguration(IssueTrackerConfiguration storedConfiguration)
         {
-            throw new NotImplementedException();
+            var workingMode = GetWorkingMode(storedConfiguration);
+            var parameters = new List<IssueTrackerConfigurationParameter>();
+            parameters.Add(GetUserParameter(storedConfiguration));
+            parameters.Add(GetPasswordParameter(storedConfiguration));
+            parameters.Add(GetOrganizationParameter(storedConfiguration));
+            parameters.Add(GetBranchPrefixParameter(storedConfiguration));
+            return new IssueTrackerConfiguration(workingMode, parameters);
         }
 
         public IPlasticIssueTrackerExtension GetIssueTrackerExtension(IssueTrackerConfiguration configuration)
@@ -37,5 +44,81 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return ISSUE_TRACKER_NAME;
         }
         #endregion
+
+        private ExtensionWorkingMode GetWorkingMode(IssueTrackerConfiguration configuration)
+        {
+            var mode = ExtensionWorkingMode.TaskOnBranch;
+            if (configuration != null && configuration.WorkingMode != ExtensionWorkingMode.None)
+            {
+                mode = configuration.WorkingMode;
+            }
+            return mode;
+        }
+
+        private static IssueTrackerConfigurationParameter GetUserParameter(IssueTrackerConfiguration configuration)
+        {
+            string user = GetValidParameterValue(configuration, FavroExtension.KEY_USER, "username");
+            return CreateUserParameter(user);
+        }
+
+        private static string GetValidParameterValue(IssueTrackerConfiguration configuration, string key, string defaultValue)
+        {
+            string result = configuration != null ? configuration.GetValue(key) : null;
+            if (string.IsNullOrEmpty(result))
+            {
+                result = defaultValue;
+            }
+            return result;
+        }
+
+        private static IssueTrackerConfigurationParameter CreateUserParameter(string username)
+        {
+            return CreateLocalParameter(FavroExtension.KEY_USER, username, IssueTrackerConfigurationParameterType.User);
+        }
+
+        private static IssueTrackerConfigurationParameter CreateLocalParameter(string key, string value, IssueTrackerConfigurationParameterType type)
+        {
+            return new IssueTrackerConfigurationParameter
+            {
+                Name = key,
+                Value = value,
+                Type = type,
+                IsGlobal = false
+            };
+        }
+
+        private static IssueTrackerConfigurationParameter GetPasswordParameter(IssueTrackerConfiguration configuration)
+        {
+            string password = GetValidParameterValue(configuration, FavroExtension.KEY_PASSWORD, string.Empty);
+            return CreatePasswordParameter(password);
+        }
+
+        private static IssueTrackerConfigurationParameter CreatePasswordParameter(string password)
+        {
+            return CreateLocalParameter(FavroExtension.KEY_PASSWORD, password, IssueTrackerConfigurationParameterType.Password);
+        }
+
+        private static IssueTrackerConfigurationParameter GetOrganizationParameter(IssueTrackerConfiguration configuration)
+        {
+            string organization = GetValidParameterValue(configuration, FavroExtension.KEY_ORGANIZATION, "organization");
+            return CreateGlobalParameter(FavroExtension.KEY_ORGANIZATION, organization, IssueTrackerConfigurationParameterType.Text);
+        }
+
+        private static IssueTrackerConfigurationParameter CreateGlobalParameter(string key, string value, IssueTrackerConfigurationParameterType type)
+        {
+            return new IssueTrackerConfigurationParameter
+            {
+                Name = key,
+                Value = value,
+                Type = type,
+                IsGlobal = true
+            };
+        }
+
+        private static IssueTrackerConfigurationParameter GetBranchPrefixParameter(IssueTrackerConfiguration configuration)
+        {
+            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "[FCI-");
+            return CreateGlobalParameter(FavroExtension.KEY_BRANCH_PREFIX, prefix, IssueTrackerConfigurationParameterType.BranchPrefix);
+        }
     }
 }

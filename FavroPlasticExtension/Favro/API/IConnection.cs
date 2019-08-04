@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
+using System.Collections.Specialized;
+
 namespace FavroPlasticExtension.Favro.API
 {
     internal interface IConnection
@@ -32,8 +34,9 @@ namespace FavroPlasticExtension.Favro.API
         /// </summary>
         /// <param name="url">Endpoint where the request will be send to. Ommit the
         /// prefix with the hostname and API version</param>
+        /// <param name="parameters">Collection of the parameters of the query to execute.</param>
         /// <returns>Response received from the server</returns>
-        Response Get(string url);
+        Response Get(string url, NameValueCollection parameters);
         /// <summary>
         /// Sends an HTTP POST request to the API endpoint requested
         /// </summary>

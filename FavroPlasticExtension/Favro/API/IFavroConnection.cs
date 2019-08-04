@@ -15,6 +15,7 @@
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
 using System;
+using System.Collections.Specialized;
 
 namespace FavroPlasticExtension.Favro.API
 {
@@ -37,8 +38,9 @@ namespace FavroPlasticExtension.Favro.API
         /// </summary>
         /// <param name="url">API endpoint to query</param>
         /// <param name="previousPageResponse">The previous page response from where the next page should continue.</param>
+        /// <param name="parameters">Collection of the parameters of the query</param>
         /// <returns>Next page of the pagination</returns>
         /// <exception cref="InvalidOperationException">The response given is not a pagination response</exception>
-        Response GetNextPage(string url, Response previousPageResponse);
+        Response GetNextPage(string url, Response previousPageResponse, NameValueCollection parameters);
     }
 }
