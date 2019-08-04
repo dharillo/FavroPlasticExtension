@@ -24,7 +24,7 @@ namespace FavroPlasticExtension.Favro.API
     /// <summary>
     /// Stores the information of an API response
     /// </summary>
-    internal class Response
+    public class Response
     {
         /// <summary>
         /// The maximum number of request permitted to make per hour
