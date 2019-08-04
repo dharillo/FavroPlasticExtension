@@ -2,7 +2,7 @@ language: csharp
 solution: FavroPlasticExtension.sln
 install:
   - nuget restore FavroPlasticExtension.sln
-  - nuget install NUnit.Console -Version 3.12.0 -OutputDirectory testrunner
+  - nuget install NUnit.Console -Version 3.10.0 -OutputDirectory testrunner
 script:
   - msbuild /p:Configuration=Release FavroPlasticExtension.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.12.0/tools/nunit3-console.exe ./FavroPlasticExtensionTests/bin/Release/FavroPlasticExtensionTests.dll
+  - mono ./testrunner/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ./FavroPlasticExtensionTests/bin/Release/FavroPlasticExtensionTests.dll
