@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using FavroPlasticExtension.Favro.API;
 using NUnit.Framework;
@@ -68,6 +69,20 @@ namespace FavroPlasticExtensionTests.Favro.API
             Assert.IsNotNull(users);
             Assert.AreEqual(2, mockConnection.ConsecutiveResponsesUsed, "Should call twice to get all user pages");
             Assert.That(users, Has.Count.EqualTo(10));
+        }
+
+        [TestCase]
+        public void GetAllUsers_ResponseError_ShouldReturnEmptyList()
+        {
+            // Arrange:
+            var sut = CreateFacade();
+            mockConnection.OrganizationId = ORGANIZATION;
+            mockConnection.SetNextResponse(responseFactory.GetErrorResponse(new WebException("Invalid user")));
+            // Act:
+            var users = sut.GetAllUsers();
+            // Assert:
+            Assert.IsNotNull(users);
+            Assert.IsEmpty(users);
         }
 
         private FavroApiFacade PrepareGetAllUsers()
