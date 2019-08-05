@@ -130,7 +130,7 @@ namespace FavroPlasticExtension.Favro.API
                 {
                     var currentPage = GetCurrentPage();
                     var numPages = GetNumPages();
-                    result = currentPage < numPages;
+                    result = (currentPage + 1) < numPages;
                 }
                 catch (Exception)
                 {

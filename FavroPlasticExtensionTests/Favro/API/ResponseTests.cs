@@ -37,9 +37,11 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetPageNumber_HasError_ShouldThrow()
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, 1, 100, 100, new List<object>());
-            sut.Error = new WebException();
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(REQUEST_ID, 1, 100, 100, new List<object>()),
+                Error = new WebException()
+            };
             // Assert:
             Assert.Throws<InvalidOperationException>(() => sut.GetPageNumber());
         }
@@ -49,8 +51,10 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetPageNumber_NoContent_ShouldThrow(string content)
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = content;
+            var sut = new Response
+            {
+                Content = content
+            };
             // Assert:
             Assert.Throws<InvalidOperationException>(() => sut.GetPageNumber());
         }
@@ -59,8 +63,10 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetPageNumber_NoValidPageNumber_ShouldThrow(int invalidValue)
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, invalidValue, 10, 100, new List<object>());
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(REQUEST_ID, invalidValue, 10, 100, new List<object>())
+            };
             // Assert:
             Assert.Throws<ArgumentException>(() => sut.GetPageNumber());
         }
@@ -69,8 +75,10 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetPageNumber_ValidValue_ReturnsValue(int validValue)
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, validValue, 10, 100, new List<object>());
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(REQUEST_ID, validValue, 10, 100, new List<object>())
+            };
             // Act:
             var pageNumber = sut.GetPageNumber();
             // Assert:
@@ -82,9 +90,11 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void HasMorePages_HasError_ReturnsFalse()
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, 1, 100, 100, new List<object>());
-            sut.Error = new WebException();
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(REQUEST_ID, 1, 100, 100, new List<object>()),
+                Error = new WebException()
+            };
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:
@@ -94,8 +104,10 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void HasMorePages_NoPagedResponse_ReturnsFalse()
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(GetExampleUser());
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(GetExampleUser())
+            };
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:
@@ -105,8 +117,10 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void HasMorePages_EmptyContent_ReturnsFalse()
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = string.Empty;
+            var sut = new Response
+            {
+                Content = string.Empty
+            };
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:
@@ -116,31 +130,38 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void HasMorePages_NullContent_ReturnsFalse()
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = null;
+            var sut = new Response
+            {
+                Content = null
+            };
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:
             Assert.IsFalse(hasMorePages);
         }
-        [TestCase]
-        public void HasMorePages_LastPage_ReturnsFalse()
+        [TestCase(0, 1)]
+        [TestCase(99, 100)]
+        public void HasMorePages_LastPage_ReturnsFalse(int currentPage, int numPages)
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, 1, 1, 100, new List<object>());
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(REQUEST_ID, currentPage, numPages, 100, new List<object>())
+            };
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:
             Assert.IsFalse(hasMorePages);
         }
-        [TestCase(1, 2)]
+        [TestCase(0, 2)]
         [TestCase(1, 100)]
         public void HasMorePages_PendingPages_ReturnsTrue(int currentPage, int numPages)
         {
             // Arrange:
-            var sut = new Response();
-            sut.Content = SerializedResponseContent(REQUEST_ID, currentPage, numPages, 100, new List<object>());
+            var sut = new Response
+            {
+                Content = SerializedResponseContent(REQUEST_ID, currentPage, numPages, 100, new List<object>())
+            };
             // Act:
             var hasMorePages = sut.HasMorePages();
             // Assert:

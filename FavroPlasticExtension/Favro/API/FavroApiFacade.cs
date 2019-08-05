@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using log4net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FavroPlasticExtension.Favro.API
 {
@@ -129,7 +131,8 @@ namespace FavroPlasticExtension.Favro.API
 
         private List<TEntry> GetEntries<TEntry>(Response response)
         {
-            throw new NotImplementedException();
+            var deserializedContent = JObject.Parse(response.Content);
+            return deserializedContent["entities"].Select(entry => JsonConvert.DeserializeObject<TEntry>(entry.ToString())).ToList();
         }
     }
 }
