@@ -27,11 +27,7 @@ namespace FavroPlasticExtensionTests.Favro.API
 	{
         private const string CATEGORY_GET_ALL_USERS = "GetAllUsers,FavroApiFacade";
 
-        [TestCase(null, Category = CATEGORY_GET_ALL_USERS)]
-        [TestCase("", Category = CATEGORY_GET_ALL_USERS)]
-        [TestCase(" ", Category = CATEGORY_GET_ALL_USERS)]
-        [TestCase("\t", Category = CATEGORY_GET_ALL_USERS)]
-        [TestCase("\n", Category = CATEGORY_GET_ALL_USERS)]
+        [TestCaseSource(nameof(NullAndEmptyStrings), Category = CATEGORY_GET_ALL_USERS)]
         public void GetAllUsers_InvalidOrganization_ShouldThrow(string invalidOrganization)
         {
             // Arrange:

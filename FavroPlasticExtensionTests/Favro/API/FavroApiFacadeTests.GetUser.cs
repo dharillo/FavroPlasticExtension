@@ -30,21 +30,21 @@ namespace FavroPlasticExtensionTests.Favro.API
         private const string USER_ID_FULL_MEMBER = "user-fullMember";
         private const string USER_ID_ADMINISTRATOR = "user-administrator";
         private const string USER_ID_GUEST = "user-guest";
+        private const string EMAIL_ADMINISTRATOR = "administrator@example.com";
+        private const string EMAIL_FULL_MEMBER = "fullmember@example.com";
+        private const string EMAIL_GUEST = "guest@example.com";
+        private const string NAME_ADMINISTRATOR = "Test User Administrator";
+        private const string NAME_FULL_MEMBER = "Test User Fullmember";
+        private const string NAME_GUEST = "Test User Guest";
 
-        [TestCase(null, Category = CATEGORY_GET_USER)]
-        [TestCase("", Category = CATEGORY_GET_USER)]
-        [TestCase(" ", Category = CATEGORY_GET_USER)]
-        [TestCase("\t", Category = CATEGORY_GET_USER)]
-        [TestCase("\n", Category = CATEGORY_GET_USER)]
+        [TestCaseSource(nameof(NullAndEmptyStrings), Category = CATEGORY_GET_USER)]
         public void GetUser_InvalidOrganization_ShouldNotThrow(string invalidOrganization)
         {
             // Arrange:
             var sut = PrepareGetUser();
             mockConnection.OrganizationId = invalidOrganization;
-            // Act:
-            sut.GetUser(USER_ID_FULL_MEMBER);
             // Assert:
-            Assert.Pass("Exception not thrown");
+            Assert.DoesNotThrow(() => sut.GetUser(USER_ID_FULL_MEMBER));
         }
 
         [TestCase(null, typeof(ArgumentNullException), Category = CATEGORY_GET_USER)]
@@ -112,6 +112,17 @@ namespace FavroPlasticExtensionTests.Favro.API
             Assert.AreEqual($"{FavroApiFacade.ENDPOINT_USERS}/{userId}", request.Url);
         }
 
+        [TestCase(Category = CATEGORY_GET_USER)]
+        public void GetUser_ValidUser_ShouldDeserializeData()
+        {
+            // Arrange:
+            var sut = PrepareGetUser();
+            // Act:
+            var user = sut.GetUser(USER_ID_FULL_MEMBER);
+            // Assert:
+            Assert.IsNotNull(user);
+        }
+
         [TestCase(USER_ID_ADMINISTRATOR, OrganizationMember.ROLE_ADMINISTRATOR, Category = CATEGORY_GET_USER)]
         [TestCase(USER_ID_FULL_MEMBER, OrganizationMember.ROLE_FULL_MEMBER, Category = CATEGORY_GET_USER)]
         [TestCase(USER_ID_GUEST, OrganizationMember.ROLE_GUEST, Category = CATEGORY_GET_USER)]
@@ -122,8 +133,46 @@ namespace FavroPlasticExtensionTests.Favro.API
             // Act:
             var user = sut.GetUser(userId);
             // Assert:
-            Assert.IsNotNull(user);
-            Assert.AreEqual(expectedRole, expectedRole);
+            Assert.AreEqual(expectedRole, user.OrganizationRole);
+        }
+
+        [TestCase(USER_ID_ADMINISTRATOR, Category = CATEGORY_GET_USER)]
+        [TestCase(USER_ID_FULL_MEMBER, Category = CATEGORY_GET_USER)]
+        [TestCase(USER_ID_GUEST, Category = CATEGORY_GET_USER)]
+        public void GetUser_ValidUser_ParseCorrectUserId(string userId)
+        {
+            // Arrange:
+            var sut = PrepareGetUser(userId);
+            // Act:
+            var user = sut.GetUser(userId);
+            // Assert:
+            Assert.AreEqual(userId, user.UserId);
+        }
+
+        [TestCase(USER_ID_ADMINISTRATOR, EMAIL_ADMINISTRATOR, Category = CATEGORY_GET_USER)]
+        [TestCase(USER_ID_FULL_MEMBER, EMAIL_FULL_MEMBER, Category = CATEGORY_GET_USER)]
+        [TestCase(USER_ID_GUEST, EMAIL_GUEST, Category = CATEGORY_GET_USER)]
+        public void GetUser_ValidUser_ParseCorrectEmail(string userId, string expectedEmail)
+        {
+            // Arrange:
+            var sut = PrepareGetUser(userId);
+            // Act:
+            var user = sut.GetUser(userId);
+            // Assert:
+            Assert.AreEqual(expectedEmail, user.Email);
+        }
+
+        [TestCase(USER_ID_ADMINISTRATOR, NAME_ADMINISTRATOR, Category = CATEGORY_GET_USER)]
+        [TestCase(USER_ID_FULL_MEMBER, NAME_FULL_MEMBER, Category = CATEGORY_GET_USER)]
+        [TestCase(USER_ID_GUEST, NAME_GUEST, Category = CATEGORY_GET_USER)]
+        public void GetUser_ValidUser_ParseCorrectName(string userId, string expectedName)
+        {
+            // Arrange:
+            var sut = PrepareGetUser(userId);
+            // Act:
+            var user = sut.GetUser(userId);
+            // Assert:
+            Assert.AreEqual(expectedName, user.Name);
         }
 
         private FavroApiFacade PrepareGetUser(string userId = USER_ID_FULL_MEMBER)

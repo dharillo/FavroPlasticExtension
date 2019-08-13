@@ -27,14 +27,20 @@ namespace FavroPlasticExtension.Favro.API
     internal class FavroApiFacade
     {
         public const string ENDPOINT_USERS = "/users";
+        public const string ENDPOINT_ORGANIZATIONS = "/organizations";
+        public const string ENDPOINT_COLLECTIONS = "/collections";
+        public const string ENDPOINT_WIDGETS = "/widgets";
+        public const string ENDPOINT_CARDS = "/cards";
+        public const string ENDPOINT_COMMENTS = "/comments";
+
         private readonly IFavroConnection connection;
         private readonly ILog logger;
         private const NameValueCollection NO_PARAMS = null;
 
         public FavroApiFacade(IFavroConnection connection, ILog logger)
         {
-            this.connection = connection;
-            this.logger = logger;
+            this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public List<User> GetAllUsers()
@@ -57,7 +63,7 @@ namespace FavroPlasticExtension.Favro.API
 
         private void CheckOrganizationSelected()
         {
-            if (string.IsNullOrEmpty(connection.OrganizationId))
+            if (string.IsNullOrWhiteSpace(connection.OrganizationId))
             {
                 throw new InvalidOperationException("An organization ID must be selected before retrieving the list of users");
             }
@@ -65,6 +71,7 @@ namespace FavroPlasticExtension.Favro.API
 
         public User GetUser(string userId)
         {
+            CheckUserParameter(userId);
             var response = connection.Get($"{ENDPOINT_USERS}/{userId}", NO_PARAMS);
             User user = null;
             if (response.Error != null)
@@ -137,6 +144,18 @@ namespace FavroPlasticExtension.Favro.API
         {
             var deserializedContent = JObject.Parse(response.Content);
             return deserializedContent["entities"].Select(entry => JsonConvert.DeserializeObject<TEntry>(entry.ToString())).ToList();
+        }
+
+        private void CheckUserParameter(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException(nameof(userId), "The user identifier cannot be null");
+            }
+            else if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("The user identifier cannot be an empty string", nameof(userId));
+            }
         }
     }
 }
