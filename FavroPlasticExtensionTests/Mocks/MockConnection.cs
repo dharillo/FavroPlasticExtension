@@ -3,27 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using FavroPlasticExtension.Favro.API;
+using FavroPlasticExtensionTests.Helpers;
 
 namespace FavroPlasticExtensionTests.Mocks
 {
     public class MockConnection: IFavroConnection
     {
-        /// <summary>
-        /// Endpoint path received in the latest use of this connection object
-        /// </summary>
-        public string RequestUrl { get; private set; }
-        /// <summary>
-        /// Parameters received in the latest use of this connection object
-        /// </summary>
-        public NameValueCollection RequestParameters { get; private set; }
-        /// <summary>
-        /// HTTP method used in the latest use of this connection object
-        /// </summary>
-        public HttpMethod RequestMethod { get; private set; }
-        /// <summary>
-        /// Body of the lastest use of this connection object
-        /// </summary>
-        public object RequestBody { get; private set; }
         /// <summary>
         /// Identifier of the organization in the Favro system where the cards exists
         /// </summary>
@@ -48,59 +33,56 @@ namespace FavroPlasticExtensionTests.Mocks
         /// Fake response object to be returned in the next use of this connection
         /// </summary>
         public Response LatestFakeResponse { get; private set; }
-
+        /// <summary>
+        /// Number of initial responses set that where finally used.
+        /// </summary>
         public int ConsecutiveResponsesUsed { get; private set; }
+        /// <summary>
+        /// List of the requests received from the moment this instance was created.
+        /// </summary>
+        public List<RequestInfo> RequestsProcessed { get; }
 
         private List<Response> fakeResponses;
 
         public MockConnection()
         {
-            fakeResponses = null;
+            fakeResponses = new List<Response>();
+            RequestsProcessed = new List<RequestInfo>();
         }
 
         public Response Delete<TData>(string url, TData data = null) where TData : class
         {
-            RequestUrl = url;
-            RequestMethod = HttpMethod.Delete;
-            RequestBody = data;
-            RequestParameters = null;
+            AddRequest(new RequestInfo(url, HttpMethod.Delete, null, data));
             return GetNextResponse();
         }
 
         public Response Get(string url, NameValueCollection parameters)
         {
-            RequestUrl = url;
-            RequestMethod = HttpMethod.Get;
-            RequestBody = null;
-            RequestParameters = parameters;
+            AddRequest(new RequestInfo(url, HttpMethod.Get, parameters));
             return GetNextResponse();
         }
 
         public Response GetNextPage(string url, Response previousPageResponse, NameValueCollection parameters)
         {
-            RequestUrl = url;
-            RequestMethod = HttpMethod.Get;
-            RequestBody = null;
-            RequestParameters = parameters;
+            AddRequest(new RequestInfo(url, HttpMethod.Get, parameters));
             return GetNextResponse();
         }
 
         public Response Post<TData>(string url, TData data = null) where TData : class
         {
-            RequestUrl = url;
-            RequestBody = data;
-            RequestParameters = null;
-            RequestMethod = HttpMethod.Post;
+            AddRequest(new RequestInfo(url, HttpMethod.Post, null, data));
             return GetNextResponse();
         }
 
         public Response Put<TData>(string url, TData data = null) where TData : class
         {
-            RequestUrl = url;
-            RequestBody = data;
-            RequestParameters = null;
-            RequestMethod = HttpMethod.Put;
+            AddRequest(new RequestInfo(url, HttpMethod.Put, null, data));
             return GetNextResponse();
+        }
+
+        public void AddRequest(RequestInfo request)
+        {
+            RequestsProcessed.Add(request);
         }
 
         public void SetNextResponse(Response response)

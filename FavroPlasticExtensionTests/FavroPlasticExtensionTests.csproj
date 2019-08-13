@@ -48,6 +48,7 @@
     <Compile Include="Helpers\FakeResponseFactory.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetAllUsers.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.Constructor.cs" />
+    <Compile Include="Helpers\RequestInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

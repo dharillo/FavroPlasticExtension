@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using FavroPlasticExtension.Favro.API;
@@ -33,7 +34,10 @@ namespace FavroPlasticExtensionTests.Favro.API
             // Act:
             sut.GetAllUsers();
             // Assert:
-            Assert.AreEqual(HttpMethod.Get, mockConnection.RequestMethod);
+            foreach (var requestInfo in mockConnection.RequestsProcessed)
+            {
+                Assert.AreEqual(HttpMethod.Get, requestInfo.Method);
+            }
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
@@ -44,18 +48,41 @@ namespace FavroPlasticExtensionTests.Favro.API
             // Act:
             sut.GetAllUsers();
             // Assert:
-            Assert.AreEqual("/users", mockConnection.RequestUrl);
+            foreach (var requestInfo in mockConnection.RequestsProcessed)
+            {
+                Assert.AreEqual("/users", requestInfo.Url);
+            }
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
-        public void GetAllUsers_ShouldUseNullParameters()
+        public void GetAllUsers_InitialRequest_ShouldUseNullParameters()
         {
             // Arrange:
             var sut = PrepareGetAllUsers();
             // Act:
             sut.GetAllUsers();
             // Assert:
-            Assert.IsNull(mockConnection.RequestParameters);
+            var firstRequest = mockConnection.RequestsProcessed.FirstOrDefault();
+            Assert.IsNotNull(firstRequest);
+            Assert.IsNull(firstRequest.Parameters);
+        }
+
+        [TestCase(Category = CATEGORY_GET_ALL_USERS)]
+        public void GetAllUsers_FollowingRequest_ShouldSetRequestIdParameter()
+        {
+            // Arrange:
+            var sut = PrepareGetAllUsers();
+            // Act:
+            sut.GetAllUsers();
+            // Assert:
+            var requests = mockConnection.RequestsProcessed;
+            for (int i = 1; i < requests.Count; i ++)
+            {
+                var request = requests[i];
+                Assert.IsNotNull(request.Parameters);
+                Assert.IsTrue(request.Parameters.HasKeys());
+                Assert.AreEqual("users", request.Parameters["requestId"]);
+            }
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
