@@ -1,0 +1,6 @@
+﻿{
+    "userId": "user-fullMember",
+    "name": "Test User Fullmember",
+    "email": "fullmember@example.com",
+    "organizationRole": "fullMember"
+}

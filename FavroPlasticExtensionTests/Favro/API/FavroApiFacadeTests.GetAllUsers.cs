@@ -1,6 +1,21 @@
-﻿using System;
+﻿//  Favro Plastic Extension
+//  Copyright(C) 2019  David Harillo Sánchez
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published
+//  by the Free Software Foundation, either version 3 of the License, or
+//  any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+//  GNU Lesser General Public License for more details in the project root.
+//
+//  You should have received a copy of the GNU Lesser General Public License
+//  along with this program. If not, see<https://www.gnu.org/licenses/>
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using FavroPlasticExtension.Favro.API;
@@ -50,38 +65,21 @@ namespace FavroPlasticExtensionTests.Favro.API
             // Assert:
             foreach (var requestInfo in mockConnection.RequestsProcessed)
             {
-                Assert.AreEqual("/users", requestInfo.Url);
+                Assert.AreEqual(FavroApiFacade.ENDPOINT_USERS, requestInfo.Url);
             }
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
-        public void GetAllUsers_InitialRequest_ShouldUseNullParameters()
+        public void GetAllUsers_ShouldUseNullParameters()
         {
             // Arrange:
             var sut = PrepareGetAllUsers();
             // Act:
             sut.GetAllUsers();
             // Assert:
-            var firstRequest = mockConnection.RequestsProcessed.FirstOrDefault();
-            Assert.IsNotNull(firstRequest);
-            Assert.IsNull(firstRequest.Parameters);
-        }
-
-        [TestCase(Category = CATEGORY_GET_ALL_USERS)]
-        public void GetAllUsers_FollowingRequest_ShouldSetRequestIdParameter()
-        {
-            // Arrange:
-            var sut = PrepareGetAllUsers();
-            // Act:
-            sut.GetAllUsers();
-            // Assert:
-            var requests = mockConnection.RequestsProcessed;
-            for (int i = 1; i < requests.Count; i ++)
+            foreach (var request in mockConnection.RequestsProcessed)
             {
-                var request = requests[i];
-                Assert.IsNotNull(request.Parameters);
-                Assert.IsTrue(request.Parameters.HasKeys());
-                Assert.AreEqual("users", request.Parameters["requestId"]);
+                Assert.IsNull(request.Parameters);
             }
         }
 
@@ -116,11 +114,11 @@ namespace FavroPlasticExtensionTests.Favro.API
         {
             var sut = CreateFacade();
             mockConnection.OrganizationId = ORGANIZATION;
-            mockConnection.SetNextResponses(GetUserResponses());
+            mockConnection.SetNextResponses(GetUsersResponses());
             return sut;
         }
 
-        private List<Response> GetUserResponses()
+        private List<Response> GetUsersResponses()
         {
             return new List<Response>
             {

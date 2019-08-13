@@ -1,0 +1,6 @@
+﻿{
+    "userId": "user-administrator",
+    "name": "Test User Administrator",
+    "email": "administrator@example.com",
+    "organizationRole": "administrator"
+}

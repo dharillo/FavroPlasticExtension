@@ -26,7 +26,7 @@ namespace FavroPlasticExtension.Favro.API
 {
     internal class FavroApiFacade
     {
-        private const string ENDPOINT_USERS = "/users";
+        public const string ENDPOINT_USERS = "/users";
         private readonly IFavroConnection connection;
         private readonly ILog logger;
         private const NameValueCollection NO_PARAMS = null;
@@ -41,6 +41,11 @@ namespace FavroPlasticExtension.Favro.API
         {
             CheckOrganizationSelected();
             var response = connection.Get(ENDPOINT_USERS, NO_PARAMS);
+            if (response.Error != null)
+            {
+                logger.Fatal("Unexpected error while retrieving users", response.Error);
+                return new List<User>();
+            }
             var users = GetEntries<User>(response);
             while (response.HasMorePages())
             {
@@ -60,7 +65,6 @@ namespace FavroPlasticExtension.Favro.API
 
         public User GetUser(string userId)
         {
-            CheckOrganizationSelected();
             var response = connection.Get($"{ENDPOINT_USERS}/{userId}", NO_PARAMS);
             User user = null;
             if (response.Error != null)
@@ -69,7 +73,7 @@ namespace FavroPlasticExtension.Favro.API
             }
             else
             {
-                user = GetEntries<User>(response).FirstOrDefault();
+                user = JsonConvert.DeserializeObject<User>(response.Content);
             }
             return user;
         }

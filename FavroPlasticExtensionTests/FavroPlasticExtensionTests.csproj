@@ -49,6 +49,7 @@
     <Compile Include="Favro\API\FavroApiFacadeTests.GetAllUsers.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.Constructor.cs" />
     <Compile Include="Helpers\RequestInfo.cs" />
+    <Compile Include="Favro\API\FavroApiFacadeTests.GetUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -69,6 +70,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Responses\users_page1.json" />
     <EmbeddedResource Include="Responses\users_page2.json" />
+    <EmbeddedResource Include="Responses\user-administrator.json" />
+    <EmbeddedResource Include="Responses\user-fullMember.json" />
+    <EmbeddedResource Include="Responses\user-guest.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

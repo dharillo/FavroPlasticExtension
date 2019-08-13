@@ -13,6 +13,10 @@ namespace FavroPlasticExtensionTests.Mocks
         public MockLog()
         {
             DebugMessages = new List<string>();
+            InfoMessages = new List<string>();
+            WarnMessages = new List<string>();
+            ErrorMessages = new List<string>();
+            FatalMessages = new List<string>();
             IsDebugEnabled = true;
             IsInfoEnabled = true;
             IsWarnEnabled = true;
