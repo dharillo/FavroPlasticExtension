@@ -15,11 +15,12 @@
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
-using System.Net.Http;
 using FavroPlasticExtension.Favro;
 using FavroPlasticExtension.Favro.API;
+using Moq;
 using NUnit.Framework;
 
 namespace FavroPlasticExtensionTests.Favro.API
@@ -41,8 +42,8 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_InvalidOrganization_ShouldNotThrow(string invalidOrganization)
         {
             // Arrange:
-            var sut = PrepareGetUser();
-            mockConnection.OrganizationId = invalidOrganization;
+            StubConnectionWithResponses(GetUserResponse());
+            organization = invalidOrganization;
             // Assert:
             Assert.DoesNotThrow(() => sut.GetUser(USER_ID_FULL_MEMBER));
         }
@@ -53,7 +54,7 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_InvalidUserId_ShouldThrow(string userId, Type expectedException)
         {
             // Arrange:
-            var sut = CreateFacade();
+            StubConnectionWithResponses(GetUserResponse());
             // Assert:
             Assert.Throws(expectedException, () => sut.GetUser(userId));
         }
@@ -62,12 +63,23 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ResponseError_ShouldReturnNull()
         {
             // Arrange:
-            var sut = CreateFacade();
-            var response = responseFactory.GetErrorResponse(new WebException("User not found"));
-            mockConnection.SetNextResponse(response);
+            StubConnectionWithError<WebException>();
             // Act:
             var user = sut.GetUser(USER_ID_FULL_MEMBER);
             // Assert:
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), It.IsAny<NameValueCollection>()), Times.Once);
+            Assert.IsNull(user);
+        }
+
+        [TestCase(Category = CATEGORY_GET_USER)]
+        public void GetUser_ResponseError_ShouldLogError()
+        {
+            // Arrange:
+            StubConnectionWithError<WebException>();
+            // Act:
+            var user = sut.GetUser(USER_ID_FULL_MEMBER);
+            // Assert:
+            logMock.Verify(x => x.Error($"Unable to retrieve the information of the user '{USER_ID_FULL_MEMBER}'", It.IsAny<WebException>()), Times.Once);
             Assert.IsNull(user);
         }
 
@@ -75,26 +87,22 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ValidUser_ShouldUseCorrectMethod()
         {
             // Arrange:
-            var sut = PrepareGetUser();
+            StubConnectionWithResponses(GetUserResponse());
             // Act:
             sut.GetUser(USER_ID_FULL_MEMBER);
             // Assert:
-            var request = mockConnection.RequestsProcessed.FirstOrDefault();
-            Assert.IsNotNull(request);
-            Assert.AreEqual(HttpMethod.Get, request.Method);
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), It.IsAny<NameValueCollection>()), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_USER)]
         public void GetUser_ValidUser_ShouldUseNullParameters()
         {
             // Arrange:
-            var sut = PrepareGetUser();
+            StubConnectionWithResponses(GetUserResponse());
             // Act:
             sut.GetUser(USER_ID_FULL_MEMBER);
             // Assert:
-            var request = mockConnection.RequestsProcessed.FirstOrDefault();
-            Assert.IsNotNull(request);
-            Assert.IsNull(request.Parameters);
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), null), Times.Once);
         }
 
         [TestCase(USER_ID_ADMINISTRATOR, Category = CATEGORY_GET_USER)]
@@ -103,20 +111,18 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ValidUser_ShouldBuildCorrectUrl(string userId)
         {
             // Arrange:
-            var sut = PrepareGetUser(userId);
+            StubConnectionWithResponses(GetUserResponse(userId));
             // Act:
             sut.GetUser(userId);
             // Assert:
-            var request = mockConnection.RequestsProcessed.FirstOrDefault();
-            Assert.IsNotNull(request);
-            Assert.AreEqual($"{FavroApiFacade.ENDPOINT_USERS}/{userId}", request.Url);
+            connectionMock.Verify(x => x.Get($"{FavroApiFacade.ENDPOINT_USERS}/{userId}", It.IsAny<NameValueCollection>()), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_USER)]
         public void GetUser_ValidUser_ShouldDeserializeData()
         {
             // Arrange:
-            var sut = PrepareGetUser();
+            StubConnectionWithResponses(GetUserResponse());
             // Act:
             var user = sut.GetUser(USER_ID_FULL_MEMBER);
             // Assert:
@@ -129,7 +135,7 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ValidUser_ParseCorrectUserRole(string userId, string expectedRole)
         {
             // Arrange:
-            var sut = PrepareGetUser(userId);
+            StubConnectionWithResponses(GetUserResponse(userId));
             // Act:
             var user = sut.GetUser(userId);
             // Assert:
@@ -142,7 +148,7 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ValidUser_ParseCorrectUserId(string userId)
         {
             // Arrange:
-            var sut = PrepareGetUser(userId);
+            StubConnectionWithResponses(GetUserResponse(userId));
             // Act:
             var user = sut.GetUser(userId);
             // Assert:
@@ -155,7 +161,7 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ValidUser_ParseCorrectEmail(string userId, string expectedEmail)
         {
             // Arrange:
-            var sut = PrepareGetUser(userId);
+            StubConnectionWithResponses(GetUserResponse(userId));
             // Act:
             var user = sut.GetUser(userId);
             // Assert:
@@ -168,23 +174,16 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetUser_ValidUser_ParseCorrectName(string userId, string expectedName)
         {
             // Arrange:
-            var sut = PrepareGetUser(userId);
+            StubConnectionWithResponses(GetUserResponse(userId));
             // Act:
             var user = sut.GetUser(userId);
             // Assert:
             Assert.AreEqual(expectedName, user.Name);
         }
 
-        private FavroApiFacade PrepareGetUser(string userId = USER_ID_FULL_MEMBER)
+        private IEnumerable<Response> GetUserResponse(string userId = USER_ID_FULL_MEMBER)
         {
-            var sut = CreateFacade();
-            mockConnection.SetNextResponse(GetUserResponse(userId));
-            return sut;
-        }
-
-        private Response GetUserResponse(string userId)
-        {
-            return responseFactory.GetResponseFromFile($"Responses.{userId}.json");
+            yield return dataFaker.GetResponseFromFile($"Responses.{userId}.json");
         }
     }
 }

@@ -42,3 +42,4 @@ using System.Runtime.CompilerServices;
 //[assembly: AssemblyKeyFile("")]
 
 [assembly: InternalsVisibleTo("FavroPlasticExtensionTests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

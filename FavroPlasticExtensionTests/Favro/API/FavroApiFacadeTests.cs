@@ -14,10 +14,13 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using FavroPlasticExtension.Favro.API;
 using FavroPlasticExtensionTests.Helpers;
-using FavroPlasticExtensionTests.Mocks;
+using log4net;
+using Moq;
 using NUnit.Framework;
 
 namespace FavroPlasticExtensionTests.Favro.API
@@ -27,23 +30,29 @@ namespace FavroPlasticExtensionTests.Favro.API
     {
         private const string ORGANIZATION = "test-organization";
 
-        private MockConnection mockConnection;
-        private MockLog mockLog;
-        private FakeResponseFactory responseFactory;
+        private Mock<IFavroConnection> connectionMock;
+        private Mock<ILog> logMock;
+        private FakeResponseFactory dataFaker;
+        private string organization;
+        private FavroApiFacade sut;
 
         [OneTimeSetUp]
-        public void Initialize()
+        public void InitialSetup()
         {
-            responseFactory = new FakeResponseFactory();
+            dataFaker = new FakeResponseFactory();
         }
 
         [SetUp]
         public void PreTest()
         {
-            mockConnection = new MockConnection();
-            mockLog = new MockLog();
+            organization = ORGANIZATION;
+            connectionMock = new Mock<IFavroConnection>();
+            connectionMock
+                .SetupGet(x => x.OrganizationId)
+                .Returns(() => organization);
+            logMock = new Mock<ILog>();
+            sut = new FavroApiFacade(connectionMock.Object, logMock.Object);
         }
-
         
         private static IEnumerable<string> NullAndEmptyStrings
         {
@@ -57,9 +66,22 @@ namespace FavroPlasticExtensionTests.Favro.API
             }
         }
 
-        private FavroApiFacade CreateFacade()
+        private void StubConnectionWithResponses(IEnumerable<Response> userInfoResponses)
         {
-            return new FavroApiFacade(mockConnection, mockLog);
+            IEnumerator<Response> responses = userInfoResponses.GetEnumerator();
+            connectionMock
+                .Setup(x => x.Get(It.IsAny<string>(), It.IsAny<NameValueCollection>()))
+                .Returns(responses.MoveNext() ? responses.Current : null);
+            connectionMock
+                .SetupSequence(x => x.GetNextPage(It.IsAny<string>(),It.IsAny<Response>(), It.IsAny<NameValueCollection>()))
+                .Returns(() => responses.MoveNext() ? responses.Current : null);
         }
+
+        private void StubConnectionWithError<TError>() where TError : Exception, new()
+        {
+            connectionMock
+                .Setup(x => x.Get(It.IsAny<string>(), It.IsAny<NameValueCollection>()))
+                .Returns(dataFaker.GetErrorResponse(new TError()));
+        } 
     }
 }

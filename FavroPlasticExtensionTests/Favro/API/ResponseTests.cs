@@ -17,7 +17,6 @@
 using FavroPlasticExtension.Favro;
 using FavroPlasticExtension.Favro.API;
 using FavroPlasticExtensionTests.Helpers;
-using FavroPlasticExtensionTests.Mocks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
@@ -215,7 +214,7 @@ namespace FavroPlasticExtensionTests.Favro.API
 
         public object GetExampleUser()
         {
-            return new MockUser
+            return new User
             {
                 UserId = "67973f72db34592d8fc96c48",
                 Name = "Favro user",

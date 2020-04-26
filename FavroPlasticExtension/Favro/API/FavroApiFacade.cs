@@ -34,13 +34,13 @@ namespace FavroPlasticExtension.Favro.API
         public const string ENDPOINT_COMMENTS = "/comments";
 
         private readonly IFavroConnection connection;
-        private readonly ILog logger;
+        private readonly ILog log;
         private const NameValueCollection NO_PARAMS = null;
 
-        public FavroApiFacade(IFavroConnection connection, ILog logger)
+        public FavroApiFacade(IFavroConnection connection, ILog log)
         {
             this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
         public List<User> GetAllUsers()
@@ -49,7 +49,7 @@ namespace FavroPlasticExtension.Favro.API
             var response = connection.Get(ENDPOINT_USERS, NO_PARAMS);
             if (response.Error != null)
             {
-                logger.Fatal("Unexpected error while retrieving users", response.Error);
+                log.Error("Unexpected error while retrieving users", response.Error);
                 return new List<User>();
             }
             var users = GetEntries<User>(response);
@@ -76,7 +76,7 @@ namespace FavroPlasticExtension.Favro.API
             User user = null;
             if (response.Error != null)
             {
-                logger.Fatal($"Unable to retrieve user with ID={userId}", response.Error);
+                log.Error($"Unable to retrieve the information of the user '{userId}'", response.Error);
             }
             else
             {
@@ -87,7 +87,19 @@ namespace FavroPlasticExtension.Favro.API
 
         public List<Organization> GetAllOrganizations()
         {
-            throw new NotImplementedException("Method not implemented");
+            var response = connection.Get(ENDPOINT_ORGANIZATIONS, NO_PARAMS);
+            if (response.Error != null)
+            {
+                log.Error("Unexpected error while retrieving organizations", response.Error);
+                return new List<Organization>();
+            }
+            var organizations = GetEntries<Organization>(response);
+            while (response.HasMorePages())
+            {
+                response = connection.GetNextPage(ENDPOINT_ORGANIZATIONS, response, NO_PARAMS);
+                organizations.AddRange(GetEntries<Organization>(response));
+            }
+            return organizations;
         }
 
         public Organization GetOrganization(string organizationId)

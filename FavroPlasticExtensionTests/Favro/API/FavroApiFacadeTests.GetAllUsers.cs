@@ -16,9 +16,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
-using System.Net.Http;
 using FavroPlasticExtension.Favro.API;
+using Moq;
 using NUnit.Framework;
 
 namespace FavroPlasticExtensionTests.Favro.API
@@ -31,64 +32,57 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetAllUsers_InvalidOrganization_ShouldThrow(string invalidOrganization)
         {
             // Arrange:
-            var sut = CreateFacade();
-            mockConnection.OrganizationId = invalidOrganization;
+            organization = invalidOrganization;
             // Assert:
             Assert.Throws<InvalidOperationException>(() => sut.GetAllUsers());
+            connectionMock.VerifyGet(x => x.OrganizationId, Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
         public void GetAllUsers_ShouldUseCorrectHttpMethod()
         {
             // Arrange:
-            var sut = PrepareGetAllUsers();
+            StubConnectionWithResponses(GetUserInfoResponses());
             // Act:
             sut.GetAllUsers();
             // Assert:
-            foreach (var requestInfo in mockConnection.RequestsProcessed)
-            {
-                Assert.AreEqual(HttpMethod.Get, requestInfo.Method);
-            }
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), It.IsAny<NameValueCollection>()), Times.Once);
+            connectionMock.Verify(x => x.GetNextPage(It.IsAny<string>(), It.IsNotNull<Response>(), It.IsAny<NameValueCollection>()), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
         public void GetAllUsers_ShouldUseCorrectEndpoint()
         {
             // Arrange:
-            var sut = PrepareGetAllUsers();
+            StubConnectionWithResponses(GetUserInfoResponses());
             // Act:
             sut.GetAllUsers();
             // Assert:
-            foreach (var requestInfo in mockConnection.RequestsProcessed)
-            {
-                Assert.AreEqual(FavroApiFacade.ENDPOINT_USERS, requestInfo.Url);
-            }
+            connectionMock.Verify(x => x.Get(FavroApiFacade.ENDPOINT_USERS, It.IsAny<NameValueCollection>()), Times.Once);
+            connectionMock.Verify(x => x.GetNextPage(FavroApiFacade.ENDPOINT_USERS, It.IsNotNull<Response>(), It.IsAny<NameValueCollection>()), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
         public void GetAllUsers_ShouldUseNullParameters()
         {
             // Arrange:
-            var sut = PrepareGetAllUsers();
+            StubConnectionWithResponses(GetUserInfoResponses());
             // Act:
             sut.GetAllUsers();
             // Assert:
-            foreach (var request in mockConnection.RequestsProcessed)
-            {
-                Assert.IsNull(request.Parameters);
-            }
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), null), Times.Once);
+            connectionMock.Verify(x => x.GetNextPage(It.IsAny<string>(), It.IsNotNull<Response>(), null), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_ALL_USERS)]
         public void GetAllUsers_ShouldReturnAllUsers()
         {
             // Arrange:
-            var sut = PrepareGetAllUsers();
+            StubConnectionWithResponses(GetUserInfoResponses());
             // Act:
             var users = sut.GetAllUsers();
             // Assert:
             Assert.IsNotNull(users);
-            Assert.AreEqual(2, mockConnection.ConsecutiveResponsesUsed, "Should call twice to get all user pages");
             Assert.That(users, Has.Count.EqualTo(10));
         }
 
@@ -96,9 +90,7 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetAllUsers_ResponseError_ShouldReturnEmptyList()
         {
             // Arrange:
-            var sut = CreateFacade();
-            mockConnection.OrganizationId = ORGANIZATION;
-            mockConnection.SetNextResponse(responseFactory.GetErrorResponse(new WebException("Invalid user")));
+            StubConnectionWithError<WebException>();
             // Act:
             var users = sut.GetAllUsers();
             // Assert:
@@ -106,21 +98,22 @@ namespace FavroPlasticExtensionTests.Favro.API
             Assert.IsEmpty(users);
         }
 
-        private FavroApiFacade PrepareGetAllUsers()
+        [TestCase]
+        public void GetAllUsers_ResponseError_ShouldLogError()
         {
-            var sut = CreateFacade();
-            mockConnection.OrganizationId = ORGANIZATION;
-            mockConnection.SetNextResponses(GetUsersResponses());
-            return sut;
+            // Arrange:
+            StubConnectionWithError<WebException>();
+            // Act:
+            var users = sut.GetAllUsers();
+            // Assert:
+            logMock.Verify(x => x.Error("Unexpected error while retrieving users", It.IsAny<WebException>()), Times.Once);
         }
 
-        private List<Response> GetUsersResponses()
+        private IEnumerable<Response> GetUserInfoResponses()
         {
-            return new List<Response>
-            {
-                responseFactory.GetResponseFromFile("Responses.users_page1.json"),
-                responseFactory.GetResponseFromFile("Responses.users_page2.json")
-            };
+            yield return dataFaker.GetResponseFromFile("Responses.users_page1.json");
+            yield return dataFaker.GetResponseFromFile("Responses.users_page2.json");
         }
+
 	}
 }

@@ -26,14 +26,14 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void Constructor_NullConnection_ShouldThrow()
         {
             //Assert:
-            Assert.Throws<ArgumentNullException>(() => new FavroApiFacade(null, mockLog));
+            Assert.Throws<ArgumentNullException>(() => new FavroApiFacade(null, logMock.Object));
         }
 
         [TestCase(Category = "Constructor,FavroApiFacade")]
         public void Constructor_NullLogger_ShouldThrow()
         {
             // Assert:
-            Assert.Throws<ArgumentNullException>(() => new FavroApiFacade(mockConnection, null));
+            Assert.Throws<ArgumentNullException>(() => new FavroApiFacade(connectionMock.Object, null));
         }
     }
 }

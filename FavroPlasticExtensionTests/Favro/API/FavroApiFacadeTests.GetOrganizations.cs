@@ -14,11 +14,11 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
-using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
-using System.Net.Http;
 using FavroPlasticExtension.Favro.API;
+using Moq;
 using NUnit.Framework;
 
 namespace FavroPlasticExtensionTests.Favro.API
@@ -31,8 +31,8 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetOrganizations_InvalidOrgnization_ShouldNotThrow(string invalidOrganization)
         {
             // Arrange:
-            var sut = CreateFacade();
-            mockConnection.OrganizationId = invalidOrganization;
+            organization = invalidOrganization;
+            StubConnectionWithResponses(GetOrganizationsResponses());
             // Assert:
             Assert.DoesNotThrow(() => sut.GetAllOrganizations());
         }
@@ -41,9 +41,8 @@ namespace FavroPlasticExtensionTests.Favro.API
         public void GetOrganizations_ResponseError_ShouldReturnEmptyList()
         {
             // Arrange:
-            var sut = CreateFacade();
-            var response = responseFactory.GetErrorResponse(new WebException("Invalid user"));
-            mockConnection.SetNextResponse(response);
+            organization = null;
+            StubConnectionWithError<WebException>();
             // Act:
             var organizations = sut.GetAllOrganizations();
             // Assert:
@@ -52,61 +51,57 @@ namespace FavroPlasticExtensionTests.Favro.API
         }
 
         [TestCase(Category = CATEGORY_GET_ORGANIZATIONS)]
+        public void GetOrganizations_ResponseError_ShouldLogError()
+        {
+            // Arrange:
+            organization = null;
+            StubConnectionWithError<WebException>();
+            // Act:
+            var organizations = sut.GetAllOrganizations();
+            // Assert:
+            logMock.Verify(x => x.Error("Unexpected error while retrieving organizations", It.IsAny<WebException>()), Times.Once);
+        }
+
+        [TestCase(Category = CATEGORY_GET_ORGANIZATIONS)]
         public void GetOrganizations_ShouldUseCorrectHttpMethod()
         {
             // Arrange:
-            var sut = PrepareGetAllOrganizations();
+            StubConnectionWithResponses(GetOrganizationsResponses());
             // Act:
             sut.GetAllOrganizations();
             // Assert:
-            foreach (var requestInfo in mockConnection.RequestsProcessed)
-            {
-                Assert.AreEqual(HttpMethod.Get, requestInfo.Method);
-            }
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), It.IsAny<NameValueCollection>()), Times.Once);
+            connectionMock.Verify(x => x.GetNextPage(It.IsAny<string>(), It.IsNotNull<Response>(), It.IsAny<NameValueCollection>()), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_ORGANIZATIONS)]
         public void GetOrganizations_ShouldUseCorrectEndpoint()
         {
             // Arrange:
-            var sut = PrepareGetAllOrganizations();
+            StubConnectionWithResponses(GetOrganizationsResponses());
             // Act:
             sut.GetAllOrganizations();
             // Assert:
-            foreach (var requestInfo in mockConnection.RequestsProcessed)
-            {
-                Assert.AreEqual(FavroApiFacade.ENDPOINT_ORGANIZATIONS, requestInfo.Url);
-            }
+            connectionMock.Verify(x => x.Get(FavroApiFacade.ENDPOINT_ORGANIZATIONS, It.IsAny<NameValueCollection>()), Times.Once);
+            connectionMock.Verify(x => x.GetNextPage(FavroApiFacade.ENDPOINT_ORGANIZATIONS, It.IsNotNull<Response>(), It.IsAny<NameValueCollection>()), Times.Once);
         }
 
         [TestCase(Category = CATEGORY_GET_ORGANIZATIONS)]
         public void GetOrganizations_ShouldUseNullParameters()
         {
             // Arrange:
-            var sut = PrepareGetAllOrganizations();
+            StubConnectionWithResponses(GetOrganizationsResponses());
             // Act:
             sut.GetAllOrganizations();
             // Assert:
-            foreach (var requestInfo in mockConnection.RequestsProcessed)
-            {
-                Assert.IsNull(requestInfo.Parameters);
-            }
+            connectionMock.Verify(x => x.Get(It.IsAny<string>(), null), Times.Once);
+            connectionMock.Verify(x => x.GetNextPage(It.IsAny<string>(), It.IsNotNull<Response>(), It.IsAny<NameValueCollection>()), Times.Once);
         }
 
-        private FavroApiFacade PrepareGetAllOrganizations()
+        private IEnumerable<Response> GetOrganizationsResponses()
         {
-            var sut = CreateFacade();
-            mockConnection.SetNextResponses(GetOrganizationsResponses());
-            return sut;
-        }
-
-        private List<Response> GetOrganizationsResponses()
-        {
-            return new List<Response>
-            {
-                responseFactory.GetResponseFromFile("Responses.organizations_page1.json"),
-                responseFactory.GetResponseFromFile("Responses.organizations_page2.json")
-            };
+            yield return dataFaker.GetResponseFromFile("Responses.organizations_page1.json");
+            yield return dataFaker.GetResponseFromFile("Responses.organizations_page2.json");
         }
     }
 }
