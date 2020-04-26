@@ -1,0 +1,1539 @@
+{
+  "entities": [
+    {
+      "collectionId": "3db52e216bc2a1661c6f98d0",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_Aurora",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "red",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "jFjfZ8biuQv9xpzAM",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "30e02ea80ea3dedd3870dc8a",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Mobile Client",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "FLmWSgs2GHDXEvFPp",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "0372fbfe602a37aa787b3711",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Prototyping",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "black",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "XkszvgJEkFyQcAc2q",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "ca970899c9ab9ec7b802ac2f",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "PD - Program",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "L7hu3MDGyjGLQJLfq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "b721e15be8a0e390b42c08ae",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_API APIS & Backend Sevilla",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "8HeTWnzKXkCzdf2PM",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "Bk2fnxEF5Z2csqXwt",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "SEzWBW4f8NLcjGtEa",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "eNybSSHwBaEcJKHm8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "sbuRLj6PehMMgovhC",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "w6Rg4ukZx9XF7qF4u",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "ySnW8hSuaNZhdmxRq",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "yuiFPcrXkDPoGN3Ce",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "93wTFSJY6fuepvS9z",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "7b83b6bb2be1881b9e0212c6",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "[Logispin] QA",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "6F5vaiCLzzYChX7dM",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "LxAdYvbsaeu9tRiYJ",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "ThZAXBmZGBvtysS6G",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "XdH4prJWZAX5RCysd",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "YWB9pL2tEoZ4BXyka",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "tAa33sNGHh78YtG66",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "df9265f21860dd41eb77bb6d",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "ScrumTeam 2",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "e23bd4faa1603b60b273041c",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "IT",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "iufCskjr36RguqJCP",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "9hQGBqvhtmnvord85",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "516bb94010779e724fc029ba",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_PTF Platforms",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "red",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "eNybSSHwBaEcJKHm8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "jFjfZ8biuQv9xpzAM",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "773afe1e43ab4d6c8aac270b",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Terminals",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "QKhpS2zouTLieZ6Xu",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "NNKR7ds4YrZS4T97E",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "b7a2c70a9a813b582999f554",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "GR - League Kanban",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "L7hu3MDGyjGLQJLfq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "d67526ce6d665e1d5bc152e8",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Terminal - 1Point",
+      "publicSharing": "users",
+      "archived": true,
+      "background": "red",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "NNKR7ds4YrZS4T97E",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "eNybSSHwBaEcJKHm8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "jFjfZ8biuQv9xpzAM",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        }
+      ]
+    },
+    {
+      "collectionId": "bd724a342587d75245c28bfe",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_BAK Backoffice & SDKs Sevilla",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "2ff064acc35e4a9bfe197112",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_Integrations",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "Z8xRqMYc5nn3hZv4u",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "wspHzkAm7zjM2EKKW",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "11c4994d1146cd74c9360637",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "GR - Branding Kanban",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "L7hu3MDGyjGLQJLfq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "14d5e0185a56358aadbd1dd7",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Mobile POS",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "0e1d6f3d1a9af7071907c584",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "ScrumTeam 1",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "df2a414ac40ce4ca28be9f95",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Objectives and Key Results (OKR)",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "fBHNdyJ4XYqQWG6yr",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "eebcc4a59755119710644417",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "[Logispin] Requests",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "blue",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "6F5vaiCLzzYChX7dM",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "7tizAvpurLRemjuZ2",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "Fubw8QQWuRKqjWyJk",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "HSPcSR9LKRyfKTgkB",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "HnKqMmY6brX3z5xob",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "Jk2nN7aeNhKrjpD73",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "LxAdYvbsaeu9tRiYJ",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "NoZmHMcHyGTy2DSth",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "ThZAXBmZGBvtysS6G",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "XdH4prJWZAX5RCysd",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "YWB9pL2tEoZ4BXyka",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "YpzBHrDfqPtmJ9hYi",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "bHjwr3BaXNhWfT2k8",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "cPF8wNmegyskLFamE",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "m3YvopFDjnvskn877",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "t4CB3SncqtGbFKa3e",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "tAa33sNGHh78YtG66",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "xbyj8dnBL3KKxGiKb",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "yLDEGhcNgNC8GcrWH",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "1a5f0fbb854d9aa4ee1fc73f",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Operation Team",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "961f231177c41cca00488afc",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "HTV - Live Games",
+      "publicSharing": "public",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "organization",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": null,
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "f012105c4716883eb0ea6b80",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_QA - SVQ",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "58a2e42fc9ae17d4de08b58a",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "New Features for JAVA",
+      "publicSharing": "organization",
+      "archived": true,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "ySnW8hSuaNZhdmxRq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "f1f5423cf8c1e041441539a5",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": " [GoldenRace] Product Owners",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "fBHNdyJ4XYqQWG6yr",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "c4c72198269ca5436d76d49b",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Mobile POS",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "cdf15294fb809e252f5bf33c",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "PD - Team",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "L7hu3MDGyjGLQJLfq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "019f6a0080261f33a95a6dfd",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_LS Logispin team",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "a188498c719a30e2a007c610",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "VFX FUTBOL",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "JxpyATKhvMZ7o9Zov",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "ybPxtvzjt6FAzM2Rq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "7e2445f08fd3f38dfd87af8c",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Desktop v3",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "blue",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "group",
+          "groupId": "88f4514625de92d387ec70b8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "c66cacebf859c2cfceb0e35a",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Viewer",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": false,
+      "sharedToUsers": [
+        {
+          "type": "group",
+          "groupId": "88f4514625de92d387ec70b8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "c671aacce43ed520717720df",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Support",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "solidPurple",
+      "fullMembersCanAddWidgets": false,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "RBG9mFaJxvpDvq9Pk",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "xgPdzsJcyhzK2s26F",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "y7nwtamrrGWPp5FSJ",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "ZK9eQDdy6sx8uvCSs",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "065e015cb1c4a82504089de2",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Client SportyBet",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "fBHNdyJ4XYqQWG6yr",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "03be3e046ef4e66f2e7df9c1",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Desktop v3",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "red",
+      "fullMembersCanAddWidgets": false,
+      "sharedToUsers": [
+        {
+          "type": "group",
+          "groupId": "88f4514625de92d387ec70b8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "63f53d23e27899a60d676a89",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_VFX",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "solidGray",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "JvdQdMGPSR58FbPcd",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "hMBcSPJpzatWwSypo",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "yZzcvFP3STqhZTkHQ",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "JxpyATKhvMZ7o9Zov",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "oGisHDSgDMnCGdND5",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "Anx67AT85ez8j98bZ",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "e8918a1e041ed93582907c1f",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "QA",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "custom",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "AXNnQ5N48d8yjiL8M",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "8c0f0729b332b51e628f909b",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Cashier ",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "group",
+          "groupId": "88f4514625de92d387ec70b8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "309c19c247ad7d6067beadd2",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "HelpDesk Málaga",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "solidPink",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "RBG9mFaJxvpDvq9Pk",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "iufCskjr36RguqJCP",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "y7nwtamrrGWPp5FSJ",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "7mL2CuXCtjKGFWggQ",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "QKhpS2zouTLieZ6Xu",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "ZK9eQDdy6sx8uvCSs",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "7241e4e8c985cf1e5954ea5b",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Toni y sus cosas",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "group",
+          "groupId": "5519cf086f9022d7b70bcf7c",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "3PCwfbNwszfA8CEeu",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "Anx67AT85ez8j98bZ",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "GNFXWkcZNnzmkKt3D",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "vFzzSSsv4sE9PLT7o",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "jFjfZ8biuQv9xpzAM",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "7eee76ef79599768a933b12e",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "ScrumTeam 3",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "NNKR7ds4YrZS4T97E",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "abaaa2251df1a16d803d9e6c",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "_FS Frontend SVQ",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "39329aee0237437110415970",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Marketing",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "blue",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "HA5YFLiyGhWTZfTuN",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "mhvH4LjjxFHKqcy65",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "s6KueZFoNWTrW8L9m",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "jFjfZ8biuQv9xpzAM",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "xwYwN2YxiZz6i3ndq",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "565abeedfa2328bc225b1206",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Office-SVQ",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "customUnsplash",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "Y6iHCRa5mTsTqb4D5",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "fab9fa0840eb13be1ae2ac3b",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "GoldenRace - Program",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "69b48d12a1c7fabdf1b24fc0",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Documentation",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "jSH2dhYCvQSZvmxka",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "dbab29f32f51ce7358b2829d",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Client BetKing",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "68PG6FohAim2f98F6",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "CNBc6bgWXzmzPbW6B",
+          "role": "guest"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "fBHNdyJ4XYqQWG6yr",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "d9dd63fa05394d5dc33a1add",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Backend Málaga",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "solidGray",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "93wTFSJY6fuepvS9z",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "fd0f1d215ee5c103a02f0e64",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS gr-client-library",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "f82b7e665f7f901b45c0fc87",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "Certifications",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "e88acf1aee42d96bcbf27d7f",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "PM - SVQ",
+      "publicSharing": "organization",
+      "archived": true,
+      "background": "purple",
+      "fullMembersCanAddWidgets": true,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "e9847438b267f7f2a63052b3",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Mobile v1",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": false,
+      "sharedToUsers": [
+        {
+          "type": "group",
+          "groupId": "88f4514625de92d387ec70b8",
+          "role": "view"
+        },
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "peZmvgomTzoQoRxJh",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    },
+    {
+      "collectionId": "80da02f06871954fabf5ce60",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "name": "FS Logispin Desktop Client",
+      "publicSharing": "organization",
+      "archived": false,
+      "background": "purple",
+      "fullMembersCanAddWidgets": false,
+      "sharedToUsers": [
+        {
+          "type": "user",
+          "userId": "2vBTFiNimoDvnboSz",
+          "role": "admin"
+        },
+        {
+          "type": "user",
+          "userId": "YpuLapfpKa3PCL8c4",
+          "role": "admin"
+        },
+        {
+          "type": "organization",
+          "role": "view"
+        }
+      ]
+    }
+  ],
+  "limit": 100,
+  "page": 0,
+  "pages": 1,
+  "requestId": "9ec6b6964bbc5a3fbfd67500"
+}

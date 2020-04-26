@@ -46,26 +46,14 @@ namespace FavroPlasticExtension.Favro.API
         public List<User> GetAllUsers()
         {
             CheckOrganizationSelected();
-            var response = connection.Get(ENDPOINT_USERS, NO_PARAMS);
-            if (response.Error != null)
-            {
-                log.Error("Unexpected error while retrieving users", response.Error);
-                return new List<User>();
-            }
-            var users = GetEntries<User>(response);
-            while (response.HasMorePages())
-            {
-                response = connection.GetNextPage(ENDPOINT_USERS, response, NO_PARAMS);
-                users.AddRange(GetEntries<User>(response));
-            }
-            return users;
+            return GetAllPagesFromEndpoint<User>(ENDPOINT_USERS, NO_PARAMS, "Unexpected error while retrieving users");
         }
 
         private void CheckOrganizationSelected()
         {
             if (string.IsNullOrWhiteSpace(connection.OrganizationId))
             {
-                throw new InvalidOperationException("An organization ID must be selected before retrieving the list of users");
+                throw new InvalidOperationException("An organization ID must be selected before retrieving information from Favro");
             }
         }
 
@@ -87,19 +75,7 @@ namespace FavroPlasticExtension.Favro.API
 
         public List<Organization> GetAllOrganizations()
         {
-            var response = connection.Get(ENDPOINT_ORGANIZATIONS, NO_PARAMS);
-            if (response.Error != null)
-            {
-                log.Error("Unexpected error while retrieving organizations", response.Error);
-                return new List<Organization>();
-            }
-            var organizations = GetEntries<Organization>(response);
-            while (response.HasMorePages())
-            {
-                response = connection.GetNextPage(ENDPOINT_ORGANIZATIONS, response, NO_PARAMS);
-                organizations.AddRange(GetEntries<Organization>(response));
-            }
-            return organizations;
+            return GetAllPagesFromEndpoint<Organization>(ENDPOINT_ORGANIZATIONS, NO_PARAMS, "Unexpected error while retrieving organizations");
         }
 
         public Organization GetOrganization(string organizationId)
@@ -109,7 +85,8 @@ namespace FavroPlasticExtension.Favro.API
 
         public List<Collection> GetAllCollections()
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            return GetAllPagesFromEndpoint<Collection>(ENDPOINT_COLLECTIONS, NO_PARAMS, "Unexpected error while retrieving collections");
         }
 
         public Collection GetCollection(string collectionId)
@@ -168,6 +145,23 @@ namespace FavroPlasticExtension.Favro.API
             {
                 throw new ArgumentException("The user identifier cannot be an empty string", nameof(userId));
             }
+        }
+
+        private List<TEntry> GetAllPagesFromEndpoint<TEntry>(string endpoint, NameValueCollection paramenters, string errorMessage)
+        {
+            var response = connection.Get(endpoint, paramenters);
+            if (response.Error != null)
+            {
+                log.Error(errorMessage, response.Error);
+                return new List<TEntry>();
+            }
+            var entries = GetEntries<TEntry>(response);
+            while (response.HasMorePages())
+            {
+                response = connection.GetNextPage(endpoint, response, paramenters);
+                entries.AddRange(GetEntries<TEntry>(response));
+            }
+            return entries;
         }
     }
 }
