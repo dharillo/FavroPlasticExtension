@@ -3,7 +3,7 @@
     {
       "collectionId": "3db52e216bc2a1661c6f98d0",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_Aurora",
+      "name": "collection-test-1",
       "publicSharing": "organization",
       "archived": false,
       "background": "red",
@@ -28,7 +28,7 @@
     {
       "collectionId": "30e02ea80ea3dedd3870dc8a",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Mobile Client",
+      "name": "collection-test-2",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -58,7 +58,7 @@
     {
       "collectionId": "0372fbfe602a37aa787b3711",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Prototyping",
+      "name": "collection-test-3",
       "publicSharing": "organization",
       "archived": false,
       "background": "black",
@@ -78,7 +78,7 @@
     {
       "collectionId": "ca970899c9ab9ec7b802ac2f",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "PD - Program",
+      "name": "collection-test-4",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -98,7 +98,7 @@
     {
       "collectionId": "b721e15be8a0e390b42c08ae",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_API APIS & Backend Sevilla",
+      "name": "collection-test-5",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -168,7 +168,7 @@
     {
       "collectionId": "7b83b6bb2be1881b9e0212c6",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "[Logispin] QA",
+      "name": "collection-test-6",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -218,7 +218,7 @@
     {
       "collectionId": "df9265f21860dd41eb77bb6d",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "ScrumTeam 2",
+      "name": "collection-test-7",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -238,7 +238,7 @@
     {
       "collectionId": "e23bd4faa1603b60b273041c",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "IT",
+      "name": "collection-test-8",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -263,7 +263,7 @@
     {
       "collectionId": "516bb94010779e724fc029ba",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_PTF Platforms",
+      "name": "collection-test-9",
       "publicSharing": "organization",
       "archived": false,
       "background": "red",
@@ -293,7 +293,7 @@
     {
       "collectionId": "773afe1e43ab4d6c8aac270b",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Terminals",
+      "name": "collection-test-10",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -318,7 +318,7 @@
     {
       "collectionId": "b7a2c70a9a813b582999f554",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "GR - League Kanban",
+      "name": "collection-test-11",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -338,7 +338,7 @@
     {
       "collectionId": "d67526ce6d665e1d5bc152e8",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Terminal - 1Point",
+      "name": "collection-test-12",
       "publicSharing": "users",
       "archived": true,
       "background": "red",
@@ -369,7 +369,7 @@
     {
       "collectionId": "bd724a342587d75245c28bfe",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_BAK Backoffice & SDKs Sevilla",
+      "name": "collection-test-13",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -394,7 +394,7 @@
     {
       "collectionId": "2ff064acc35e4a9bfe197112",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_Integrations",
+      "name": "collection-test-14",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -424,7 +424,7 @@
     {
       "collectionId": "11c4994d1146cd74c9360637",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "GR - Branding Kanban",
+      "name": "collection-test-15",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -444,7 +444,7 @@
     {
       "collectionId": "14d5e0185a56358aadbd1dd7",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Mobile POS",
+      "name": "collection-test-16",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -469,7 +469,7 @@
     {
       "collectionId": "0e1d6f3d1a9af7071907c584",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "ScrumTeam 1",
+      "name": "collection-test-17",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -489,7 +489,7 @@
     {
       "collectionId": "df2a414ac40ce4ca28be9f95",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Objectives and Key Results (OKR)",
+      "name": "collection-test-18",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -509,7 +509,7 @@
     {
       "collectionId": "eebcc4a59755119710644417",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "[Logispin] Requests",
+      "name": "collection-test-19",
       "publicSharing": "organization",
       "archived": false,
       "background": "blue",
@@ -629,7 +629,7 @@
     {
       "collectionId": "1a5f0fbb854d9aa4ee1fc73f",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Operation Team",
+      "name": "collection-test-20",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -649,7 +649,7 @@
     {
       "collectionId": "961f231177c41cca00488afc",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "HTV - Live Games",
+      "name": "collection-test-21",
       "publicSharing": "public",
       "archived": false,
       "background": "purple",
@@ -669,7 +669,7 @@
     {
       "collectionId": "f012105c4716883eb0ea6b80",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_QA - SVQ",
+      "name": "collection-test-22",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -694,7 +694,7 @@
     {
       "collectionId": "58a2e42fc9ae17d4de08b58a",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "New Features for JAVA",
+      "name": "collection-test-23",
       "publicSharing": "organization",
       "archived": true,
       "background": "purple",
@@ -719,7 +719,7 @@
     {
       "collectionId": "f1f5423cf8c1e041441539a5",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": " [GoldenRace] Product Owners",
+      "name": "collection-test-24",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -744,7 +744,7 @@
     {
       "collectionId": "c4c72198269ca5436d76d49b",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Mobile POS",
+      "name": "collection-test-25",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -769,7 +769,7 @@
     {
       "collectionId": "cdf15294fb809e252f5bf33c",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "PD - Team",
+      "name": "collection-test-26",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -789,7 +789,7 @@
     {
       "collectionId": "019f6a0080261f33a95a6dfd",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_LS Logispin team",
+      "name": "collection-test-27",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -809,7 +809,7 @@
     {
       "collectionId": "a188498c719a30e2a007c610",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "VFX FUTBOL",
+      "name": "collection-test-28",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -834,7 +834,7 @@
     {
       "collectionId": "7e2445f08fd3f38dfd87af8c",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Desktop v3",
+      "name": "collection-test-29",
       "publicSharing": "organization",
       "archived": false,
       "background": "blue",
@@ -864,7 +864,7 @@
     {
       "collectionId": "c66cacebf859c2cfceb0e35a",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Viewer",
+      "name": "collection-test-30",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -894,7 +894,7 @@
     {
       "collectionId": "c671aacce43ed520717720df",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Support",
+      "name": "collection test-31",
       "publicSharing": "organization",
       "archived": false,
       "background": "solidPurple",
@@ -929,7 +929,7 @@
     {
       "collectionId": "065e015cb1c4a82504089de2",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Client SportyBet",
+      "name": "collection-test-32",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -949,7 +949,7 @@
     {
       "collectionId": "03be3e046ef4e66f2e7df9c1",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Desktop v3",
+      "name": "collection-test-33",
       "publicSharing": "organization",
       "archived": false,
       "background": "red",
@@ -979,7 +979,7 @@
     {
       "collectionId": "63f53d23e27899a60d676a89",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_VFX",
+      "name": "collection-test-34",
       "publicSharing": "organization",
       "archived": false,
       "background": "solidGray",
@@ -1029,7 +1029,7 @@
     {
       "collectionId": "e8918a1e041ed93582907c1f",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "QA",
+      "name": "collection-test-35",
       "publicSharing": "organization",
       "archived": false,
       "background": "custom",
@@ -1054,7 +1054,7 @@
     {
       "collectionId": "8c0f0729b332b51e628f909b",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Cashier ",
+      "name": "collection-test-36",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1084,7 +1084,7 @@
     {
       "collectionId": "309c19c247ad7d6067beadd2",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "HelpDesk Málaga",
+      "name": "collection-test-37",
       "publicSharing": "organization",
       "archived": false,
       "background": "solidPink",
@@ -1129,7 +1129,7 @@
     {
       "collectionId": "7241e4e8c985cf1e5954ea5b",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Toni y sus cosas",
+      "name": "collection-test-38",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1184,7 +1184,7 @@
     {
       "collectionId": "7eee76ef79599768a933b12e",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "ScrumTeam 3",
+      "name": "collection-test-39",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1209,7 +1209,7 @@
     {
       "collectionId": "abaaa2251df1a16d803d9e6c",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "_FS Frontend SVQ",
+      "name": "collection-test-40",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1234,7 +1234,7 @@
     {
       "collectionId": "39329aee0237437110415970",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Marketing",
+      "name": "collection-test-41",
       "publicSharing": "organization",
       "archived": false,
       "background": "blue",
@@ -1274,7 +1274,7 @@
     {
       "collectionId": "565abeedfa2328bc225b1206",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Office-SVQ",
+      "name": "collection-test-42",
       "publicSharing": "organization",
       "archived": false,
       "background": "customUnsplash",
@@ -1299,7 +1299,7 @@
     {
       "collectionId": "fab9fa0840eb13be1ae2ac3b",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "GoldenRace - Program",
+      "name": "collection-test-43",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1319,7 +1319,7 @@
     {
       "collectionId": "69b48d12a1c7fabdf1b24fc0",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Documentation",
+      "name": "collection-test-44",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1344,7 +1344,7 @@
     {
       "collectionId": "dbab29f32f51ce7358b2829d",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Client BetKing",
+      "name": "collection-test-45",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1384,7 +1384,7 @@
     {
       "collectionId": "d9dd63fa05394d5dc33a1add",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Backend Málaga",
+      "name": "collection-test-46",
       "publicSharing": "organization",
       "archived": false,
       "background": "solidGray",
@@ -1409,7 +1409,7 @@
     {
       "collectionId": "fd0f1d215ee5c103a02f0e64",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS gr-client-library",
+      "name": "collection-test-47",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1434,7 +1434,7 @@
     {
       "collectionId": "f82b7e665f7f901b45c0fc87",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "Certifications",
+      "name": "collection-test-48",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1454,7 +1454,7 @@
     {
       "collectionId": "e88acf1aee42d96bcbf27d7f",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "PM - SVQ",
+      "name": "collection-test-49",
       "publicSharing": "organization",
       "archived": true,
       "background": "purple",
@@ -1474,7 +1474,7 @@
     {
       "collectionId": "e9847438b267f7f2a63052b3",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Mobile v1",
+      "name": "collection-test-50",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
@@ -1509,7 +1509,7 @@
     {
       "collectionId": "80da02f06871954fabf5ce60",
       "organizationId": "4b90bc5348125e5242281e6d",
-      "name": "FS Logispin Desktop Client",
+      "name": "collection-test-51",
       "publicSharing": "organization",
       "archived": false,
       "background": "purple",
