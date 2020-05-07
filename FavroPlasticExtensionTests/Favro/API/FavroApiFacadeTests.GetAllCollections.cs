@@ -17,11 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using FavroPlasticExtension.Favro.API;
 using Moq;
 using NUnit.Framework;
 
-namespace FavroPlasticExtensionTests.Favro.API
+namespace FavroPlasticExtension.Favro.API
 {
     public partial class FavroApiFacadeTests
     {

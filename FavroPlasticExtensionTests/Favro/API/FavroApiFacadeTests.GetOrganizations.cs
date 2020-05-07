@@ -1,5 +1,5 @@
 ﻿//  Favro Plastic Extension
-//  Copyright(C) 2019  David Harillo Sánchez
+//  Copyright(C) 2020  David Harillo Sánchez
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published
@@ -17,11 +17,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
-using FavroPlasticExtension.Favro.API;
 using Moq;
 using NUnit.Framework;
 
-namespace FavroPlasticExtensionTests.Favro.API
+namespace FavroPlasticExtension.Favro.API
 {
     public partial class FavroApiFacadeTests
     {

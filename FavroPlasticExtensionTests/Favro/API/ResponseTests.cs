@@ -1,5 +1,5 @@
 ﻿//  Favro Plastic Extension
-//  Copyright(C) 2019  David Harillo Sánchez
+//  Copyright(C) 2020  David Harillo Sánchez
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published
@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
-using FavroPlasticExtension.Favro;
-using FavroPlasticExtension.Favro.API;
 using FavroPlasticExtensionTests.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -25,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace FavroPlasticExtensionTests.Favro.API
+namespace FavroPlasticExtension.Favro.API
 {
     [TestFixture]
     public class ResponseTests
