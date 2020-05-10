@@ -63,6 +63,7 @@
     <Compile Include="Favro\API\FavroApiFacadeTests.GetUser.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetOrganizations.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetAllCollections.cs" />
+    <Compile Include="Favro\API\FavroApiFacadeTest.GetCards.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

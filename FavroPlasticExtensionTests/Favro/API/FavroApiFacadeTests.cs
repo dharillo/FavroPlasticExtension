@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using FavroPlasticExtensionTests.Helpers;
+using FavroPlasticExtension.Helpers;
 using log4net;
 using Moq;
 using NUnit.Framework;

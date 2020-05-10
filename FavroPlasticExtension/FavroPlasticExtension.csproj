@@ -72,6 +72,7 @@
   <ItemGroup>
     <Folder Include="Favro\" />
     <Folder Include="Favro\API\" />
+    <Folder Include="Favro\Model\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
