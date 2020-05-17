@@ -63,7 +63,7 @@
     <Compile Include="Favro\API\FavroApiFacadeTests.GetUser.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetOrganizations.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetAllCollections.cs" />
-    <Compile Include="Favro\API\FavroApiFacadeTest.GetCards.cs" />
+    <Compile Include="Favro\API\FavroApiFacadeTests.GetAssignedCards.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -89,6 +89,10 @@
     <EmbeddedResource Include="Responses\organizations_page2.json" />
     <EmbeddedResource Include="Responses\organizations_page1.json" />
     <EmbeddedResource Include="Responses\collections_page1.json" />
+    <EmbeddedResource Include="Responses\assigned_cards_page1.json" />
+    <EmbeddedResource Include="Responses\assigned_cards_page0.json" />
+    <EmbeddedResource Include="Responses\card.json" />
+    <EmbeddedResource Include="Favro\API\FavroApiFacadeTests.GetCard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

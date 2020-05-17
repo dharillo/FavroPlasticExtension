@@ -82,7 +82,7 @@ namespace FavroPlasticExtension.Favro.API
             Assert.IsNotNull(collections);
             Assert.That(collections, Has.Count.EqualTo(51));
             Assert.AreEqual("3db52e216bc2a1661c6f98d0", collections[0].CollectionId);
-            Assert.AreEqual("_Aurora", collections[0].Name);
+            Assert.AreEqual("collection-test-1", collections[0].Name);
         }
 
         public IEnumerable<Response> GetAllCollectionsResponses()

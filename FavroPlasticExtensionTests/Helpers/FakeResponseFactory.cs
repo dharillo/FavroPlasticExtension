@@ -34,7 +34,7 @@ namespace FavroPlasticExtension.Helpers
         public FakeResponseFactory()
         {
             runningAssembly = Assembly.GetExecutingAssembly();
-            baseNamespace = "FavroPlasticExtensionTests";
+            baseNamespace = "FavroPlasticExtension";
             cache = new Dictionary<string, string>();
         }
 

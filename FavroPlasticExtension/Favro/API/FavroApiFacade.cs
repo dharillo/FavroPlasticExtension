@@ -101,7 +101,16 @@ namespace FavroPlasticExtension.Favro.API
 
         public List<Card> GetAssignedCards(bool onlyOpen = true)
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            var parameters = new NameValueCollection();
+            parameters.Add("todoList", "true");
+            parameters.Add("unique", "true");
+            var cards = GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving assigned cards");
+            if (onlyOpen)
+            {
+                cards = cards.Where(x => x.TodoListCompleted == false).ToList();
+            }
+            return cards;
         }
 
         internal void CreateComment(string comment, string cardCommonId)
@@ -111,12 +120,40 @@ namespace FavroPlasticExtension.Favro.API
 
         public Card GetCard(string commonId)
         {
-            throw new NotImplementedException("Method not implemented");
+            if (commonId == null)
+            {
+                throw new ArgumentNullException(nameof(commonId), "A card common identifier must be a non-empty string");
+            }
+            if (string.IsNullOrWhiteSpace(commonId))
+            {
+                throw new ArgumentException("A card common identifier must be a non-empty string", nameof(commonId));
+            }
+            NameValueCollection parameters = new NameValueCollection
+            {
+                { "cardCommonId", commonId }
+            };
+            return GetCard(parameters);
         }
 
         public Card GetCard(int sequentialId)
         {
-            throw new NotImplementedException("Method not implemented");
+            if (sequentialId < 0)
+            {
+                throw new ArgumentException("A card sequential identifier must be a positive integer", nameof(sequentialId));
+            }
+            NameValueCollection parameters = new NameValueCollection
+            {
+                { "cardSequentialId", sequentialId.ToString() }
+            };
+            return GetCard(parameters);
+        }
+
+        private Card GetCard(NameValueCollection parameters)
+        {
+            CheckOrganizationSelected();
+            parameters.Add("unique", "true");
+            return GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id").FirstOrDefault();
+
         }
 
         public Card CompleteCard(string cardCommonId)
