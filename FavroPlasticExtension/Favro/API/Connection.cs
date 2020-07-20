@@ -147,7 +147,7 @@ namespace FavroPlasticExtension.Favro.API
             }
             var endPointError = CheckEndpoint(url);
             Response response;
-            if (endPointError == null)
+            if (endPointError != null)
             {
                 response = CreateErrorResponse(endPointError);
             }
@@ -275,7 +275,7 @@ namespace FavroPlasticExtension.Favro.API
             Response response;
             var previousPage = previousPageResponse.GetPageNumber();
             var requestId = previousPageResponse.GetRequestId();
-            parameters.Add("name", (previousPage + 1).ToString());
+            parameters.Add("page", (previousPage + 1).ToString());
             parameters.Add("requestId", requestId);
             var query = BuildRequestUrl(url, parameters);
             var request = CreateRequest<object>(HttpMethod.Get, $"{API_URL}{query}", null);

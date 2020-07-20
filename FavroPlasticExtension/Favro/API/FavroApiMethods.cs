@@ -19,12 +19,15 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using log4net;
+using Newtonsoft.Json;
 
 namespace FavroPlasticExtension.Favro.API
 {
     internal class ApiFacade
     {
         private const string ENDPOINT_USERS = "/users";
+        private const string ENDPOINT_ORGANIZATIONS = "/organizations";
+        private const string ENDPOINT_CARDS = "/cards";
         private readonly IFavroConnection connection;
         private readonly ILog logger;
         private const NameValueCollection NO_PARAMS = null;
@@ -74,7 +77,15 @@ namespace FavroPlasticExtension.Favro.API
 
         public List<Organization> GetAllOrganizations()
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            var response = connection.Get($"{ENDPOINT_ORGANIZATIONS}", NO_PARAMS);
+            var organizations = GetEntries<Organization>(response);
+            while (response.HasMorePages())
+            {
+                response = connection.GetNextPage(ENDPOINT_ORGANIZATIONS, response, NO_PARAMS);
+                organizations.AddRange(GetEntries<Organization>(response));
+            }
+            return organizations;
         }
 
         public Organization GetOrganization(string organizationId)
@@ -99,7 +110,22 @@ namespace FavroPlasticExtension.Favro.API
 
         public List<Card> GetAssignedCards(bool onlyOpen = true)
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("unique", "true");
+            parameters.Add("archived", "false");
+            parameters.Add("todoList", "true");
+            
+
+            var response = connection.Get($"{ENDPOINT_CARDS}", parameters);
+            var cards = GetEntries<Card>(response);
+            while (response.HasMorePages())
+            {
+                response = connection.GetNextPage(ENDPOINT_CARDS, response, parameters);
+                cards.AddRange(GetEntries<Card>(response));
+            }
+
+            return cards;
         }
 
         internal void CreateComment(string comment, string cardCommonId)
@@ -129,7 +155,7 @@ namespace FavroPlasticExtension.Favro.API
 
         private List<TEntry> GetEntries<TEntry>(Response response)
         {
-            throw new NotImplementedException();
+            return JsonConvert.DeserializeObject<List<TEntry>>(response.GetEntitiesString());
         }
     }
 }

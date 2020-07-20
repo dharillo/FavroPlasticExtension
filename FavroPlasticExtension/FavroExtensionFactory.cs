@@ -31,6 +31,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             parameters.Add(GetUserParameter(storedConfiguration));
             parameters.Add(GetPasswordParameter(storedConfiguration));
             parameters.Add(GetOrganizationParameter(storedConfiguration));
+            parameters.Add(GetCollectionParameter(storedConfiguration));
             parameters.Add(GetBranchPrefixParameter(storedConfiguration));
             return new IssueTrackerConfiguration(workingMode, parameters);
         }
@@ -105,6 +106,12 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return CreateGlobalParameter(FavroExtension.KEY_ORGANIZATION, organization, IssueTrackerConfigurationParameterType.Text);
         }
 
+        private static IssueTrackerConfigurationParameter GetCollectionParameter(IssueTrackerConfiguration configuration)
+        {
+            string collection = GetValidParameterValue(configuration, FavroExtension.KEY_COLLECTION, "");
+            return CreateGlobalParameter(FavroExtension.KEY_COLLECTION, collection, IssueTrackerConfigurationParameterType.Text);
+        }
+
         private static IssueTrackerConfigurationParameter CreateGlobalParameter(string key, string value, IssueTrackerConfigurationParameterType type)
         {
             return new IssueTrackerConfigurationParameter
@@ -118,7 +125,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         private static IssueTrackerConfigurationParameter GetBranchPrefixParameter(IssueTrackerConfiguration configuration)
         {
-            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "[FCI-");
+            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "[GOL-");
             return CreateGlobalParameter(FavroExtension.KEY_BRANCH_PREFIX, prefix, IssueTrackerConfigurationParameterType.BranchPrefix);
         }
     }

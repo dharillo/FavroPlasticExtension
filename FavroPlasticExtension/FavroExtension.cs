@@ -30,6 +30,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         internal const string KEY_USER = "User";
         internal const string KEY_PASSWORD = "Password";
         internal const string KEY_ORGANIZATION = "Organization";
+        internal const string KEY_COLLECTION = "Collection";
         internal const string KEY_BRANCH_PREFIX = "Prefix";
         internal const string COMMENT_TEMPLATE = "Checkin repository: {0}<br />Checkin ID: {1}<br />Checkin GUID: {2}<br />Checkin comment:<p>{3}</p>";
 
@@ -57,11 +58,15 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public void Connect()
         {
             connection = CreateConnection(configuration);
-            var organization = configuration.GetValue(KEY_ORGANIZATION);
-            connection.OrganizationId = organization;
             apiMethods = new ApiFacade(connection, logger);
-            organizationInfo = apiMethods.GetOrganization(organization);
-            organizationShortName = GetOrganizationShortName();
+            try
+            {
+                organizationInfo = apiMethods.GetOrganization(connection.OrganizationId);
+                organizationShortName = GetOrganizationShortName();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public void Disconnect()
@@ -74,8 +79,15 @@ namespace Codice.Client.IssueTracker.FavroExtension
         {
             var testConnection = CreateConnection(configuration);
             var testMethods = new ApiFacade(testConnection, logger);
-            var userOrganizations = testMethods.GetAllOrganizations();
-            return userOrganizations != null && userOrganizations.Count != 0;
+            try
+            {
+                var userOrganizations = testMethods.GetAllOrganizations();
+                return userOrganizations != null && userOrganizations.Count != 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public void LogCheckinResult(PlasticChangeset changeset, List<PlasticTask> tasks)
@@ -164,8 +176,9 @@ namespace Codice.Client.IssueTracker.FavroExtension
         {
             var user = connectionConfiguration.GetValue(KEY_USER);
             var password = connectionConfiguration.GetValue(KEY_PASSWORD);
-
-            return new Connection(user, GetDecryptedPassword(password));
+            var connection = new Connection(user, GetDecryptedPassword(password));
+            connection.OrganizationId = connectionConfiguration.GetValue(KEY_ORGANIZATION);
+            return connection;
         }
 
         private string GetOrganizationShortName()
@@ -192,7 +205,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         private string GetCardIdFromBranchName(string branchName)
         {
             var prefix = GetPrefix();
-            var regex = new Regex($"{prefix}(/d+).*");
+            var regex = new Regex(Regex.Escape($"{prefix}(/d+).*"));
             var match = regex.Match(branchName);
             string cardId = null;
             if (match.Success)
