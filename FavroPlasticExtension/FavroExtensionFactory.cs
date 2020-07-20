@@ -125,7 +125,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         private static IssueTrackerConfigurationParameter GetBranchPrefixParameter(IssueTrackerConfiguration configuration)
         {
-            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "[GOL-");
+            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "GOL-");
             return CreateGlobalParameter(FavroExtension.KEY_BRANCH_PREFIX, prefix, IssueTrackerConfigurationParameterType.BranchPrefix);
         }
     }

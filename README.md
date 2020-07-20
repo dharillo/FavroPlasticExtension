@@ -24,7 +24,15 @@ Steps:
 3. Select the *Release* configuration
 4. Build the *FavroPlasticExtension* project
 5. Copy the *FavroPlasticExtension.dll* library to your Plastic SCM extensions folder. Usually located at *C:\Program Files\PlasticSCM5\client\extensions*. There you will need to create a new folder for this extension library named *favro* and copy the dll inside.
-6. Modify the customextensions.conf file adding the following line at the end ```Favro=FavroPlasticExtension.dll```
+6. Modify the customextensions.conf file adding the following line at the end ```Favro=extensions/favro/FavroPlasticExtension.dll```
+
+If you want to debug the plugin:
+
+1. Clone this repository into your local computer.
+2. Open the solution *FavroPlasticExtension.sln* as Administrator
+3. Select the *Debug* configuration
+4. Select the project *FavroPlasticExtension* as startup project
+5. Launch the Visual Studio debugger (F5), if your Plastic install directory is the default it will work without problems
 
 ## Plugin configuration
 
