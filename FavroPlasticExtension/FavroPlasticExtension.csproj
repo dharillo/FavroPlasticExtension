@@ -77,9 +77,6 @@
     <Compile Include="Favro\FavroAttachment.cs" />
     <Compile Include="Favro\CardComment.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
