@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Codice.Utils;
+using FavroPlasticExtension.Favro;
 using FavroPlasticExtension.Favro.API;
 using log4net;
 
@@ -30,7 +31,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         internal const string KEY_USER = "User";
         internal const string KEY_PASSWORD = "Password";
         internal const string KEY_ORGANIZATION = "Organization";
-        internal const string KEY_COLLECTION = "Collection";
+        internal const string KEY_WIDGET_ID = "widgetCommonId";
         internal const string KEY_BRANCH_PREFIX = "Prefix";
         internal const string COMMENT_TEMPLATE = "Checkin repository: {0}<br />Checkin ID: {1}<br />Checkin GUID: {2}<br />Checkin comment:<p>{3}</p>";
 
@@ -41,6 +42,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         private ApiFacade apiMethods;
         private Organization organizationInfo;
         private string organizationShortName;
+        private Dictionary<string, User> usersCache = new Dictionary<string, User>();
 
         internal FavroExtension(IssueTrackerConfiguration configuration, ILog logger)
         {
@@ -59,13 +61,12 @@ namespace Codice.Client.IssueTracker.FavroExtension
         {
             connection = CreateConnection(configuration);
             apiMethods = new ApiFacade(connection, logger);
-            try
+            organizationInfo = apiMethods.GetOrganization(connection.OrganizationId);
+            organizationShortName = GetOrganizationShortName();
+            var users = apiMethods.GetAllUsers();
+            foreach (var user in users)
             {
-                organizationInfo = apiMethods.GetOrganization(connection.OrganizationId);
-                organizationShortName = GetOrganizationShortName();
-            }
-            catch (Exception)
-            {
+                usersCache[user.UserId] = user;
             }
         }
 
@@ -81,8 +82,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             var testMethods = new ApiFacade(testConnection, logger);
             try
             {
-                var userOrganizations = testMethods.GetAllOrganizations();
-                return userOrganizations != null && userOrganizations.Count != 0;
+                return testMethods.GetOrganization(testConnection.OrganizationId) != null;
             }
             catch (Exception)
             {
@@ -152,13 +152,15 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public List<PlasticTask> GetPendingTasks()
         {
-            return GetPendingTasks(connection.UserEmail);
+            var pendingCards = apiMethods.GetAssignedCards(GetWidgetCommonId());
+            // TODO: filtrar tareas completadas
+            return pendingCards.Select(_ => ConvertToTask(_)).ToList();
         }
 
         public List<PlasticTask> GetPendingTasks(string assignee)
         {
-            var pendingCards = apiMethods.GetAssignedCards();
-            return pendingCards.Select(_ => ConvertToTask(_)).ToList();
+            var tasks = GetPendingTasks();
+            return tasks.Where(task => task.Owner == assignee).ToList();
         }
 
         public void MarkTaskAsOpen(string taskId, string assignee)
@@ -220,6 +222,11 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return configuration.GetValue(KEY_BRANCH_PREFIX);
         }
 
+        private string GetWidgetCommonId()
+        {
+            return configuration.GetValue(KEY_WIDGET_ID);
+        }
+
         private PlasticTask GetTaskFromCardId(string cardId)
         {
             PlasticTask result = null;
@@ -236,13 +243,23 @@ namespace Codice.Client.IssueTracker.FavroExtension
             PlasticTask result = null;
             if (card != null)
             {
+                string userMail = "";
+                // Get first user assigned who has not completed the task
+                foreach (var assign in card.Assignments)
+                {
+                    if (assign.Completed == false)
+                    {
+                        userMail = usersCache[assign.UserId].Email;
+                        break;
+                    }
+                }
                 result = new PlasticTask
                 {
                     Description = GetDescription(card),
                     Title = card.Name,
-                    Owner = connection.UserEmail,
+                    Owner = userMail,
                     Id = card.SequentialId.ToString(),
-                    Status = "unknown"
+                    Status = "unknown"      // TODO: 
                 };
             }
             return result;

@@ -90,7 +90,15 @@ namespace FavroPlasticExtension.Favro.API
 
         public Organization GetOrganization(string organizationId)
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("organizationId", organizationId);
+            var response = connection.Get($"{ENDPOINT_ORGANIZATIONS}", parameters);
+            var organizations = GetEntries<Organization>(response);
+            if (organizations != null && organizations.Count > 0)
+                return organizations[0];
+            else
+                return null;
         }
 
         public List<Collection> GetAllCollections()
@@ -108,14 +116,16 @@ namespace FavroPlasticExtension.Favro.API
             throw new NotImplementedException("Method not implemented");
         }
 
-        public List<Card> GetAssignedCards(bool onlyOpen = true)
+        public List<Card> GetAssignedCards(string widgetCommonId)
         {
             CheckOrganizationSelected();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("unique", "true");
             parameters.Add("archived", "false");
-            parameters.Add("todoList", "true");
-            
+            if (widgetCommonId == "")
+                parameters.Add("todoList", "true");
+            else
+                parameters.Add("widgetCommonId", widgetCommonId);
 
             var response = connection.Get($"{ENDPOINT_CARDS}", parameters);
             var cards = GetEntries<Card>(response);
@@ -125,7 +135,13 @@ namespace FavroPlasticExtension.Favro.API
                 cards.AddRange(GetEntries<Card>(response));
             }
 
-            return cards;
+            if (cards.Count == 0 && widgetCommonId != "")
+                return GetAssignedCards("");
+            else
+            {
+                // TODO: filtrar por ColumnId == "TODO"
+                return cards;
+            }
         }
 
         internal void CreateComment(string comment, string cardCommonId)

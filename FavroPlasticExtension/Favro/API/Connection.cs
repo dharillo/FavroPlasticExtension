@@ -275,6 +275,9 @@ namespace FavroPlasticExtension.Favro.API
             Response response;
             var previousPage = previousPageResponse.GetPageNumber();
             var requestId = previousPageResponse.GetRequestId();
+            if (parameters == null)
+                parameters = new NameValueCollection();
+
             parameters.Add("page", (previousPage + 1).ToString());
             parameters.Add("requestId", requestId);
             var query = BuildRequestUrl(url, parameters);
