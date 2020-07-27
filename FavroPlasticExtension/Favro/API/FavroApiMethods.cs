@@ -27,6 +27,7 @@ namespace FavroPlasticExtension.Favro.API
     {
         private const string ENDPOINT_USERS = "/users";
         private const string ENDPOINT_ORGANIZATIONS = "/organizations";
+        private const string ENDPOINT_COLUMNS = "/columns";
         private const string ENDPOINT_CARDS = "/cards";
         private readonly IFavroConnection connection;
         private readonly ILog logger;
@@ -116,16 +117,27 @@ namespace FavroPlasticExtension.Favro.API
             throw new NotImplementedException("Method not implemented");
         }
 
-        public List<Card> GetAssignedCards(string widgetCommonId)
+        public List<Column> GetAllColumns(string widgetCommonId)
+        {
+            CheckOrganizationSelected();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("widgetCommonId", widgetCommonId);
+            var response = connection.Get($"{ENDPOINT_COLUMNS}", parameters);
+            return GetEntries<Column>(response);
+        }
+
+        public List<Card> GetAssignedCards(string collectionId, string widgetCommonId)
         {
             CheckOrganizationSelected();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("unique", "true");
             parameters.Add("archived", "false");
-            if (widgetCommonId == "")
+            if (widgetCommonId == "" && collectionId == "")
                 parameters.Add("todoList", "true");
-            else
+            else if (widgetCommonId != "")
                 parameters.Add("widgetCommonId", widgetCommonId);
+            else if (collectionId != "")
+                parameters.Add("collectionId", collectionId);
 
             var response = connection.Get($"{ENDPOINT_CARDS}", parameters);
             var cards = GetEntries<Card>(response);
@@ -135,13 +147,10 @@ namespace FavroPlasticExtension.Favro.API
                 cards.AddRange(GetEntries<Card>(response));
             }
 
-            if (cards.Count == 0 && widgetCommonId != "")
-                return GetAssignedCards("");
+            if (cards.Count == 0 && (collectionId != "" || widgetCommonId != ""))
+                return GetAssignedCards("", "");
             else
-            {
-                // TODO: filtrar por ColumnId == "TODO"
-                return cards;
-            }
+                return cards.Where(card => card.Assignments.Count > 0 && card.ColumnId != null && card.ColumnId != "").ToList();
         }
 
         internal void CreateComment(string comment, string cardCommonId)
@@ -156,6 +165,7 @@ namespace FavroPlasticExtension.Favro.API
 
         public Card GetCard(int sequentialId)
         {
+            // "cardSequentialId"
             throw new NotImplementedException("Method not implemented");
         }
 
