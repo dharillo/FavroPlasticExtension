@@ -165,8 +165,21 @@ namespace FavroPlasticExtension.Favro.API
 
         public Card GetCard(int sequentialId)
         {
-            // "cardSequentialId"
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("cardSequentialId", $"{sequentialId}");
+            var response = connection.Get($"{ENDPOINT_CARDS}", parameters);
+            var cards = GetEntries<Card>(response);
+            if (cards != null && cards.Count > 0)
+            {
+                var cardWithColumn = cards.Find(card => card.ColumnId != null);
+                if (cardWithColumn != null)
+                    return cardWithColumn;
+                else
+                    return cards[0];
+            }
+            else
+                return null;
         }
 
         public Card CompleteCard(string cardCommonId)
@@ -175,6 +188,11 @@ namespace FavroPlasticExtension.Favro.API
         }
 
         public CardComment AddCommentToCard(string cardCommonId, string comment)
+        {
+            throw new NotImplementedException("Method not implemented");
+        }
+
+        public void MoveCardToColumn(Card card, Column column)
         {
             throw new NotImplementedException("Method not implemented");
         }

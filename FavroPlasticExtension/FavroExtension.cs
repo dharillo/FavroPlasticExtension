@@ -79,8 +79,19 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         private Column FindColumn(Card card)
         {
-            CheckExistsColumnsCache(card.WidgetCommonId);
-            return columnsCache[card.WidgetCommonId].Find(column => column.ColumnId == card.ColumnId);
+            if (card.WidgetCommonId != null)
+            {
+                CheckExistsColumnsCache(card.WidgetCommonId);
+                return columnsCache[card.WidgetCommonId].Find(column => column.ColumnId == card.ColumnId);
+            }
+            else
+                return null;
+        }
+
+        private Column FindColumn(string widgetCommonId, string name)
+        {
+            CheckExistsColumnsCache(widgetCommonId);
+            return columnsCache[widgetCommonId].Find(column => column.Name == name);
         }
 
         public void Connect()
@@ -132,8 +143,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public PlasticTask GetTaskForBranch(string fullBranchName)
         {
             var branchName = GetBranchName(fullBranchName);
-            var cardId = GetCardIdFromBranchName(branchName);
-            return GetTaskFromCardId(cardId);
+            var cardId = GetCardSequentialIdFromBranchName(branchName);
+            return GetTaskFromCardSequentialId(cardId);
         }
 
         public Dictionary<string, PlasticTask> GetTasksForBranches(List<string> fullBranchNames)
@@ -152,7 +163,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public void OpenTaskExternally(string taskId)
         {
-            Process.Start(GetExternalLink(taskId));
+            Process.Start(GetExternalLink(GetCardSequentialIdFromTaskId(taskId)));
         }
 
         public List<PlasticTask> LoadTasks(List<string> taskIds)
@@ -160,7 +171,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             var result = new List<PlasticTask>();
             foreach (var taskId in taskIds)
             {
-                var task = GetTaskFromCardId(taskId);
+                var task = GetTaskFromCardSequentialId(GetCardSequentialIdFromTaskId(taskId));
                 if (task != null)
                 {
                     result.Add(task);
@@ -183,7 +194,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public void MarkTaskAsOpen(string taskId, string assignee)
         {
-            throw new NotImplementedException();
+            var card = GetCardFromSequentialId(GetCardSequentialIdFromTaskId(taskId));
+            apiMethods.MoveCardToColumn(card, FindColumn(card.WidgetCommonId, "Doing"));
         }
         #endregion
 
@@ -230,10 +242,24 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return branchName;
         }
 
-        private string GetCardIdFromBranchName(string branchName)
+        private string GetCardSequentialIdFromTaskId(string taskId)
         {
-            var prefix = GetPrefix();
-            var regex = new Regex(Regex.Escape($"{prefix}(/d+).*"));
+            var suffix = Regex.Escape(GetSuffix());
+            var regex = new Regex($"(\\d+){suffix}");
+            var match = regex.Match(taskId);
+            string cardId = null;
+            if (match.Success)
+            {
+                cardId = match.Groups[1].Value;
+            }
+            return cardId;
+        }
+
+        private string GetCardSequentialIdFromBranchName(string branchName)
+        {
+            var prefix = Regex.Escape(GetPrefix());
+            var suffix = Regex.Escape(GetSuffix());
+            var regex = new Regex($"{prefix}(\\d+){suffix}");
             var match = regex.Match(branchName);
             string cardId = null;
             if (match.Success)
@@ -263,15 +289,21 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return configuration.GetValue(KEY_WIDGET_ID);
         }
 
-        private PlasticTask GetTaskFromCardId(string cardId)
+        private Card GetCardFromSequentialId(string cardId)
         {
-            PlasticTask result = null;
             if (!string.IsNullOrEmpty(cardId) && int.TryParse(cardId, out int cardSequentialId))
-            {
-                var card = apiMethods.GetCard(cardSequentialId);
-                result = ConvertToTask(card);
-            }
-            return result;
+                return apiMethods.GetCard(cardSequentialId);
+            else
+                return null;
+        }
+
+        private PlasticTask GetTaskFromCardSequentialId(string cardId)
+        {
+            var card = GetCardFromSequentialId(cardId);
+            if (card != null)
+                return ConvertToTask(card);
+            else
+                return null;
         }
 
         private PlasticTask ConvertToTask(Card card)
