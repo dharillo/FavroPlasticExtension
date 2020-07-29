@@ -31,9 +31,15 @@ namespace Codice.Client.IssueTracker.FavroExtension
             parameters.Add(GetUserParameter(storedConfiguration));
             parameters.Add(GetPasswordParameter(storedConfiguration));
             parameters.Add(GetOrganizationParameter(storedConfiguration));
+
+            parameters.Add(new IssueTrackerConfigurationParameter("WorkflowInfoSeparator", "Workflow configuration:", IssueTrackerConfigurationParameterType.Label, false));
+            parameters.Add(GetTODOColumnNameParameter(storedConfiguration));
+            parameters.Add(GetDoingColumnNameParameter(storedConfiguration));
+
             parameters.Add(new IssueTrackerConfigurationParameter("FilterInfoSeparator", "Filters Favro Cards by:", IssueTrackerConfigurationParameterType.Label, false));
             parameters.Add(GetCollectionIdParameter(storedConfiguration));
             parameters.Add(GetWidgetCommonIdParameter(storedConfiguration));
+
             parameters.Add(GetBranchPrefixParameter(storedConfiguration));
             parameters.Add(GetBranchSuffixParameter(storedConfiguration));
             return new IssueTrackerConfiguration(workingMode, parameters);
@@ -107,6 +113,18 @@ namespace Codice.Client.IssueTracker.FavroExtension
         {
             string organization = GetValidParameterValue(configuration, FavroExtension.KEY_ORGANIZATION, "");
             return CreateGlobalParameter(FavroExtension.KEY_ORGANIZATION, organization, IssueTrackerConfigurationParameterType.Text);
+        }
+
+        private static IssueTrackerConfigurationParameter GetTODOColumnNameParameter(IssueTrackerConfiguration configuration)
+        {
+            string todoColumnName = GetValidParameterValue(configuration, FavroExtension.KEY_TODO_COLUMN, "TODO");
+            return CreateGlobalParameter(FavroExtension.KEY_TODO_COLUMN, todoColumnName, IssueTrackerConfigurationParameterType.Text);
+        }
+
+        private static IssueTrackerConfigurationParameter GetDoingColumnNameParameter(IssueTrackerConfiguration configuration)
+        {
+            string doingColumnName = GetValidParameterValue(configuration, FavroExtension.KEY_DOING_COLUMN, "Doing");
+            return CreateGlobalParameter(FavroExtension.KEY_DOING_COLUMN, doingColumnName, IssueTrackerConfigurationParameterType.Text);
         }
 
         private static IssueTrackerConfigurationParameter GetCollectionIdParameter(IssueTrackerConfiguration configuration)

@@ -31,6 +31,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
         internal const string KEY_USER = "User";
         internal const string KEY_PASSWORD = "Password";
         internal const string KEY_ORGANIZATION = "OrganizationId";
+        internal const string KEY_TODO_COLUMN = "TODO column name";
+        internal const string KEY_DOING_COLUMN = "Doing column name";
         internal const string KEY_COLLECTION_ID = "CollectionId";
         internal const string KEY_WIDGET_ID = "WidgetCommonId";
         internal const string KEY_BRANCH_PREFIX = "Prefix";
@@ -183,8 +185,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public List<PlasticTask> GetPendingTasks()
         {
             var pendingCards = apiMethods.GetAssignedCards(GetCollectionId(), GetWidgetCommonId());
-            // TODO: hacer configurable el nombre de la columna
-            return pendingCards.Select(_ => ConvertToTask(_)).Where(task => task.Status == "TODO").ToList();
+            var todoColumnName = configuration.GetValue(KEY_TODO_COLUMN);
+            return pendingCards.Select(_ => ConvertToTask(_)).Where(task => task.Status == todoColumnName).ToList();
         }
 
         public List<PlasticTask> GetPendingTasks(string assignee)
@@ -195,10 +197,11 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public void MarkTaskAsOpen(string taskId, string assignee)
         {
+            // TODO: podria ser interesante asignar usuario a la tarjeta en caso de que no lo este previamente
             var cardSequentialId = GetCardSequentialIdFromTaskId(taskId);
             var card = GetCardFromSequentialId(cardSequentialId);
-            // TODO: hacer configurable el nombre de la columna
-            apiMethods.MoveCardToColumn(card, FindColumn(card.WidgetCommonId, "Doing"));
+            var doingColumnName = configuration.GetValue(KEY_DOING_COLUMN);
+            apiMethods.MoveCardToColumn(card, FindColumn(card.WidgetCommonId, doingColumnName));
         }
         #endregion
 
