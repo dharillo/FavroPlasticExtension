@@ -35,7 +35,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         internal const string KEY_WIDGET_ID = "WidgetCommonId";
         internal const string KEY_BRANCH_PREFIX = "Prefix";
         internal const string KEY_BRANCH_SUFFIX = "Suffix";
-        internal const string COMMENT_TEMPLATE = "Checkin repository: {0}<br />Checkin ID: {1}<br />Checkin GUID: {2}<br />Checkin comment:<p>{3}</p>";
+        internal const string COMMENT_TEMPLATE = "repository: {0}\nCheckin ID: {1}\nGUID: {2}\n\n{3}";
 
         private const string EXTENSION_NAME = "Favro extension";
         private readonly IssueTrackerConfiguration configuration;
@@ -125,7 +125,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             string comment = CreateComment(changeset);
             foreach (var task in tasks)
             {
-                var card = apiMethods.GetCard(task.Id);
+                var card = GetCardFromSequentialId(GetCardSequentialIdFromTaskId(task.Id));
                 apiMethods.CreateComment(comment, card.CardCommonId);
             }
         }
@@ -183,6 +183,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public List<PlasticTask> GetPendingTasks()
         {
             var pendingCards = apiMethods.GetAssignedCards(GetCollectionId(), GetWidgetCommonId());
+            // TODO: hacer configurable el nombre de la columna
             return pendingCards.Select(_ => ConvertToTask(_)).Where(task => task.Status == "TODO").ToList();
         }
 
@@ -194,7 +195,9 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public void MarkTaskAsOpen(string taskId, string assignee)
         {
-            var card = GetCardFromSequentialId(GetCardSequentialIdFromTaskId(taskId));
+            var cardSequentialId = GetCardSequentialIdFromTaskId(taskId);
+            var card = GetCardFromSequentialId(cardSequentialId);
+            // TODO: hacer configurable el nombre de la columna
             apiMethods.MoveCardToColumn(card, FindColumn(card.WidgetCommonId, "Doing"));
         }
         #endregion

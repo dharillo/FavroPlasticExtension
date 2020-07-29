@@ -29,6 +29,7 @@ namespace FavroPlasticExtension.Favro.API
         private const string ENDPOINT_ORGANIZATIONS = "/organizations";
         private const string ENDPOINT_COLUMNS = "/columns";
         private const string ENDPOINT_CARDS = "/cards";
+        private const string ENDPOINT_COMMENTS = "/comments"; 
         private readonly IFavroConnection connection;
         private readonly ILog logger;
         private const NameValueCollection NO_PARAMS = null;
@@ -155,21 +156,22 @@ namespace FavroPlasticExtension.Favro.API
 
         internal void CreateComment(string comment, string cardCommonId)
         {
-            throw new NotImplementedException();
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("cardCommonId", cardCommonId);
+            parameters.Add("comment", comment);
+            connection.Post($"{ENDPOINT_COMMENTS}", parameters);
         }
 
-        public Card GetCard(string commonId)
-        {
-            throw new NotImplementedException("Method not implemented");
-        }
-
-        public Card GetCard(int sequentialId)
+        private Response GetCardResponse(int sequentialId)
         {
             CheckOrganizationSelected();
             NameValueCollection parameters = new NameValueCollection();
             parameters.Add("cardSequentialId", $"{sequentialId}");
-            var response = connection.Get($"{ENDPOINT_CARDS}", parameters);
-            var cards = GetEntries<Card>(response);
+            return connection.Get($"{ENDPOINT_CARDS}", parameters);
+        }
+
+        private Card GetFirstCardWithColumn(List<Card> cards)
+        {
             if (cards != null && cards.Count > 0)
             {
                 var cardWithColumn = cards.Find(card => card.ColumnId != null);
@@ -182,19 +184,24 @@ namespace FavroPlasticExtension.Favro.API
                 return null;
         }
 
-        public Card CompleteCard(string cardCommonId)
+        public Card GetCard(int sequentialId)
         {
-            throw new NotImplementedException("Method not implemented");
+            var response = GetCardResponse(sequentialId);
+            var cards = GetEntries<Card>(response);
+            return GetFirstCardWithColumn(cards);
         }
 
-        public CardComment AddCommentToCard(string cardCommonId, string comment)
+        public Card CompleteCard(string cardCommonId)
         {
             throw new NotImplementedException("Method not implemented");
         }
 
         public void MoveCardToColumn(Card card, Column column)
         {
-            throw new NotImplementedException("Method not implemented");
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("widgetCommonId", card.WidgetCommonId);
+            parameters.Add("columnId", column.ColumnId);
+            connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
         }
 
         private List<TEntry> GetEntries<TEntry>(Response response)
