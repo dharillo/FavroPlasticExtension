@@ -30,18 +30,18 @@ namespace Codice.Client.IssueTracker.FavroExtension
             var parameters = new List<IssueTrackerConfigurationParameter>();
             parameters.Add(GetUserParameter(storedConfiguration));
             parameters.Add(GetPasswordParameter(storedConfiguration));
-            parameters.Add(GetOrganizationParameter(storedConfiguration));
 
             parameters.Add(new IssueTrackerConfigurationParameter("WorkflowInfoSeparator", "Workflow configuration:", IssueTrackerConfigurationParameterType.Label, false));
+            parameters.Add(GetBranchPrefixParameter(storedConfiguration));
+            parameters.Add(GetBranchSuffixParameter(storedConfiguration));
             parameters.Add(GetTODOColumnNameParameter(storedConfiguration));
             parameters.Add(GetDoingColumnNameParameter(storedConfiguration));
 
             parameters.Add(new IssueTrackerConfigurationParameter("FilterInfoSeparator", "Filters Favro Cards by:", IssueTrackerConfigurationParameterType.Label, false));
+            parameters.Add(GetOrganizationParameter(storedConfiguration));
             parameters.Add(GetCollectionIdParameter(storedConfiguration));
             parameters.Add(GetWidgetCommonIdParameter(storedConfiguration));
 
-            parameters.Add(GetBranchPrefixParameter(storedConfiguration));
-            parameters.Add(GetBranchSuffixParameter(storedConfiguration));
             return new IssueTrackerConfiguration(workingMode, parameters);
         }
 

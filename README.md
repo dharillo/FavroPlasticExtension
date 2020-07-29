@@ -44,6 +44,8 @@ The parameters that you will need to configure are:
 - **Password**: Your Favro password or API Key
 - **Prefix**: Prefix used to build the name of the branches
 - **Suffix**: Suffix used to build the name of the branches
+- **TODO column name**: setup workflow of tasks specifying the name of the TODO column in Favro boards (pending tasks)
+- **Doing column name**: setup workflow of tasks specifying the name of the Doing column in Favro boards (on going tasks)
 - **Organization**: The hash identifier of your organization in the Favro page. You can know this ID easly by looking at the Favro URL once logged in. The URL will be something similar to: ```https://favro.com/organization/<organization_id>/<collection_id>```. The *organization_id* part is the one needed.
 - **CollectionId**: The identifier of a Favro Collection, used to filter cards for a specific project. You can know this ID easly by looking at the Favro URL once logged in. The URL will be something similar to: ```https://favro.com/organization/<organization_id>/<collection_id>```. The *collection_id* part is the one needed.
 - **WidgetCommonId**: The identifier of a Favro Widget (a Board or a Baglog), used to filter cards for a specific project even more. You can know this ID from the Board/Backlog options menu "(...)" -> "Link to this board/backlog". The URL will be something similar to: ```https://favro.com/widget/<organization_id>/<widget_common_id>```. The *widget_common_id* part is the one needed.
