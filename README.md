@@ -9,6 +9,7 @@ This project is still under development. Some functionalities may not work as ex
 ## Installation
 
 There are two options to install the plugin in your local client. You can build the plugin library from the source code or you can download an already built library from the [distribution](distribution) folder.
+You also need Microsoft .NET Framework 4.7 runtime installed in your machine.
 
 ### Build from source
 
@@ -30,6 +31,7 @@ If you want to debug the plugin:
 
 1. Clone this repository into your local computer.
 2. Open the solution *FavroPlasticExtension.sln* as Administrator
+3. Open the project *FavroPlasticExtension* properties page and go to Debug tab to set the "Start external program:" option to the path of the plastic client executable (usually *C:\Program Files\PlasticSCM5\client\plastic.exe*)
 3. Select the *Debug* configuration
 4. Select the project *FavroPlasticExtension* as startup project
 5. Launch the Visual Studio debugger (F5), if your Plastic install directory is the default (*C:\Program Files\PlasticSCM5*) it will work without problems
