@@ -186,7 +186,9 @@ namespace FavroPlasticExtension.Favro.API
             {
                 var cardWithColumn = cards.Find(card => card.ColumnId != null);
                 if (cardWithColumn != null)
+               {
                     return cardWithColumn;
+               }
                 else
                     return cards[0];
             }
