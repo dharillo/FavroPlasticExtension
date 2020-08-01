@@ -64,6 +64,7 @@
     <Compile Include="Favro\API\FavroApiFacadeTests.GetOrganizations.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetAllCollections.cs" />
     <Compile Include="Favro\API\FavroApiFacadeTests.GetAssignedCards.cs" />
+    <Compile Include="Favro\API\FavroApiFacadeTests.AddCommentToCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

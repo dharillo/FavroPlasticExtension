@@ -43,8 +43,6 @@ namespace FavroPlasticExtension.Favro.API
         [TestCase(Category = CATEGORY_GET_CARD)]
         public void GetCard_SequentialId_OrganizationIdNotSet_ShouldThrow()
         {
-            // Arrange
-            organization = string.Empty;
             // Assert
             var exception = Assert.Throws<InvalidOperationException>(() => sut.GetCard(CARD_SEQUENTIAL_ID));
             Assert.AreEqual("An organization ID must be selected before retrieving information from Favro", exception.Message);
@@ -54,8 +52,6 @@ namespace FavroPlasticExtension.Favro.API
         [TestCase(Category = CATEGORY_GET_CARD)]
         public void GetCard_CommonId_NullId_ShouldThrow()
         {
-            // Arrange
-            organization = string.Empty;
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(() => sut.GetCard(null));
             Assert.That(exception, Has.Message.StartsWith("A card common identifier must be a non-empty string"));
@@ -69,8 +65,6 @@ namespace FavroPlasticExtension.Favro.API
         [TestCase("\n", Category = CATEGORY_GET_CARD)]
         public void GetCard_CommonId_InvalidId_ShouldThrow(string _invalidId)
         {
-            // Arrange
-            organization = string.Empty;
             // Assert
             var exception = Assert.Throws<ArgumentException>(() => sut.GetCard(_invalidId));
             Assert.That(exception, Has.Message.StartsWith("A card common identifier must be a non-empty string"));
@@ -82,8 +76,6 @@ namespace FavroPlasticExtension.Favro.API
         [TestCase(-1, Category = CATEGORY_GET_CARD)]
         public void GetCard_SequentialId_InvalidId_ShouldThrow(int _invalidId)
         {
-            // Arrange
-            organization = string.Empty;
             // Assert
             var exception = Assert.Throws<ArgumentException>(() => sut.GetCard(_invalidId));
             Assert.That(exception, Has.Message.StartsWith("A card sequential identifier must be a positive integer"));
