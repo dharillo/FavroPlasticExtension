@@ -134,7 +134,9 @@ namespace FavroPlasticExtension.Favro.API
             parameters.Add("unique", "true");
             parameters.Add("archived", "false");
             if (widgetCommonId == "" && collectionId == "")
+            {
                 parameters.Add("todoList", "true");
+            }
             else if (widgetCommonId != "")
                 parameters.Add("widgetCommonId", widgetCommonId);
             else if (collectionId != "")
