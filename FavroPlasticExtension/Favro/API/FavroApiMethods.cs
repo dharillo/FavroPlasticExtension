@@ -190,7 +190,9 @@ namespace FavroPlasticExtension.Favro.API
                     return cardWithColumn;
                }
                 else
+               {
                     return cards[0];
+               }
             }
             else
                 return null;
