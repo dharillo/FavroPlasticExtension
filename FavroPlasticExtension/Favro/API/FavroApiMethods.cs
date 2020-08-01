@@ -138,7 +138,9 @@ namespace FavroPlasticExtension.Favro.API
                 parameters.Add("todoList", "true");
             }
             else if (widgetCommonId != "")
+            {
                 parameters.Add("widgetCommonId", widgetCommonId);
+            }
             else if (collectionId != "")
                 parameters.Add("collectionId", collectionId);
 
