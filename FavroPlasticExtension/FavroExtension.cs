@@ -69,7 +69,9 @@ namespace Codice.Client.IssueTracker.FavroExtension
                 usersCache = new Dictionary<string, User>();
                 var users = apiMethods.GetAllUsers();
                 foreach (var user in users)
+                {
                     usersCache[user.UserId] = user;
+                }
             }
         }
 
