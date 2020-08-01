@@ -78,7 +78,9 @@ namespace Codice.Client.IssueTracker.FavroExtension
         private void CheckExistsColumnsCache(string widgetCommonId)
         {
             if (!columnsCache.ContainsKey(widgetCommonId))
+            {
                 columnsCache[widgetCommonId] = apiMethods.GetAllColumns(widgetCommonId);
+            }
         }
 
         private Column FindColumn(Card card)
