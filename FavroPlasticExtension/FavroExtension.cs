@@ -31,7 +31,6 @@ namespace Codice.Client.IssueTracker.FavroExtension
         internal const string KEY_USER = "User";
         internal const string KEY_PASSWORD = "Password";
         internal const string KEY_ORGANIZATION = "OrganizationId";
-        internal const string KEY_TODO_COLUMN = "TODO column name";
         internal const string KEY_DOING_COLUMN = "Doing column name";
         internal const string KEY_COLLECTION_ID = "CollectionId";
         internal const string KEY_WIDGET_ID = "WidgetCommonId";
@@ -191,8 +190,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public List<PlasticTask> GetPendingTasks()
         {
             var pendingCards = apiMethods.GetAssignedCards(GetCollectionId(), GetWidgetCommonId());
-            var todoColumnName = configuration.GetValue(KEY_TODO_COLUMN);
-            return pendingCards.Select(_ => ConvertToTask(_)).Where(task => task.Status == todoColumnName).ToList();
+            return pendingCards.Where(card => card.Assignments.Find(assignee => !assignee.Completed) != null).Select(_ => ConvertToTask(_)).Where(task => task.CanBeLinked).ToList();
         }
 
         public List<PlasticTask> GetPendingTasks(string assignee)
@@ -325,28 +323,29 @@ namespace Codice.Client.IssueTracker.FavroExtension
             PlasticTask result = null;
             if (card != null)
             {
-                string userMail = "";
-                string status = "unknown";
-                // Get first user assigned who has not completed the task
-                foreach (var assign in card.Assignments)
+                CheckExistsUsersCache();
+                // If the plastic user is in the asignments list, assume he is the owner
+                var currentUserMail = configuration.GetValue(KEY_USER);
+                var currentUser = card.Assignments.Find(assignee => usersCache[assignee.UserId].Email == currentUserMail);
+                CardAssignment firstPending = null;
+                if (currentUser == null)
                 {
-                    if (assign.Completed == false)
-                    {
-                        CheckExistsUsersCache();
-                        userMail = usersCache[assign.UserId].Email;
-                        var column = FindColumn(card);
-                        if (column != null)
-                            status = column.Name;
-                        break;
-                    }
+                    firstPending = card.Assignments.Find(assignee => !assignee.Completed);
+                    if (firstPending == null && card.Assignments.Count > 0)
+                        firstPending = card.Assignments[0];
                 }
+                var owner = currentUser != null ? currentUser : firstPending;
+                string userMail = firstPending != null ? usersCache[owner.UserId].Email : "unknown";
+                var column = FindColumn(card);
+                string status = column != null ? column.Name : "unknown";
                 result = new PlasticTask
                 {
                     Description = GetDescription(card),
                     Title = card.Name,
                     Owner = userMail,
                     Id = card.SequentialId.ToString() + GetSuffix(),
-                    Status = status
+                    Status = status,
+                    CanBeLinked = owner != null && !owner.Completed
                 };
             }
             return result;

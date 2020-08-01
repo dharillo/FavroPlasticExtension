@@ -34,7 +34,6 @@ namespace Codice.Client.IssueTracker.FavroExtension
             parameters.Add(new IssueTrackerConfigurationParameter("WorkflowInfoSeparator", "Workflow configuration:", IssueTrackerConfigurationParameterType.Label, false));
             parameters.Add(GetBranchPrefixParameter(storedConfiguration));
             parameters.Add(GetBranchSuffixParameter(storedConfiguration));
-            parameters.Add(GetTODOColumnNameParameter(storedConfiguration));
             parameters.Add(GetDoingColumnNameParameter(storedConfiguration));
 
             parameters.Add(new IssueTrackerConfigurationParameter("FilterInfoSeparator", "Filters Favro Cards by:", IssueTrackerConfigurationParameterType.Label, false));
@@ -113,12 +112,6 @@ namespace Codice.Client.IssueTracker.FavroExtension
         {
             string organization = GetValidParameterValue(configuration, FavroExtension.KEY_ORGANIZATION, "");
             return CreateGlobalParameter(FavroExtension.KEY_ORGANIZATION, organization, IssueTrackerConfigurationParameterType.Text);
-        }
-
-        private static IssueTrackerConfigurationParameter GetTODOColumnNameParameter(IssueTrackerConfiguration configuration)
-        {
-            string todoColumnName = GetValidParameterValue(configuration, FavroExtension.KEY_TODO_COLUMN, "TODO");
-            return CreateGlobalParameter(FavroExtension.KEY_TODO_COLUMN, todoColumnName, IssueTrackerConfigurationParameterType.Text);
         }
 
         private static IssueTrackerConfigurationParameter GetDoingColumnNameParameter(IssueTrackerConfiguration configuration)

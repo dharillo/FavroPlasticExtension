@@ -160,7 +160,7 @@ namespace FavroPlasticExtension.Favro.API
             }
             else
             {
-                return cards.Where(card => card.Assignments.Count > 0 && card.ColumnId != null && card.ColumnId != "").ToList();
+                return cards.Where(card => card.Assignments.Count > 0 && !string.IsNullOrEmpty(card.ColumnId)).ToList();
             }
         }
 
