@@ -30,15 +30,19 @@
     <Reference Include="System" />
     <Reference Include="issuetrackerinterface">
       <HintPath>..\lib\issuetrackerinterface.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\lib\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="utils">
       <HintPath>..\lib\utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
   </ItemGroup>
