@@ -142,7 +142,9 @@ namespace FavroPlasticExtension.Favro.API
                 parameters.Add("widgetCommonId", widgetCommonId);
             }
             else if (collectionId != "")
+            {
                 parameters.Add("collectionId", collectionId);
+            }
 
             var response = connection.Get($"{ENDPOINT_CARDS}", parameters);
             var cards = GetEntries<Card>(response);
