@@ -1,0 +1,133 @@
+﻿{
+  "entities": [
+    {
+      "cardId": "2oRAgXB963ygod7Yn",
+      "cardCommonId": "918905e496715cbf70c7d1ac",
+      "organizationId": "4b90bc5348125e5242281e6d",
+      "archived": false,
+      "position": -1,
+      "name": "Test 32864",
+      "todoListUserId": "eNybSSHwBaEcJKHm8",
+      "todoListCompleted": true,
+      "detailedDescription": "Test description 32864",
+      "tags": [
+        "KLG5jLzqZHb8gGnxJ",
+        "kKtjsyw3b5P4PFxXo",
+        "wG7naLXGKMTS7jema",
+        "wWcJAuqXXoo88Am7K",
+        "QKjPrYcXTgWsRoccC",
+        "bKYSAqgibBcukhZjR",
+        "hwENhjhq4AWR6zN6E",
+        "Pgn2mNhNm8RrteRMy"
+      ],
+      "sequentialId": 32864,
+      "startDate": "2019-05-02T11:00:00.000Z",
+      "assignments": [
+        {
+          "userId": "NNKR7ds4YrZS4T97E",
+          "completed": true
+        },
+        {
+          "userId": "2zQhJubJoXkNJbuuR",
+          "completed": true
+        },
+        {
+          "userId": "eNybSSHwBaEcJKHm8",
+          "completed": true
+        },
+        {
+          "userId": "jFjfZ8biuQv9xpzAM",
+          "completed": true
+        }
+      ],
+      "numComments": 4,
+      "tasksTotal": 2,
+      "tasksDone": 2,
+      "attachments": [],
+      "customFields": [
+        {
+          "customFieldId": "CkBS3SWfajcNfLqaA",
+          "value": "1.95.0 and 1.83.95.4"
+        },
+        {
+          "customFieldId": "RR4HATF7dnJ2hhkjp",
+          "value": "All"
+        },
+        {
+          "customFieldId": "f6SY4ye5TPjPhPBbR",
+          "total": 3000000,
+          "reports": {
+            "dKDsRJMjiT8wrAgpp": [
+              {
+                "reportId": "WLv5JTCXQJfR4A7My",
+                "value": 600000,
+                "createdAt": "2019-05-02T10:26:55.568Z",
+                "categoryId": null,
+                "description": ""
+              }
+            ],
+            "2zQhJubJoXkNJbuuR": [
+              {
+                "reportId": "wTm2NY5kcc7jidpCm",
+                "value": 600000,
+                "createdAt": "2019-06-11T14:16:49.805Z",
+                "categoryId": null,
+                "description": "Testing"
+              },
+              {
+                "reportId": "RK5nge5s4TYzL2RYq",
+                "value": 1800000,
+                "createdAt": "2019-06-12T07:52:09.723Z",
+                "categoryId": null,
+                "description": "Analysis"
+              }
+            ]
+          }
+        },
+        {
+          "customFieldId": "2bQbh2axKZfmrjKZM",
+          "value": [
+            "yhaHw3qYyZiJDxAc3"
+          ]
+        },
+        {
+          "customFieldId": "w7jknoFxuoS2f23QK",
+          "value": [
+            "f5nyEAYaJB3tByjia"
+          ]
+        },
+        {
+          "customFieldId": "LJYWg79KrJeYneeox",
+          "value": "1.95.0 and 1.83.95.4"
+        },
+        {
+          "customFieldId": "eirZMHuhW2DzGcjy4",
+          "color": "lightgreen"
+        },
+        {
+          "customFieldId": "TEpL3smiDZBBv2uE9",
+          "total": 100
+        },
+        {
+          "customFieldId": "gYXFFAWrhEbrQ6bMC",
+          "value": [
+            "AwdjESrXeF5PjYHMQ"
+          ]
+        },
+        {
+          "customFieldId": "5e23f7e9743df97c6e7065dd",
+          "value": [
+            "5e23f7e9743df97c6e7065e2"
+          ]
+        }
+      ],
+      "timeOnBoard": null,
+      "timeOnColumns": null,
+      "favroAttachments": []
+    }
+  ],
+  "limit": 100,
+  "page": 0,
+  "pages": 2,
+  "requestId": "2d7d814b67c31df45921a9b1"
+}

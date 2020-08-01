@@ -56,7 +56,7 @@
     <Compile Include="Favro\API\IConnection.cs" />
     <Compile Include="Favro\API\Response.cs" />
     <Compile Include="Favro\API\IFavroConnection.cs" />
-    <Compile Include="Favro\API\FavroApiMethods.cs" />
+    <Compile Include="Favro\API\FavroApiFacade.cs" />
     <Compile Include="Favro\Column.cs" />
     <Compile Include="Favro\Card.cs" />
     <Compile Include="Favro\CardAssignment.cs" />
@@ -70,11 +70,12 @@
     <Compile Include="Favro\CardComment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Favro\" />
     <Folder Include="Favro\API\" />
+    <Folder Include="Favro\Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,38 @@
+﻿{
+    "entities": [
+        {
+            "userId": "tA6QW5AfaSNQcxodE",
+            "name": "user5",
+            "email": "user5@example.com",
+            "organizationRole": "fullMember"
+        },
+        {
+            "userId": "yS49NiSjWCrC8Pg4S",
+            "name": "user6",
+            "email": "user6@example.com",
+            "organizationRole": "fullMember"
+        },
+        {
+            "userId": "eNybSSHwBaEcJK8mH",
+            "name": "user7",
+            "email": "user7@example.com",
+            "organizationRole": "fullMember"
+        },
+        {
+            "userId": "BaTY7PN6XWuGcF6ZZ",
+            "name": "user8",
+            "email": "user8@example.com",
+            "organizationRole": "fullMember"
+        },
+        {
+            "userId": "YpuLapfpKa3PCL4c8",
+            "name": "admin2",
+            "email": "admin2@example.com",
+            "organizationRole": "administrator"
+        }
+    ],
+    "limit": 100,
+    "page": 1,
+    "pages": 2,
+    "requestId": "users"
+}
