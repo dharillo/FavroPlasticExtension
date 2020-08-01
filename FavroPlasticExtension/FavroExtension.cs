@@ -91,7 +91,9 @@ namespace Codice.Client.IssueTracker.FavroExtension
                 return columnsCache[card.WidgetCommonId].Find(column => column.ColumnId == card.ColumnId);
             }
             else
+            {
                 return null;
+            }
         }
 
         private Column FindColumn(string widgetCommonId, string name)
