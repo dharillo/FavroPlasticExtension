@@ -228,7 +228,9 @@ namespace Codice.Client.IssueTracker.FavroExtension
         private string GetOrganizationShortName()
         {
             if (organizationInfo == null)
+            {
                 organizationInfo = apiMethods.GetOrganization(connection.OrganizationId);
+            }
 
             if (organizationShortName == null)
             { 
