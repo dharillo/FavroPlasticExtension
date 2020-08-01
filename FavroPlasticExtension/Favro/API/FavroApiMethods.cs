@@ -155,7 +155,9 @@ namespace FavroPlasticExtension.Favro.API
             }
 
             if (cards.Count == 0 && (collectionId != "" || widgetCommonId != ""))
+            {
                 return GetAssignedCards("", "");
+            }
             else
                 return cards.Where(card => card.Assignments.Count > 0 && card.ColumnId != null && card.ColumnId != "").ToList();
         }
