@@ -240,7 +240,9 @@ namespace FavroPlasticExtension.Favro.API
                     if (int.TryParse(webResponse.Headers[Response.HEADER_LIMIT_REMAINING], out int reamining))
                     {
                         RemainingRequest = reamining;
+                    }
                     if (int.TryParse(webResponse.Headers[Response.HEADER_LIMIT_MAX], out int limit))
+                    {
                         RequestLimit = limit;
 
                     response.Headers.Add(Response.HEADER_BACKEND_ID, webResponse.Headers[Response.HEADER_BACKEND_ID]);
