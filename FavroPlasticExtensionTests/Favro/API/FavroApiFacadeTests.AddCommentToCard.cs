@@ -47,7 +47,7 @@ namespace FavroPlasticExtension.Favro.API
             var exception = Assert.Throws<ArgumentNullException>(() => sut.AddCommentToCard(null, VALID_COMMENT));
             // Assert
             Assert.That(exception, Has.Message.StartsWith("A card common identifier must be a non-empty string"));
-            Assert.AreEqual("commonId", exception.ParamName);
+            Assert.AreEqual("cardCommonId", exception.ParamName);
         }
 
         [TestCase("",Category = CATEGORY_ADD_COMMENT_TO_CARD)]
@@ -60,7 +60,7 @@ namespace FavroPlasticExtension.Favro.API
             var exception = Assert.Throws<ArgumentException>(() => sut.AddCommentToCard(invalidId, VALID_COMMENT));
             // Assert
             Assert.That(exception, Has.Message.StartsWith("A card common identifier must be a non-empty string"));
-            Assert.AreEqual("commonId", exception.ParamName);
+            Assert.AreEqual("cardCommonId", exception.ParamName);
         }
 
 

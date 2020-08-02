@@ -62,7 +62,7 @@ namespace FavroPlasticExtension.Favro.API
         }
 
         [TestCase(Category = CATEGORY_GET_ASSIGNED_CARDS)]
-        public void GetAssignedCards_OnlyOpenFalse_ShouldRetrieveCards()
+        public void GetAssignedCards_ShouldRetrieveCards()
         {
             // Arrange
             StubConnectionWithResponses(GetAssignedCardsResponse());
@@ -72,22 +72,6 @@ namespace FavroPlasticExtension.Favro.API
             connectionMock.Verify(x => x.Get(ENDPOINT_GET_CARDS, It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
             connectionMock.Verify(x => x.GetNextPage(ENDPOINT_GET_CARDS, It.IsAny<Response>(), It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
             Assert.That(result, Has.Count.EqualTo(3));
-        }
-
-        [TestCase(Category = CATEGORY_GET_ASSIGNED_CARDS)]
-        public void GetAssignedCards_OnlyOpen_ShouldOnlyOneCard()
-        {
-            // Arrange
-            StubConnectionWithResponses(GetAssignedCardsResponse());
-            // Act
-            var result = sut.GetAssignedCards("", "");
-            // Assert
-            connectionMock.Verify(x => x.Get(ENDPOINT_GET_CARDS, It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
-            connectionMock.Verify(x => x.GetNextPage(ENDPOINT_GET_CARDS, It.IsAny<Response>(), It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
-            Assert.That(result, Has.Count.EqualTo(1));
-            Assert.AreEqual(58533, result[0].SequentialId);
-            Assert.AreEqual("Test 58533", result[0].Name);
-            Assert.AreEqual("Test description 58533", result[0].DetailedDescription);
         }
 
         private IEnumerable<Response> GetAssignedCardsResponse()

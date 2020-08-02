@@ -141,7 +141,7 @@ namespace FavroPlasticExtension.Favro.API
                 parameters.Add("collectionId", collectionId);
             }
 
-            var cards = GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving cards");
+            var cards = GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving assigned cards");
             if (cards.Count == 0 && (collectionId != "" || widgetCommonId != ""))
             {
                 return GetAssignedCards("", "");
@@ -212,17 +212,32 @@ namespace FavroPlasticExtension.Favro.API
             throw new NotImplementedException("Method not implemented");
         }
 
-        internal void CreateComment(string comment, string cardCommonId)
+        public CardComment AddCommentToCard(string cardCommonId, string comment)
         {
+            if (cardCommonId == null)
+            {
+                throw new ArgumentNullException(nameof(cardCommonId), "A card common identifier must be a non-empty string");
+            }
+            else if (string.IsNullOrWhiteSpace(cardCommonId))
+            {
+                throw new ArgumentException("A card common identifier must be a non-empty string", nameof(cardCommonId));
+            }
+
+            if (comment == null)
+            {
+                throw new ArgumentNullException(nameof(comment), "A card comment must be a non-empty string");
+            }
+            else if (string.IsNullOrWhiteSpace(comment))
+            {
+                throw new ArgumentException("A card comment must be a non-empty string", nameof(comment));
+            }
+
+            CheckOrganizationSelected();
             var parameters = new Dictionary<string, string>();
             parameters.Add("cardCommonId", cardCommonId);
             parameters.Add("comment", comment);
-            connection.Post($"{ENDPOINT_COMMENTS}", parameters);
-        }
-
-        public CardComment AddCommentToCard(string cardCommonId, string comment)
-        {
-            throw new NotImplementedException("Method not implemented");
+            var response = connection.Post($"{ENDPOINT_COMMENTS}", parameters);
+            return GetEntries<CardComment>(response).FirstOrDefault();
         }
 
         public void MoveCardToColumn(Card card, Column column)

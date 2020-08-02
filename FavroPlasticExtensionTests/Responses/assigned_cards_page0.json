@@ -40,6 +40,7 @@
           "completed": true
         }
       ],
+      "columnId":  "786asdf0987687asdf896",
       "numComments": 4,
       "tasksTotal": 2,
       "tasksDone": 2,
@@ -148,6 +149,7 @@
           "completed": false
         }
       ],
+      "columnId": "786asdf0987687asdf896",
       "numComments": 1,
       "tasksTotal": 0,
       "tasksDone": 0,

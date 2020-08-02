@@ -56,7 +56,7 @@ namespace FavroPlasticExtension.Favro.API
             Assert.Throws<InvalidOperationException>(() => sut.GetPageNumber());
         }
         [TestCase(int.MinValue)]
-        [TestCase(0)]
+        [TestCase(-1)]
         public void GetPageNumber_NoValidPageNumber_ShouldThrow(int invalidValue)
         {
             // Arrange:

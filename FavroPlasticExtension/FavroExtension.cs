@@ -139,7 +139,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             foreach (var task in tasks)
             {
                 var card = GetCardFromSequentialId(GetCardSequentialIdFromTaskId(task.Id));
-                apiMethods.CreateComment(comment, card.CardCommonId);
+                apiMethods.AddCommentToCard(card.CardCommonId, comment);
             }
         }
 
