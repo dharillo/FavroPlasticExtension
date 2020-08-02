@@ -26,13 +26,13 @@ namespace FavroPlasticExtension.Favro.API
 {
     internal class FavroApiFacade
     {
-        private const string ENDPOINT_USERS = "/users";
-        private const string ENDPOINT_ORGANIZATIONS = "/organizations";
-		private const string ENDPOINT_COLUMNS = "/columns";
-        private const string ENDPOINT_COLLECTIONS = "/collections";
-        private const string ENDPOINT_WIDGETS = "/widgets";
-        private const string ENDPOINT_CARDS = "/cards";
-        private const string ENDPOINT_COMMENTS = "/comments";
+        public const string ENDPOINT_USERS = "/users";
+        public const string ENDPOINT_ORGANIZATIONS = "/organizations";
+        public const string ENDPOINT_COLUMNS = "/columns";
+        public const string ENDPOINT_COLLECTIONS = "/collections";
+        public const string ENDPOINT_WIDGETS = "/widgets";
+        public const string ENDPOINT_CARDS = "/cards";
+        public const string ENDPOINT_COMMENTS = "/comments";
 
         private readonly IFavroConnection connection;
         private readonly ILog log;

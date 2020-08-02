@@ -34,7 +34,7 @@ namespace FavroPlasticExtension.Favro.API
             // Arrange
             organization = string.Empty;
             // Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => sut.GetAssignedCards());
+            var exception = Assert.Throws<InvalidOperationException>(() => sut.GetAssignedCards("", ""));
             Assert.AreEqual("An organization ID must be selected before retrieving information from Favro", exception.Message);
             connectionMock.VerifyGet(x => x.OrganizationId, Times.Once);
         }
@@ -45,7 +45,7 @@ namespace FavroPlasticExtension.Favro.API
             // Arrange
             StubConnectionWithError<WebException>();
             // Act
-            sut.GetAssignedCards();
+            sut.GetAssignedCards("", "");
             // Assert
             connectionMock.Verify(x => x.Get(ENDPOINT_GET_CARDS, It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
         }
@@ -56,7 +56,7 @@ namespace FavroPlasticExtension.Favro.API
             // Arrange
             StubConnectionWithError<WebException>();
             // Act
-            sut.GetAssignedCards();
+            sut.GetAssignedCards("", "");
             // Assert
             logMock.Verify(x => x.Error("Unexpected error while retrieving assigned cards", It.IsAny<WebException>()), Times.Once);
         }
@@ -67,7 +67,7 @@ namespace FavroPlasticExtension.Favro.API
             // Arrange
             StubConnectionWithResponses(GetAssignedCardsResponse());
             // Act
-            var result = sut.GetAssignedCards(false);
+            var result = sut.GetAssignedCards("", "");
             // Assert
             connectionMock.Verify(x => x.Get(ENDPOINT_GET_CARDS, It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
             connectionMock.Verify(x => x.GetNextPage(ENDPOINT_GET_CARDS, It.IsAny<Response>(), It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
@@ -80,7 +80,7 @@ namespace FavroPlasticExtension.Favro.API
             // Arrange
             StubConnectionWithResponses(GetAssignedCardsResponse());
             // Act
-            var result = sut.GetAssignedCards();
+            var result = sut.GetAssignedCards("", "");
             // Assert
             connectionMock.Verify(x => x.Get(ENDPOINT_GET_CARDS, It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
             connectionMock.Verify(x => x.GetNextPage(ENDPOINT_GET_CARDS, It.IsAny<Response>(), It.Is<NameValueCollection>(p => HasAssignedCardsParameters(p))), Times.Once);
