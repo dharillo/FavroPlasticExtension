@@ -120,7 +120,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public bool TestConnection(IssueTrackerConfiguration configuration)
         {
             var testConnection = CreateConnection(configuration);
-            var testMethods = new ApiFacade(testConnection, logger);
+            var testMethods = new FavroApiFacade(testConnection, logger);
             try
             {
                 return testMethods.GetOrganization(testConnection.OrganizationId) != null;
@@ -341,7 +341,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
                         firstPending = card.Assignments[0];
                 }
                 var owner = currentUser != null ? currentUser : firstPending;
-                string userMail = firstPending != null ? usersCache[owner.UserId].Email : "unknown";
+                string userMail = owner != null ? usersCache[owner.UserId].Email : "unknown";
                 var column = FindColumn(card);
                 string status = column != null ? column.Name : "unknown";
                 result = new PlasticTask

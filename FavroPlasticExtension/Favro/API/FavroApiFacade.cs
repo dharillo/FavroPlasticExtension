@@ -26,12 +26,13 @@ namespace FavroPlasticExtension.Favro.API
 {
     internal class FavroApiFacade
     {
-        public const string ENDPOINT_USERS = "/users";
-        public const string ENDPOINT_ORGANIZATIONS = "/organizations";
-        public const string ENDPOINT_COLLECTIONS = "/collections";
-        public const string ENDPOINT_WIDGETS = "/widgets";
-        public const string ENDPOINT_CARDS = "/cards";
-        public const string ENDPOINT_COMMENTS = "/comments";
+        private const string ENDPOINT_USERS = "/users";
+        private const string ENDPOINT_ORGANIZATIONS = "/organizations";
+		private const string ENDPOINT_COLUMNS = "/columns";
+        private const string ENDPOINT_COLLECTIONS = "/collections";
+        private const string ENDPOINT_WIDGETS = "/widgets";
+        private const string ENDPOINT_CARDS = "/cards";
+        private const string ENDPOINT_COMMENTS = "/comments";
 
         private readonly IFavroConnection connection;
         private readonly ILog log;
@@ -80,7 +81,20 @@ namespace FavroPlasticExtension.Favro.API
 
         public Organization GetOrganization(string organizationId)
         {
-            throw new NotImplementedException("Method not implemented");
+            CheckOrganizationSelected();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("organizationId", organizationId);
+            var response = connection.Get($"{ENDPOINT_ORGANIZATIONS}", parameters);
+            Organization organization = null;
+            if (response.Error != null)
+            {
+                log.Error($"Unable to retrieve the information of the organization '{organizationId}'", response.Error);
+            }
+            else
+            {
+                organization = GetEntries<Organization>(response).FirstOrDefault();
+            }
+            return organization;
         }
 
         public List<Collection> GetAllCollections()
@@ -99,23 +113,43 @@ namespace FavroPlasticExtension.Favro.API
             throw new NotImplementedException("Method not implemented");
         }
 
-        public List<Card> GetAssignedCards(bool onlyOpen = true)
+        public List<Column> GetAllColumns(string widgetCommonId)
         {
             CheckOrganizationSelected();
-            var parameters = new NameValueCollection();
-            parameters.Add("todoList", "true");
-            parameters.Add("unique", "true");
-            var cards = GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving assigned cards");
-            if (onlyOpen)
-            {
-                cards = cards.Where(x => x.TodoListCompleted == false).ToList();
-            }
-            return cards;
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("widgetCommonId", widgetCommonId);
+            var response = connection.Get($"{ENDPOINT_COLUMNS}", parameters);
+            return GetEntries<Column>(response);
         }
 
-        internal void CreateComment(string comment, string cardCommonId)
+        public List<Card> GetAssignedCards(string collectionId, string widgetCommonId)
         {
-            throw new NotImplementedException();
+            CheckOrganizationSelected();
+            NameValueCollection parameters = new NameValueCollection();
+            parameters.Add("unique", "true");
+            parameters.Add("archived", "false");
+            if (widgetCommonId == "" && collectionId == "")
+            {
+                parameters.Add("todoList", "true");
+            }
+            else if (widgetCommonId != "")
+            {
+                parameters.Add("widgetCommonId", widgetCommonId);
+            }
+            else if (collectionId != "")
+            {
+                parameters.Add("collectionId", collectionId);
+            }
+
+            var cards = GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving cards");
+            if (cards.Count == 0 && (collectionId != "" || widgetCommonId != ""))
+            {
+                return GetAssignedCards("", "");
+            }
+            else
+            {
+                return cards.Where(card => card.Assignments.Count > 0 && !string.IsNullOrEmpty(card.ColumnId)).ToList();
+            }
         }
 
         public Card GetCard(string commonId)
@@ -135,6 +169,24 @@ namespace FavroPlasticExtension.Favro.API
             return GetCard(parameters);
         }
 
+        private Card GetFirstCardWithColumn(List<Card> cards)
+        {
+            if (cards != null && cards.Count > 0)
+            {
+                var cardWithColumn = cards.Find(card => card.ColumnId != null);
+                if (cardWithColumn != null)
+                {
+                    return cardWithColumn;
+                }
+                else
+                {
+                    return cards[0];
+                }
+            }
+            else
+                return null;
+        }
+
         public Card GetCard(int sequentialId)
         {
             if (sequentialId < 0)
@@ -152,8 +204,7 @@ namespace FavroPlasticExtension.Favro.API
         {
             CheckOrganizationSelected();
             parameters.Add("unique", "true");
-            return GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id").FirstOrDefault();
-
+            return GetFirstCardWithColumn(GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id"));
         }
 
         public Card CompleteCard(string cardCommonId)
@@ -161,11 +212,27 @@ namespace FavroPlasticExtension.Favro.API
             throw new NotImplementedException("Method not implemented");
         }
 
+        internal void CreateComment(string comment, string cardCommonId)
+        {
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("cardCommonId", cardCommonId);
+            parameters.Add("comment", comment);
+            connection.Post($"{ENDPOINT_COMMENTS}", parameters);
+        }
+
         public CardComment AddCommentToCard(string cardCommonId, string comment)
         {
             throw new NotImplementedException("Method not implemented");
         }
 
+        public void MoveCardToColumn(Card card, Column column)
+        {
+            var parameters = new Dictionary<string, string>();
+            parameters.Add("widgetCommonId", card.WidgetCommonId);
+            parameters.Add("columnId", column.ColumnId);
+            connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
+        }
+		
         private List<TEntry> GetEntries<TEntry>(Response response)
         {
             var deserializedContent = JObject.Parse(response.Content);
