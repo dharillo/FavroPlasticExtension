@@ -43,7 +43,7 @@ namespace FavroPlasticExtension.Favro.API
         /// </summary>
         public const string HEADER_BACKEND_ID = "X-Favro-Backend-Identifier";
         public const string PATH_REQUEST_ID = "requestId";
-        public const string PATH_ENTRIES = "entries";
+        public const string PATH_ENTITIES = "entities";
         public const string PATH_PAGE = "page";
         public const string PATH_PAGES = "pages";
         public const string PATH_LIMIT = "limit";
@@ -87,9 +87,9 @@ namespace FavroPlasticExtension.Favro.API
             try
             {
                 var page = GetCurrentPage();
-                if (page <= 0)
+                if (page < 0)
                 {
-                    throw new ArgumentException("Expected value over 0");
+                    throw new ArgumentException("Expected value >= 0");
                 }
                 return page;
             }
@@ -154,6 +154,13 @@ namespace FavroPlasticExtension.Favro.API
         {
             var data = GetDeserializedData();
             return data.GetValue(PATH_REQUEST_ID).Value<string>();
+        }
+
+        public string GetEntitiesString()
+        {
+            var data = GetDeserializedData();
+            var entities = data.GetValue(PATH_ENTITIES);
+            return JsonConvert.SerializeObject(entities);
         }
     }
 }

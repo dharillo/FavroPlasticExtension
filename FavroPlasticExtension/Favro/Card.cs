@@ -71,7 +71,7 @@ namespace FavroPlasticExtension.Favro.API
         /// <summary>
         /// The position of the card in the column or backlog in relation to other cards.
         /// </summary>
-        public int Position { get; set; }
+        public double Position { get; set; }
         /// <summary>
         /// A shared id for all instances of this card in the organization.
         /// </summary>
