@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>C:\Program Files\PlasticSCM5\client\extensions\favro\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -21,7 +21,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>C:\Program Files\PlasticSCM5\client\extensions\favro\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -30,12 +30,15 @@
     <Reference Include="System" />
     <Reference Include="issuetrackerinterface">
       <HintPath>..\lib\issuetrackerinterface.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\lib\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="utils">
       <HintPath>..\lib\utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -56,7 +59,7 @@
     <Compile Include="Favro\API\IConnection.cs" />
     <Compile Include="Favro\API\Response.cs" />
     <Compile Include="Favro\API\IFavroConnection.cs" />
-    <Compile Include="Favro\API\FavroApiMethods.cs" />
+    <Compile Include="Favro\API\FavroApiFacade.cs" />
     <Compile Include="Favro\Column.cs" />
     <Compile Include="Favro\Card.cs" />
     <Compile Include="Favro\CardAssignment.cs" />
@@ -70,11 +73,12 @@
     <Compile Include="Favro\CardComment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Favro\" />
     <Folder Include="Favro\API\" />
+    <Folder Include="Favro\Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

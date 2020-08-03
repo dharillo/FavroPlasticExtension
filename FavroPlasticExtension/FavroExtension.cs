@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Codice.Utils;
+using FavroPlasticExtension.Favro;
 using FavroPlasticExtension.Favro.API;
 using log4net;
 
@@ -29,17 +30,23 @@ namespace Codice.Client.IssueTracker.FavroExtension
     {
         internal const string KEY_USER = "User";
         internal const string KEY_PASSWORD = "Password";
-        internal const string KEY_ORGANIZATION = "Organization";
+        internal const string KEY_ORGANIZATION = "OrganizationId";
+        internal const string KEY_DOING_COLUMN = "Doing column name";
+        internal const string KEY_COLLECTION_ID = "CollectionId";
+        internal const string KEY_WIDGET_ID = "WidgetCommonId";
         internal const string KEY_BRANCH_PREFIX = "Prefix";
-        internal const string COMMENT_TEMPLATE = "Checkin repository: {0}<br />Checkin ID: {1}<br />Checkin GUID: {2}<br />Checkin comment:<p>{3}</p>";
+        internal const string KEY_BRANCH_SUFFIX = "Suffix";
+        internal const string COMMENT_TEMPLATE = "repository: {0}\nCheckin ID: {1}\nGUID: {2}\n\n{3}";
 
         private const string EXTENSION_NAME = "Favro extension";
         private readonly IssueTrackerConfiguration configuration;
         private readonly ILog logger;
         private IFavroConnection connection;
-        private ApiFacade apiMethods;
+        private FavroApiFacade apiMethods;
         private Organization organizationInfo;
         private string organizationShortName;
+        private Dictionary<string, User> usersCache;
+        private Dictionary<string, List<Column>> columnsCache = new Dictionary<string, List<Column>>();
 
         internal FavroExtension(IssueTrackerConfiguration configuration, ILog logger)
         {
@@ -54,12 +61,52 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return EXTENSION_NAME;
         }
 
+        private void CheckExistsUsersCache()
+        {
+            if (usersCache == null)
+            {
+                usersCache = new Dictionary<string, User>();
+                var users = apiMethods.GetAllUsers();
+                foreach (var user in users)
+                {
+                    usersCache[user.UserId] = user;
+                }
+            }
+        }
+
+        private void CheckExistsColumnsCache(string widgetCommonId)
+        {
+            if (!columnsCache.ContainsKey(widgetCommonId))
+            {
+                columnsCache[widgetCommonId] = apiMethods.GetAllColumns(widgetCommonId);
+            }
+        }
+
+        private Column FindColumn(Card card)
+        {
+            if (card.WidgetCommonId != null)
+            {
+                CheckExistsColumnsCache(card.WidgetCommonId);
+                return columnsCache[card.WidgetCommonId].Find(column => column.ColumnId == card.ColumnId);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private Column FindColumn(string widgetCommonId, string name)
+        {
+            CheckExistsColumnsCache(widgetCommonId);
+            return columnsCache[widgetCommonId].Find(column => column.Name == name);
+        }
+
         public void Connect()
         {
             connection = CreateConnection(configuration);
             var organization = configuration.GetValue(KEY_ORGANIZATION);
             connection.OrganizationId = organization;
-            apiMethods = new ApiFacade(connection, logger);
+            apiMethods = new FavroApiFacade(connection, logger);
             organizationInfo = apiMethods.GetOrganization(organization);
             organizationShortName = GetOrganizationShortName();
         }
@@ -73,9 +120,17 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public bool TestConnection(IssueTrackerConfiguration configuration)
         {
             var testConnection = CreateConnection(configuration);
-            var testMethods = new ApiFacade(testConnection, logger);
-            var userOrganizations = testMethods.GetAllOrganizations();
-            return userOrganizations != null && userOrganizations.Count != 0;
+            var testMethods = new FavroApiFacade(testConnection, logger);
+            try
+            {
+                return testMethods.GetOrganization(testConnection.OrganizationId) != null;
+            }
+            catch (Exception)
+            {
+                // When the plugin is not well configured the previous call throws an exception
+                // In that case return false
+                return false;
+            }
         }
 
         public void LogCheckinResult(PlasticChangeset changeset, List<PlasticTask> tasks)
@@ -83,8 +138,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
             string comment = CreateComment(changeset);
             foreach (var task in tasks)
             {
-                var card = apiMethods.GetCard(task.Id);
-                apiMethods.CreateComment(comment, card.CardCommonId);
+                var card = GetCardFromSequentialId(GetCardSequentialIdFromTaskId(task.Id));
+                apiMethods.AddCommentToCard(card.CardCommonId, comment);
             }
         }
 
@@ -101,8 +156,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
         public PlasticTask GetTaskForBranch(string fullBranchName)
         {
             var branchName = GetBranchName(fullBranchName);
-            var cardId = GetCardIdFromBranchName(branchName);
-            return GetTaskFromCardId(cardId);
+            var cardId = GetCardSequentialIdFromBranchName(branchName);
+            return GetTaskFromCardSequentialId(cardId);
         }
 
         public Dictionary<string, PlasticTask> GetTasksForBranches(List<string> fullBranchNames)
@@ -121,7 +176,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public void OpenTaskExternally(string taskId)
         {
-            Process.Start(GetExternalLink(taskId));
+            Process.Start(GetExternalLink(GetCardSequentialIdFromTaskId(taskId)));
         }
 
         public List<PlasticTask> LoadTasks(List<string> taskIds)
@@ -129,7 +184,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
             var result = new List<PlasticTask>();
             foreach (var taskId in taskIds)
             {
-                var task = GetTaskFromCardId(taskId);
+                var task = GetTaskFromCardSequentialId(GetCardSequentialIdFromTaskId(taskId));
                 if (task != null)
                 {
                     result.Add(task);
@@ -140,18 +195,23 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public List<PlasticTask> GetPendingTasks()
         {
-            return GetPendingTasks(connection.UserEmail);
+            var pendingCards = apiMethods.GetAssignedCards(GetCollectionId(), GetWidgetCommonId());
+            return pendingCards.Where(card => card.Assignments.Find(assignee => !assignee.Completed) != null).Select(_ => ConvertToTask(_)).Where(task => task.CanBeLinked).ToList();
         }
 
         public List<PlasticTask> GetPendingTasks(string assignee)
         {
-            var pendingCards = apiMethods.GetAssignedCards();
-            return pendingCards.Select(_ => ConvertToTask(_)).ToList();
+            var tasks = GetPendingTasks();
+            return tasks.Where(task => task.Owner == assignee).ToList();
         }
 
         public void MarkTaskAsOpen(string taskId, string assignee)
         {
-            throw new NotImplementedException();
+            // TODO: podria ser interesante asignar usuario a la tarjeta en caso de que no lo este previamente
+            var cardSequentialId = GetCardSequentialIdFromTaskId(taskId);
+            var card = GetCardFromSequentialId(cardSequentialId);
+            var doingColumnName = configuration.GetValue(KEY_DOING_COLUMN);
+            apiMethods.MoveCardToColumn(card, FindColumn(card.WidgetCommonId, doingColumnName));
         }
         #endregion
 
@@ -164,14 +224,25 @@ namespace Codice.Client.IssueTracker.FavroExtension
         {
             var user = connectionConfiguration.GetValue(KEY_USER);
             var password = connectionConfiguration.GetValue(KEY_PASSWORD);
-
-            return new Connection(user, GetDecryptedPassword(password));
+            var connection = new Connection(user, GetDecryptedPassword(password));
+            connection.OrganizationId = connectionConfiguration.GetValue(KEY_ORGANIZATION);
+            return connection;
         }
 
         private string GetOrganizationShortName()
         {
-            var organizationName = organizationInfo.Name.Replace(" ", "");
-            return organizationName.Substring(0, 3);
+            if (organizationInfo == null)
+            {
+                organizationInfo = apiMethods.GetOrganization(connection.OrganizationId);
+            }
+
+            if (organizationShortName == null)
+            { 
+                var organizationName = organizationInfo.Name.Replace(" ", "");
+                organizationShortName = organizationName.Substring(0, 3);
+            }
+
+            return organizationShortName;
         }
 
         private string GetBranchName(string fullBranchName)
@@ -189,10 +260,24 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return branchName;
         }
 
-        private string GetCardIdFromBranchName(string branchName)
+        private string GetCardSequentialIdFromTaskId(string taskId)
         {
-            var prefix = GetPrefix();
-            var regex = new Regex($"{prefix}(/d+).*");
+            var suffix = Regex.Escape(GetSuffix());
+            var regex = new Regex($"(\\d+){suffix}");
+            var match = regex.Match(taskId);
+            string cardId = null;
+            if (match.Success)
+            {
+                cardId = match.Groups[1].Value;
+            }
+            return cardId;
+        }
+
+        private string GetCardSequentialIdFromBranchName(string branchName)
+        {
+            var prefix = Regex.Escape(GetPrefix());
+            var suffix = Regex.Escape(GetSuffix());
+            var regex = new Regex($"{prefix}(\\d+){suffix}");
             var match = regex.Match(branchName);
             string cardId = null;
             if (match.Success)
@@ -207,15 +292,36 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return configuration.GetValue(KEY_BRANCH_PREFIX);
         }
 
-        private PlasticTask GetTaskFromCardId(string cardId)
+        private string GetSuffix()
         {
-            PlasticTask result = null;
+            return configuration.GetValue(KEY_BRANCH_SUFFIX);
+        }
+
+        private string GetCollectionId()
+        {
+            return configuration.GetValue(KEY_COLLECTION_ID);
+        }
+
+        private string GetWidgetCommonId()
+        {
+            return configuration.GetValue(KEY_WIDGET_ID);
+        }
+
+        private Card GetCardFromSequentialId(string cardId)
+        {
             if (!string.IsNullOrEmpty(cardId) && int.TryParse(cardId, out int cardSequentialId))
-            {
-                var card = apiMethods.GetCard(cardSequentialId);
-                result = ConvertToTask(card);
-            }
-            return result;
+                return apiMethods.GetCard(cardSequentialId);
+            else
+                return null;
+        }
+
+        private PlasticTask GetTaskFromCardSequentialId(string cardId)
+        {
+            var card = GetCardFromSequentialId(cardId);
+            if (card != null)
+                return ConvertToTask(card);
+            else
+                return null;
         }
 
         private PlasticTask ConvertToTask(Card card)
@@ -223,13 +329,29 @@ namespace Codice.Client.IssueTracker.FavroExtension
             PlasticTask result = null;
             if (card != null)
             {
+                CheckExistsUsersCache();
+                // If the plastic user is in the asignments list, assume he is the owner
+                var currentUserMail = configuration.GetValue(KEY_USER);
+                var currentUser = card.Assignments.Find(assignee => usersCache[assignee.UserId].Email == currentUserMail);
+                CardAssignment firstPending = null;
+                if (currentUser == null)
+                {
+                    firstPending = card.Assignments.Find(assignee => !assignee.Completed);
+                    if (firstPending == null && card.Assignments.Count > 0)
+                        firstPending = card.Assignments[0];
+                }
+                var owner = currentUser != null ? currentUser : firstPending;
+                string userMail = owner != null ? usersCache[owner.UserId].Email : "unknown";
+                var column = FindColumn(card);
+                string status = column != null ? column.Name : "unknown";
                 result = new PlasticTask
                 {
                     Description = GetDescription(card),
                     Title = card.Name,
-                    Owner = connection.UserEmail,
-                    Id = card.SequentialId.ToString(),
-                    Status = "unknown"
+                    Owner = userMail,
+                    Id = card.SequentialId.ToString() + GetSuffix(),
+                    Status = status,
+                    CanBeLinked = owner != null && !owner.Completed
                 };
             }
             return result;
@@ -248,7 +370,8 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         private string GetExternalLink(string cardId)
         {
-            return $"https://favro.com/organization/{connection.OrganizationId}/?card={organizationShortName}-{cardId}";
+            var shortName = GetOrganizationShortName();
+            return $"https://favro.com/organization/{connection.OrganizationId}/?card={shortName}-{cardId}";
         }
     }
 }

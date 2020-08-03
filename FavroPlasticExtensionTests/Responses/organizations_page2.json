@@ -1,0 +1,123 @@
+﻿{
+    "entities": [
+        {
+            "organizationId": "4a90bf5348327e3a42281a6d",
+            "name": "Organization 1",
+            "sharedToUsers": [
+                {
+                    "userId": "ZpuLapfpJa3PCL8c4",
+                    "role": "administrator",
+                    "joinDate": "2017-07-20T18:19:28.344Z"
+                },
+                {
+                    "userId": "thtythu7pEQW4wbBm",
+                    "role": "fullMember",
+                    "joinDate": "2018-09-10T12:56:17.727Z"
+                },
+                {
+                    "userId": "xEsKaGxtgSgi3LoKL",
+                    "role": "externalMember",
+                    "joinDate": "2017-10-20T14:15:14.968Z"
+                },
+                {
+                    "userId": "SdRDCiXtRkAba9AwY",
+                    "role": "guest",
+                    "joinDate": "2017-12-12T15:57:47.176Z"
+                },
+                {
+                    "userId": "F3kJnRqadzTGYNtUB",
+                    "role": "disabled",
+                    "joinDate": "2019-01-03T09:16:06.656Z"
+                }
+            ]
+        },
+        {
+            "organizationId": "124cf4d74d152a3b0220e71c",
+            "name": "Organization 2",
+            "sharedToUsers": [
+                {
+                    "userId": "YpuLbpfpKa3PCL8c4",
+                    "role": "administrator",
+                    "joinDate": "2017-04-08T17:29:42.417Z"
+                },
+                {
+                    "userId": "or7nL4fgbSPAokXP7",
+                    "role": "fullMember",
+                    "joinDate": "2017-07-20T08:05:37.439Z"
+                },
+                {
+                    "userId": "XEyGcPAPofDak5MRk",
+                    "role": "guest",
+                    "joinDate": "2017-07-19T17:09:41.550Z"
+                }
+            ]
+        },
+        {
+            "organizationId": "574cf4d74d163a3b0220e71c",
+            "name": "Organization 3",
+            "sharedToUsers": [
+                {
+                    "userId": "YpuLbpfpKa3PCL8c4",
+                    "role": "administrator",
+                    "joinDate": "2017-04-08T17:29:42.417Z"
+                },
+                {
+                    "userId": "or7nL4fgbSPAokXP7",
+                    "role": "fullMember",
+                    "joinDate": "2017-07-20T08:05:37.439Z"
+                },
+                {
+                    "userId": "XEyGcPAPofDak5MRk",
+                    "role": "guest",
+                    "joinDate": "2017-07-19T17:09:41.550Z"
+                }
+            ]
+        },
+        {
+            "organizationId": "664cf4d74d252a3c0220a71c",
+            "name": "Organization 4",
+            "sharedToUsers": [
+                {
+                    "userId": "YpuLbpfpKa3PCL8c4",
+                    "role": "administrator",
+                    "joinDate": "2017-04-08T17:29:42.417Z"
+                },
+                {
+                    "userId": "or7nL4fgbSPAokXP7",
+                    "role": "fullMember",
+                    "joinDate": "2017-07-20T08:05:37.439Z"
+                },
+                {
+                    "userId": "XEyGcPAPofDak5MRk",
+                    "role": "guest",
+                    "joinDate": "2017-07-19T17:09:41.550Z"
+                }
+            ]
+        },
+        {
+            "organizationId": "932cf4d74d252a3a0220b71c",
+            "name": "Organization 5",
+            "sharedToUsers": [
+                {
+                    "userId": "YpuLbpfpKa3PCL8c4",
+                    "role": "administrator",
+                    "joinDate": "2017-04-08T17:29:42.417Z"
+                },
+                {
+                    "userId": "or7nL4fgbSPAokXP7",
+                    "role": "fullMember",
+                    "joinDate": "2017-07-20T08:05:37.439Z"
+                },
+                {
+                    "userId": "XEyGcPAPofDak5MRk",
+                    "role": "guest",
+                    "joinDate": "2017-07-19T17:09:41.550Z"
+                }
+            ]
+        }
+    ],
+    "limit": 100,
+    "page": 1,
+    "pages": 2,
+    "requestId": "organizations"
+}

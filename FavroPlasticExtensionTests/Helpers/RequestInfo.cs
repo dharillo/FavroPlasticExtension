@@ -14,31 +14,36 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
-using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Net.Http;
 
 namespace FavroPlasticExtension.Helpers
 {
-    public class PagedResponse<TEntry>
+    public class RequestInfo
     {
         /// <summary>
-        /// Identifer of the request
+        /// HTTP method used for the request
         /// </summary>
-        public string RequestId { get; set; }
+        public HttpMethod Method { get; }
         /// <summary>
-        /// Index of the page
+        /// URL path used for the request
         /// </summary>
-        public int Page { get; set; }
+        public string Url { get; }
         /// <summary>
-        /// Number of pages
+        /// Parameters used for the request
         /// </summary>
-        public int Pages { get; set; }
+        public NameValueCollection Parameters { get; }
         /// <summary>
-        /// Limit of entries in the list
+        /// Body of the requests
         /// </summary>
-        public int Limit { get; set; }
-        /// <summary>
-        /// List of entries returned in this page
-        /// </summary>
-        public List<TEntry> Entries { get; set; }
+        public object Body { get; }
+
+        public RequestInfo(string url, HttpMethod method, NameValueCollection parameters, object body = null)
+        {
+            Method = method;
+            Url = url;
+            Parameters = parameters;
+            Body = body;
+        }
     }
 }

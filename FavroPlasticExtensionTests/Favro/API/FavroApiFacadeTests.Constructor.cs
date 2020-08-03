@@ -1,5 +1,5 @@
 ﻿//  Favro Plastic Extension
-//  Copyright(C) 2019  David Harillo Sánchez
+//  Copyright(C) 2020  David Harillo Sánchez
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU Lesser General Public License as published
@@ -14,13 +14,25 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
-namespace FavroPlasticExtensionTests.Mocks
+using System;
+using NUnit.Framework;
+
+namespace FavroPlasticExtension.Favro.API
 {
-    public class MockUser
+    public partial class FavroApiFacadeTests
     {
-        public string UserId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string OrganizationRole { get; set; }
+        [TestCase(Category = "Constructor,FavroApiFacade")]
+        public void Constructor_NullConnection_ShouldThrow()
+        {
+            //Assert:
+            Assert.Throws<ArgumentNullException>(() => new FavroApiFacade(null, logMock.Object));
+        }
+
+        [TestCase(Category = "Constructor,FavroApiFacade")]
+        public void Constructor_NullLogger_ShouldThrow()
+        {
+            // Assert:
+            Assert.Throws<ArgumentNullException>(() => new FavroApiFacade(connectionMock.Object, null));
+        }
     }
 }

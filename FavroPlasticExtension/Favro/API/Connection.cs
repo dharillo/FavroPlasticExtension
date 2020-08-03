@@ -147,7 +147,7 @@ namespace FavroPlasticExtension.Favro.API
             }
             var endPointError = CheckEndpoint(url);
             Response response;
-            if (endPointError == null)
+            if (endPointError != null)
             {
                 response = CreateErrorResponse(endPointError);
             }
@@ -237,6 +237,14 @@ namespace FavroPlasticExtension.Favro.API
             {
                 using (var webResponse = request.GetResponse())
                 {
+                    if (int.TryParse(webResponse.Headers[Response.HEADER_LIMIT_REMAINING], out int reamining))
+                    {
+                        RemainingRequest = reamining;
+                    }
+                    if (int.TryParse(webResponse.Headers[Response.HEADER_LIMIT_MAX], out int limit))
+                    {
+                        RequestLimit = limit;
+                     }
                     response.Headers.Add(Response.HEADER_BACKEND_ID, webResponse.Headers[Response.HEADER_BACKEND_ID]);
                     response.Headers.Add(Response.HEADER_LIMIT_MAX, webResponse.Headers[Response.HEADER_LIMIT_MAX]);
                     response.Headers.Add(Response.HEADER_LIMIT_REMAINING, webResponse.Headers[Response.HEADER_LIMIT_REMAINING]);
@@ -275,7 +283,10 @@ namespace FavroPlasticExtension.Favro.API
             Response response;
             var previousPage = previousPageResponse.GetPageNumber();
             var requestId = previousPageResponse.GetRequestId();
-            parameters.Add("name", (previousPage + 1).ToString());
+            if (parameters == null)
+                parameters = new NameValueCollection();
+
+            parameters.Add("page", (previousPage + 1).ToString());
             parameters.Add("requestId", requestId);
             var query = BuildRequestUrl(url, parameters);
             var request = CreateRequest<object>(HttpMethod.Get, $"{API_URL}{query}", null);

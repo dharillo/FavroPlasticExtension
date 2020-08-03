@@ -14,7 +14,6 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program. If not, see<https://www.gnu.org/licenses/>
 
-using System;
 using System.Collections.Generic;
 using log4net;
 
@@ -30,8 +29,17 @@ namespace Codice.Client.IssueTracker.FavroExtension
             var parameters = new List<IssueTrackerConfigurationParameter>();
             parameters.Add(GetUserParameter(storedConfiguration));
             parameters.Add(GetPasswordParameter(storedConfiguration));
-            parameters.Add(GetOrganizationParameter(storedConfiguration));
+
+            parameters.Add(new IssueTrackerConfigurationParameter("WorkflowInfoSeparator", "Workflow configuration:", IssueTrackerConfigurationParameterType.Label, false));
             parameters.Add(GetBranchPrefixParameter(storedConfiguration));
+            parameters.Add(GetBranchSuffixParameter(storedConfiguration));
+            parameters.Add(GetDoingColumnNameParameter(storedConfiguration));
+
+            parameters.Add(new IssueTrackerConfigurationParameter("FilterInfoSeparator", "Filters Favro Cards by:", IssueTrackerConfigurationParameterType.Label, false));
+            parameters.Add(GetOrganizationParameter(storedConfiguration));
+            parameters.Add(GetCollectionIdParameter(storedConfiguration));
+            parameters.Add(GetWidgetCommonIdParameter(storedConfiguration));
+
             return new IssueTrackerConfiguration(workingMode, parameters);
         }
 
@@ -101,8 +109,26 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         private static IssueTrackerConfigurationParameter GetOrganizationParameter(IssueTrackerConfiguration configuration)
         {
-            string organization = GetValidParameterValue(configuration, FavroExtension.KEY_ORGANIZATION, "organization");
+            string organization = GetValidParameterValue(configuration, FavroExtension.KEY_ORGANIZATION, "");
             return CreateGlobalParameter(FavroExtension.KEY_ORGANIZATION, organization, IssueTrackerConfigurationParameterType.Text);
+        }
+
+        private static IssueTrackerConfigurationParameter GetDoingColumnNameParameter(IssueTrackerConfiguration configuration)
+        {
+            string doingColumnName = GetValidParameterValue(configuration, FavroExtension.KEY_DOING_COLUMN, "Doing");
+            return CreateGlobalParameter(FavroExtension.KEY_DOING_COLUMN, doingColumnName, IssueTrackerConfigurationParameterType.Text);
+        }
+
+        private static IssueTrackerConfigurationParameter GetCollectionIdParameter(IssueTrackerConfiguration configuration)
+        {
+            string collectionId = GetValidParameterValue(configuration, FavroExtension.KEY_COLLECTION_ID, "");
+            return CreateGlobalParameter(FavroExtension.KEY_COLLECTION_ID, collectionId, IssueTrackerConfigurationParameterType.Text);
+        }
+
+        private static IssueTrackerConfigurationParameter GetWidgetCommonIdParameter(IssueTrackerConfiguration configuration)
+        {
+            string widgetCommonId = GetValidParameterValue(configuration, FavroExtension.KEY_WIDGET_ID, "");
+            return CreateGlobalParameter(FavroExtension.KEY_WIDGET_ID, widgetCommonId, IssueTrackerConfigurationParameterType.Text);
         }
 
         private static IssueTrackerConfigurationParameter CreateGlobalParameter(string key, string value, IssueTrackerConfigurationParameterType type)
@@ -118,8 +144,15 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         private static IssueTrackerConfigurationParameter GetBranchPrefixParameter(IssueTrackerConfiguration configuration)
         {
-            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "[FCI-");
+            string prefix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_PREFIX, "[GOL-");
             return CreateGlobalParameter(FavroExtension.KEY_BRANCH_PREFIX, prefix, IssueTrackerConfigurationParameterType.BranchPrefix);
         }
+
+        private static IssueTrackerConfigurationParameter GetBranchSuffixParameter(IssueTrackerConfiguration configuration)
+        {
+            string suffix = GetValidParameterValue(configuration, FavroExtension.KEY_BRANCH_SUFFIX, "]");
+            return CreateGlobalParameter(FavroExtension.KEY_BRANCH_SUFFIX, suffix, IssueTrackerConfigurationParameterType.BranchPrefix);
+        }
+
     }
 }

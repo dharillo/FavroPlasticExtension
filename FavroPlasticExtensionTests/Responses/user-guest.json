@@ -1,0 +1,6 @@
+﻿{
+    "userId": "user-guest",
+    "name": "Test User Guest",
+    "email": "guest@example.com",
+    "organizationRole": "guest"
+}
