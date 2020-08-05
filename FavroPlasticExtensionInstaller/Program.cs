@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FavroPlasticExtensionInstaller
 {
     class Program
     {
+        const string favroExtensionDLL = "FavroPlasticExtension.dll";
+        const string customExtensionsFilePath = @"C:\Program Files\PlasticSCM5\client\customextensions.conf";
+
         static string findExtensionLine(FileStream fs, string extension)
         {
             using (StreamReader sr = new StreamReader(fs))
@@ -28,12 +28,11 @@ namespace FavroPlasticExtensionInstaller
             return "";
         }
 
-        static void configureCustomExtensions(string favroExtensionDLL)
+        static void configureCustomExtensions()
         {
             var workingDir = Directory.GetCurrentDirectory();
             var favroExtensionConfig = $"Favro={workingDir}\\{favroExtensionDLL}";
             string currentExtensionConfig;
-            var customExtensionsFilePath = @"C:\Program Files\PlasticSCM5\client\customextensions.conf";
             using (FileStream fs = File.Open(customExtensionsFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             {
                 currentExtensionConfig = findExtensionLine(fs, favroExtensionDLL);
@@ -47,8 +46,7 @@ namespace FavroPlasticExtensionInstaller
                 File.WriteAllText(customExtensionsFilePath, File.ReadAllText(customExtensionsFilePath).Replace(currentExtensionConfig, favroExtensionConfig));
             }
         }
-
-        static void configurePlasticClient(string favroExtensionDLL)
+        static void configurePlasticClient()
         {
             var workingDir = Directory.GetCurrentDirectory();
             var favroExtensionConfig = $"<Extension AssemblyFile=\"{workingDir}\\{favroExtensionDLL}\" />";
@@ -65,38 +63,56 @@ namespace FavroPlasticExtensionInstaller
             }
         }
 
+
+        static void removeExtensionLineFromConfigFile(string configFile)
+        {
+            string currentExtensionConfig;
+            using (FileStream fs = File.Open(configFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+            {
+                currentExtensionConfig = findExtensionLine(fs, favroExtensionDLL);
+            }
+            if (currentExtensionConfig.Length > 0)
+            {
+                File.WriteAllLines(configFile, File.ReadLines(configFile).Where(l => !l.Contains(currentExtensionConfig)).ToList());
+            }
+        }
+
+        static void removeCustomExtensionsConfiguration()
+        {
+            removeExtensionLineFromConfigFile(customExtensionsFilePath);
+        }
+
+        static void removePlasticClientConfiguration()
+        {
+            var roamingAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var plasticClientConfPath = Path.Combine(Directory.GetParent(roamingAppData).FullName, @"Local\plastic4\client.conf");
+            removeExtensionLineFromConfigFile(plasticClientConfPath);
+        }
+
         static void install()
         {
-            var workingDir = Directory.GetCurrentDirectory();
-            var favroExtensionDLL = "FavroPlasticExtension.dll";
+            configureCustomExtensions();
+            configurePlasticClient();
 
-            configureCustomExtensions(favroExtensionDLL);
-            configurePlasticClient(favroExtensionDLL);
-            
-            // TODO: 3. modificar el uninstall string que se almacena en el registro para poder desinstalar el plugin correctamente de la carpeta de Plastic
+            // modificar el uninstall string que se almacena en el registro para poder desinstalar el plugin correctamente de la carpeta de Plastic
             string registryKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             Microsoft.Win32.RegistryKey uninstallKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey);
             if (uninstallKey != null)
             {
+                var appName = Assembly.GetCallingAssembly().GetName().Name;
                 foreach (String a in uninstallKey.GetSubKeyNames())
                 {
                     Microsoft.Win32.RegistryKey subkey = uninstallKey.OpenSubKey(a, true);
                     // Found the Uninstall key for this app.
-                    if (subkey.GetValue("DisplayName").Equals("AppDisplayName"))
+                    if (subkey.GetValue("DisplayName").Equals(appName))
                     {
                         string uninstallString = subkey.GetValue("UninstallString").ToString();
 
-                        var exeName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-
-
                         // Wrap uninstall string with my own command
-                        // In this case a reg delete command to remove a reg key.
-                        // TODO: llamar a la aplicacion FavroPlasticExtensionInstaller incluyendo el working directory con el argumento --uninstall
-                        /*string newUninstallString = "cmd /c \"" + uninstallString +
-                            " & reg delete HKEY_CURRENT_USER\\SOFTWARE\\CLASSES\\mykeyv" +
-                            MYAPP_VERSION + " /f\"";
+                        var exeName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+                        string newUninstallString = $"cmd /c \"{exeName} --uninstall & {uninstallString}\"";
                         subkey.SetValue("UninstallString", newUninstallString);
-                        subkey.Close();*/
+                        subkey.Close();
                     }
                 }
             }
@@ -104,8 +120,8 @@ namespace FavroPlasticExtensionInstaller
 
         static void uninstall()
         {
-            // TODO: borra la configuracion del fichero de customextensions
-            // TODO: borra la configuracion de cliente de plastic (C:\Users\username\AppData\Local\plastic4\client.conf)
+            removeCustomExtensionsConfiguration();
+            removePlasticClientConfiguration();
         }
 
         private static bool IsAdministrator()
@@ -126,7 +142,7 @@ namespace FavroPlasticExtensionInstaller
                 startInfo.Arguments = String.Join(" ", args);
                 System.Diagnostics.Process.Start(startInfo);
             }
-            else if (args.Count() >= 2 && args[1] == "--uninstall")
+            else if (args.Count() >= 1 && args[0] == "--uninstall")
             {
                 uninstall();
             }
