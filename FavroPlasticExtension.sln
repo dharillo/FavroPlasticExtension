@@ -1,9 +1,12 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FavroPlasticExtension", "FavroPlasticExtension\FavroPlasticExtension.csproj", "{EE317B58-63A7-4480-9EC2-C860682B5253}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FavroPlasticExtensionTests", "FavroPlasticExtensionTests\FavroPlasticExtensionTests.csproj", "{B88DA190-B686-4501-84C6-90FBD2158BE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FavroPlasticExtensionInstaller", "FavroPlasticExtensionInstaller\FavroPlasticExtensionInstaller.csproj", "{D9A5FF15-2CF3-470D-AC91-8AE191E9C056}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +22,15 @@ Global
 		{B88DA190-B686-4501-84C6-90FBD2158BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B88DA190-B686-4501-84C6-90FBD2158BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B88DA190-B686-4501-84C6-90FBD2158BE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9A5FF15-2CF3-470D-AC91-8AE191E9C056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9A5FF15-2CF3-470D-AC91-8AE191E9C056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9A5FF15-2CF3-470D-AC91-8AE191E9C056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9A5FF15-2CF3-470D-AC91-8AE191E9C056}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B85DE185-E949-4D5A-B9F9-A3A8FDDD44DA}
 	EndGlobalSection
 EndGlobal
