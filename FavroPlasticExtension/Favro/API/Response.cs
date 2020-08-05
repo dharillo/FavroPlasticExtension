@@ -155,12 +155,5 @@ namespace FavroPlasticExtension.Favro.API
             var data = GetDeserializedData();
             return data.GetValue(PATH_REQUEST_ID).Value<string>();
         }
-
-        public string GetEntitiesString()
-        {
-            var data = GetDeserializedData();
-            var entities = data.GetValue(PATH_ENTITIES);
-            return JsonConvert.SerializeObject(entities);
-        }
     }
 }

@@ -203,7 +203,6 @@ namespace FavroPlasticExtension.Favro.API
         private Card GetCard(NameValueCollection parameters)
         {
             CheckOrganizationSelected();
-            parameters.Add("unique", "true");
             return GetFirstCardWithColumn(GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id"));
         }
 
@@ -242,10 +241,15 @@ namespace FavroPlasticExtension.Favro.API
 
         public void MoveCardToColumn(Card card, Column column)
         {
-            var parameters = new Dictionary<string, string>();
-            parameters.Add("widgetCommonId", card.WidgetCommonId);
-            parameters.Add("columnId", column.ColumnId);
-            connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
+            if (column != null)
+            {
+                var parameters = new Dictionary<string, string>();
+                parameters.Add("widgetCommonId", card.WidgetCommonId);
+                parameters.Add("columnId", column.ColumnId);
+                connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
+            }
+            else
+                throw new ArgumentNullException(nameof(column), "A column can't be null when moving cards to column");
         }
 		
         private List<TEntry> GetEntries<TEntry>(Response response)
