@@ -103,12 +103,30 @@ namespace Codice.Client.IssueTracker.FavroExtension
 
         public void Connect()
         {
-            connection = CreateConnection(configuration);
-            var organization = configuration.GetValue(KEY_ORGANIZATION);
-            connection.OrganizationId = organization;
-            apiMethods = new FavroApiFacade(connection, logger);
-            organizationInfo = apiMethods.GetOrganization(organization);
-            organizationShortName = GetOrganizationShortName();
+            try
+            {
+                connection = CreateConnection(configuration);
+                apiMethods = new FavroApiFacade(connection, logger);
+                var organization = configuration.GetValue(KEY_ORGANIZATION);
+                organizationInfo = apiMethods.GetOrganization(organization);
+                if (organizationInfo != null)
+                {
+                    connection.OrganizationId = organizationInfo.OrganizationId;
+                    organizationShortName = GetOrganizationShortName();
+                }
+                else
+                {
+                    throw new InvalidOperationException("The organization info couldn't be retrieved from Favro, check your user and password");
+                }
+            }
+            catch (Exception e)
+            {
+                // If the plugin is not well configured the previous code throws exceptions, but
+                // we can't throw an expection in this method because in other case Plastic can't work 
+                // properly and both the preferences dialog and the branch explorer can't be opened until
+                // this plugin is uninstalled
+                logger.Error(e.Message);
+            }
         }
 
         public void Disconnect()
