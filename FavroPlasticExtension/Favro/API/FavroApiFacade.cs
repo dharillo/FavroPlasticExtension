@@ -236,7 +236,7 @@ namespace FavroPlasticExtension.Favro.API
             parameters.Add("cardCommonId", cardCommonId);
             parameters.Add("comment", comment);
             var response = connection.Post($"{ENDPOINT_COMMENTS}", parameters);
-            return GetEntries<CardComment>(response).FirstOrDefault();
+            return JsonConvert.DeserializeObject<CardComment>(response.Content);
         }
 
         public void MoveCardToColumn(Card card, Column column)
