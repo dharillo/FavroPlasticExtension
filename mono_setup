@@ -1,0 +1,26 @@
+#!/bin/bash
+# PlasticSCM third-party configuration script
+# Here you can configure Mono distribution that PlasticSCM will use
+# Change mono_base_path to set mono and firebird installation path
+# Codice Software S.L - All rigths reserved
+
+mono_base_path="/opt/plasticscm5/mono"
+
+os_version=`uname -r`
+if [ "${os_version:0:1}" == "8" ];then
+  # setup x11 display for tiger osx
+  export DISPLAY=:0
+fi
+
+cmdname=$1
+if [ x$cmdname != xmono ];
+then
+	# Don't do it if the cmdname hasn't been set!
+	shift
+fi
+
+if [ -x $mono_base_path/bin/$1 ]; then
+	MONO_MWF_MAC_FORCE_X11=1 MONO_MWF_SCALING=disable LD_LIBRARY_PATH="$mono_base_path/lib":$LD_LIBRARY_PATH exec -a "$cmdname" "$@"
+else
+	MONO_MWF_MAC_FORCE_X11=1 MONO_MWF_SCALING=disable exec -a "$cmdname" "$@"
+fi
