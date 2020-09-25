@@ -325,10 +325,27 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return configuration.GetValue(KEY_WIDGET_ID);
         }
 
+        private Card GetFirstCardWithColumn(List<Card> cards)
+        {
+            if (cards != null && cards.Count > 0)
+            {
+                var cardsWithColumn = cards.FindAll(card => card.ColumnId != null && FindColumn(card) != null);
+                var cardWithSameWidgetCommonId = cardsWithColumn.Find(card => card.WidgetCommonId == GetWidgetCommonId());
+                if (cardWithSameWidgetCommonId != null)
+                    return cardWithSameWidgetCommonId;
+                else if (cardsWithColumn.Count > 0)
+                    return cardsWithColumn[0];
+                else
+                    return cards[0];
+            }
+            else
+                return null;
+        }
+
         private Card GetCardFromSequentialId(string cardId)
         {
             if (!string.IsNullOrEmpty(cardId) && int.TryParse(cardId, out int cardSequentialId))
-                return apiMethods.GetCard(cardSequentialId);
+                return GetFirstCardWithColumn(apiMethods.GetCard(cardSequentialId));
             else
                 return null;
         }
