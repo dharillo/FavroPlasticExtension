@@ -10,7 +10,8 @@ namespace FavroPlasticExtensionInstaller
     class Program
     {
         const string favroExtensionDLL = "FavroPlasticExtension.dll";
-        const string customExtensionsFilePath = @"C:\Program Files\PlasticSCM5\client\customextensions.conf";
+        const string customExtensionsFilename = @"customextensions.conf";
+        static string customExtensionsFilePath = @"C:\Program Files\PlasticSCM5\client\" + customExtensionsFilename;
 
         static string findExtensionLine(FileStream fs, string extension)
         {
@@ -142,13 +143,23 @@ namespace FavroPlasticExtensionInstaller
                 startInfo.Arguments = String.Join(" ", args);
                 System.Diagnostics.Process.Start(startInfo);
             }
-            else if (args.Count() >= 1 && args[0] == "--uninstall")
-            {
-                uninstall();
-            }
             else
             {
-                install();
+                string registryKey = @"SOFTWARE\Classes\plastic\DefaultIcon";
+                Microsoft.Win32.RegistryKey PlasticKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(registryKey);
+                if (PlasticKey != null)
+                {
+                    customExtensionsFilePath = Path.Combine(Directory.GetParent(PlasticKey.GetValue("").ToString()).FullName, customExtensionsFilename);
+                }
+
+                if (args.Count() >= 1 && args[0] == "--uninstall")
+                {
+                    uninstall();
+                }
+                else
+                {
+                    install();
+                }
             }
         }
     }
