@@ -367,7 +367,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
                 CheckExistsUsersCache();
                 // If the plastic user is in the asignments list, assume he is the owner
                 var currentUserMail = configuration.GetValue(KEY_USER);
-                var currentUser = card.Assignments.Find(assignee => usersCache[assignee.UserId].Email == currentUserMail);
+                var currentUser = card.Assignments.Find(assignee => usersCache.ContainsKey(assignee.UserId) && usersCache[assignee.UserId].Email == currentUserMail);
                 CardAssignment firstPending = null;
                 if (currentUser == null)
                 {
@@ -376,7 +376,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
                         firstPending = card.Assignments[0];
                 }
                 var owner = currentUser != null ? currentUser : firstPending;
-                string userMail = owner != null ? usersCache[owner.UserId].Email : "unknown";
+                string userMail = owner != null && usersCache.ContainsKey(owner.UserId) ? usersCache[owner.UserId].Email : "unknown";
                 var column = FindColumn(card);
                 string status = column != null ? column.Name : "unknown";
                 result = new PlasticTask
