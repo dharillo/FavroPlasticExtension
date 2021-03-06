@@ -10,6 +10,7 @@ This project is still under development. Some functionalities may not work as ex
 
 There are two options to install the plugin in your local client. You can build the plugin library from the source code or you can download an already built library from the [distribution](distribution) folder.
 You also need Microsoft .NET Framework 4.7 runtime installed in your machine.
+There is also a ClickOnce installer (FavroPlasticExtensionInstaller)
 
 ### Build from source
 
@@ -17,6 +18,7 @@ Prerequisites:
 
 - [Visual Studio 2019 Community](https://visualstudio.microsoft.com/en/vs/)
 - Git
+- Microsoft .NET Framework 4.7
 
 Steps:
 
@@ -29,12 +31,11 @@ Steps:
 
 If you want to debug the plugin:
 
-1. Clone this repository into your local computer.
-2. Open the solution *FavroPlasticExtension.sln* as Administrator
-3. Open the project *FavroPlasticExtension* properties page and go to Debug tab to set the "Start external program:" option to the path of the plastic client executable (usually *C:\Program Files\PlasticSCM5\client\plastic.exe*)
-3. Select the *Debug* configuration
-4. Select the project *FavroPlasticExtension* as startup project
-5. Launch the Visual Studio debugger (F5), if your Plastic install directory is the default (*C:\Program Files\PlasticSCM5*) it will work without problems
+1. Open the project *FavroPlasticExtension* properties page and go to Debug tab to set the "Start external program:" option to the path of the plastic client executable (usually *C:\Program Files\PlasticSCM5\client\plastic.exe*)
+2. Select the *Debug* configuration
+3. Select the project *FavroPlasticExtension* as startup project
+4. Modify the customextensions.conf file adding the following line at the end ```Favro=${FavroPlasticExtension_Project_Path}\bin\Debug\FavroPlasticExtension.dll```
+5. Launch the Visual Studio debugger (F5)
 
 ## Plugin configuration
 
@@ -50,6 +51,34 @@ The parameters that you will need to configure are:
 - **Organization**: The hash identifier of your organization in the Favro page. You can know this ID easly by looking at the Favro URL once logged in. The URL will be something similar to: ```https://favro.com/organization/<organization_id>/<collection_id>```. The *organization_id* part is the one needed.
 - **CollectionId**: The identifier of a Favro Collection, used to filter cards for a specific project. You can know this ID easly by looking at the Favro URL once logged in. The URL will be something similar to: ```https://favro.com/organization/<organization_id>/<collection_id>```. The *collection_id* part is the one needed.
 - **WidgetCommonId**: The identifier of a Favro Widget (a Board or a Baglog), used to filter cards for a specific project even more. You can know this ID from the Board/Backlog options menu "(...)" -> "Link to this board/backlog". The URL will be something similar to: ```https://favro.com/widget/<organization_id>/<widget_common_id>```. The *widget_common_id* part is the one needed.
+
+## Linux installation ##
+
+This plugin is also working for Plastic in Linux, but you will need to accomplish some steps to start working with it:
+
+1. Make a valid installation and configuration of the plugin in a Windows machine.
+2. Install mono in the linux machine and the package ```gnome-sharp2```
+```
+sudo apt install mono-devel
+sudo apt install gnome-sharp2
+```
+2. Copy the folder ```%LOCALAPPDATA%\plastic4\issuetrackers``` from the Windows machine to ```~/.plastic4/issuetrackers``` in the Linux machine
+3. Copy the plugin .dlls to the folder ```/opt/plasticscm5/client/extensions/favro```
+4. Edit the file ~/.plastic4/client.conf to add the next lines:
+```
+<Extensions>
+  <Extension AssemblyFile="/opt/plasticscm5/client/extensions/favro/FavroPlasticExtension.dll" />
+</Extensions>
+```
+5. Make a copy of the Plastic launcher script located in: ```/opt/plasticscm5/client/mono_setup```
+6. Overwrite the previous file ```mono_setup``` with the one located in the root of this repository. If you prefer, you can replace the line
+```
+MONO_MWF_MAC_FORCE_X11=1 MONO_MWF_SCALING=disable LD_LIBRARY_PATH="$mono_base_path/lib":$LD_LIBRARY_PATH exec -a "$cmdname" "$mono_base_path/bin/""$@"
+```
+with the next one to use the standard mono instead of the custom mono included with Plastic.
+```
+MONO_MWF_MAC_FORCE_X11=1 MONO_MWF_SCALING=disable LD_LIBRARY_PATH="$mono_base_path/lib":$LD_LIBRARY_PATH exec -a "$cmdname" "$@"
+```
 
 ## References
 

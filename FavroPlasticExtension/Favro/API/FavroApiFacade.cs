@@ -152,7 +152,7 @@ namespace FavroPlasticExtension.Favro.API
             }
         }
 
-        public Card GetCard(string commonId)
+        public List<Card> GetCard(string commonId)
         {
             if (commonId == null)
             {
@@ -169,25 +169,7 @@ namespace FavroPlasticExtension.Favro.API
             return GetCard(parameters);
         }
 
-        private Card GetFirstCardWithColumn(List<Card> cards)
-        {
-            if (cards != null && cards.Count > 0)
-            {
-                var cardWithColumn = cards.Find(card => card.ColumnId != null);
-                if (cardWithColumn != null)
-                {
-                    return cardWithColumn;
-                }
-                else
-                {
-                    return cards[0];
-                }
-            }
-            else
-                return null;
-        }
-
-        public Card GetCard(int sequentialId)
+        public List<Card> GetCard(int sequentialId)
         {
             if (sequentialId < 0)
             {
@@ -200,11 +182,10 @@ namespace FavroPlasticExtension.Favro.API
             return GetCard(parameters);
         }
 
-        private Card GetCard(NameValueCollection parameters)
+        private List<Card> GetCard(NameValueCollection parameters)
         {
             CheckOrganizationSelected();
-            parameters.Add("unique", "true");
-            return GetFirstCardWithColumn(GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id"));
+            return GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id");
         }
 
         public Card CompleteCard(string cardCommonId)
@@ -237,21 +218,35 @@ namespace FavroPlasticExtension.Favro.API
             parameters.Add("cardCommonId", cardCommonId);
             parameters.Add("comment", comment);
             var response = connection.Post($"{ENDPOINT_COMMENTS}", parameters);
-            return GetEntries<CardComment>(response).FirstOrDefault();
+            return JsonConvert.DeserializeObject<CardComment>(response.Content);
         }
 
         public void MoveCardToColumn(Card card, Column column)
         {
-            var parameters = new Dictionary<string, string>();
-            parameters.Add("widgetCommonId", card.WidgetCommonId);
-            parameters.Add("columnId", column.ColumnId);
-            connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
+            if (column != null)
+            {
+                var parameters = new Dictionary<string, string>();
+                parameters.Add("widgetCommonId", card.WidgetCommonId);
+                parameters.Add("columnId", column.ColumnId);
+                connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
+            }
+            else
+                throw new ArgumentNullException(nameof(column), "A column can't be null when moving cards to column");
         }
 		
         private List<TEntry> GetEntries<TEntry>(Response response)
         {
-            var deserializedContent = JObject.Parse(response.Content);
-            return deserializedContent["entities"].Select(entry => JsonConvert.DeserializeObject<TEntry>(entry.ToString())).ToList();
+            try
+            {
+                var deserializedContent = JObject.Parse(response.Content);
+                return deserializedContent["entities"].Select(entry => JsonConvert.DeserializeObject<TEntry>(entry.ToString())).ToList();
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                // It's important for caches like column cache to return something to avoid querying Favro all the time in case of permission error or similar reasons
+                return new List<TEntry>();
+            }
         }
 
         private void CheckUserParameter(string userId)
