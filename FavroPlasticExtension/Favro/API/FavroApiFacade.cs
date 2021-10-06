@@ -152,7 +152,7 @@ namespace FavroPlasticExtension.Favro.API
             }
         }
 
-        public List<Card> GetCard(string commonId)
+        public List<Card> GetCards(string commonId)
         {
             if (commonId == null)
             {
@@ -166,10 +166,10 @@ namespace FavroPlasticExtension.Favro.API
             {
                 { "cardCommonId", commonId }
             };
-            return GetCard(parameters);
+            return GetCards(parameters);
         }
 
-        public List<Card> GetCard(int sequentialId)
+        public List<Card> GetCards(int sequentialId)
         {
             if (sequentialId < 0)
             {
@@ -179,13 +179,42 @@ namespace FavroPlasticExtension.Favro.API
             {
                 { "cardSequentialId", sequentialId.ToString() }
             };
-            return GetCard(parameters);
+            return GetCards(parameters);
         }
 
-        private List<Card> GetCard(NameValueCollection parameters)
+        public Card GetCardById(string cardId)
+        {
+            if (cardId == null)
+            {
+                throw new ArgumentNullException(nameof(cardId), "A card identifier must be a non-empty string");
+            }
+            if (string.IsNullOrWhiteSpace(cardId))
+            {
+                throw new ArgumentException("A card common identifier must be a non-empty string", nameof(cardId));
+            }
+            CheckOrganizationSelected();
+            return GetFromEndpoint<Card>($"{ENDPOINT_CARDS}/{cardId}", NO_PARAMS, "Unexpected error while retrieving card by id");
+        }
+
+        private List<Card> GetCards(NameValueCollection parameters)
         {
             CheckOrganizationSelected();
             return GetAllPagesFromEndpoint<Card>(ENDPOINT_CARDS, parameters, "Unexpected error while retrieving card by id");
+        }
+
+        public string GetParentCardId(Card card)
+        {
+            if (card.ParentCardId != null)
+                return card.ParentCardId;
+
+            var cardsCommon = GetCards(card.CardCommonId);
+            foreach (var commonCard in cardsCommon)
+            {
+                if (commonCard.ParentCardId != null)
+                    return commonCard.ParentCardId;
+            }
+
+            return null;
         }
 
         public Card CompleteCard(string cardCommonId)
@@ -228,6 +257,7 @@ namespace FavroPlasticExtension.Favro.API
                 var parameters = new Dictionary<string, string>();
                 parameters.Add("widgetCommonId", card.WidgetCommonId);
                 parameters.Add("columnId", column.ColumnId);
+                parameters.Add("dragMode", "move");
                 connection.Put($"{ENDPOINT_CARDS}/{card.CardId}", parameters);
             }
             else
@@ -277,5 +307,17 @@ namespace FavroPlasticExtension.Favro.API
             }
             return entries;
         }
+
+        private TEntry GetFromEndpoint<TEntry>(string endpoint, NameValueCollection paramenters, string errorMessage)
+        {
+            var response = connection.Get(endpoint, paramenters);
+            if (response.Error != null)
+            {
+                log.Error(errorMessage, response.Error);
+                return default;
+            }
+            return JsonConvert.DeserializeObject<TEntry>(response.Content);
+        }
+
     }
 }

@@ -35,7 +35,13 @@ If you want to debug the plugin:
 2. Select the *Debug* configuration
 3. Select the project *FavroPlasticExtension* as startup project
 4. Modify the customextensions.conf file adding the following line at the end ```Favro=${FavroPlasticExtension_Project_Path}\bin\Debug\FavroPlasticExtension.dll```
-5. Launch the Visual Studio debugger (F5)
+5. Add the same path to the file located in ```%localappdata%\plastic4\client.conf``` in the extensions section
+```
+<Extensions>
+    <Extension AssemblyFile="D:\Code\FavroPlasticExtension\FavroPlasticExtension\bin\Debug\FavroPlasticExtension.dll" />
+</Extensions>
+```
+6. Launch the Visual Studio debugger (F5)
 
 ## Plugin configuration
 

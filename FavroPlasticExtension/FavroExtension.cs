@@ -211,16 +211,42 @@ namespace Codice.Client.IssueTracker.FavroExtension
             return result;
         }
 
-        public List<PlasticTask> GetPendingTasks()
+        private List<PlasticTask> GetPendingTasksInternal(string assignee)
         {
             var pendingCards = apiMethods.GetAssignedCards(GetCollectionId(), GetWidgetCommonId());
-            return pendingCards.Where(card => card.Assignments.Find(assignee => !assignee.Completed) != null).Select(_ => ConvertToTask(_)).Where(task => task.CanBeLinked).ToList();
+            var pendingNotCompleted = pendingCards.Where(card => card.Assignments.Find(_assignee => !_assignee.Completed) != null);
+            var pendingTasks = new List<PlasticTask>();
+            var parentCardIds = new List<string>();
+            foreach (var card in pendingNotCompleted)
+            {
+                var task = ConvertToTask(card);
+                if (task.CanBeLinked && (assignee == null || assignee == task.Owner))
+                {
+                    var parentId = apiMethods.GetParentCardId(card);
+                    // only add if not previously added
+                    if (parentId != null && parentCardIds.Find(id => id == parentId) == null)
+                    {
+                        parentCardIds.Add(parentId);
+                        var parentCard = apiMethods.GetCardById(parentId);
+                        if (parentCard != null)
+                        {
+                            pendingTasks.Add(ConvertToTask(parentCard));
+                        }
+                    }
+                    pendingTasks.Add(task);
+                }
+            }
+            return pendingTasks;
+        }
+
+        public List<PlasticTask> GetPendingTasks()
+        {
+            return GetPendingTasksInternal(null);
         }
 
         public List<PlasticTask> GetPendingTasks(string assignee)
         {
-            var tasks = GetPendingTasks();
-            return tasks.Where(task => task.Owner == assignee).ToList();
+            return GetPendingTasksInternal(assignee);
         }
 
         public void MarkTaskAsOpen(string taskId, string assignee)
@@ -345,7 +371,7 @@ namespace Codice.Client.IssueTracker.FavroExtension
         private Card GetCardFromSequentialId(string cardId)
         {
             if (!string.IsNullOrEmpty(cardId) && int.TryParse(cardId, out int cardSequentialId))
-                return GetFirstCardWithColumn(apiMethods.GetCard(cardSequentialId));
+                return GetFirstCardWithColumn(apiMethods.GetCards(cardSequentialId));
             else
                 return null;
         }
