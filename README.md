@@ -1,7 +1,5 @@
 # Favro - Plastic SCM integration
 
-[![Build Status](https://travis-ci.org/dharillo/FavroPlasticExtension.svg?branch=master)](https://travis-ci.org/dharillo/FavroPlasticExtension)
-
 ## Important
 
 This project is still under development. Some functionalities may not work as expected.
