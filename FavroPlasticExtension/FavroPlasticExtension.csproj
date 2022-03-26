@@ -85,4 +85,7 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)lib\copyDlls.bat</PreBuildEvent>
+  </PropertyGroup>
 </Project>
