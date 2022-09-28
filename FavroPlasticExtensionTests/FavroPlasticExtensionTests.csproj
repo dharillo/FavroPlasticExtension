@@ -8,7 +8,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>FavroPlasticExtension</RootNamespace>
     <AssemblyName>FavroPlasticExtensionTests</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
